@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Reportes
+{
+	public partial class FrmPrincipal : Form
+	{
+		public FrmPrincipal()
+		{
+			InitializeComponent();
+		}
+
+		private void BtnVentaCosto_Click(object sender, EventArgs e)
+		{
+			FrmVentaCosto frm = new FrmVentaCosto();
+			frm.ShowDialog();
+		}
+	}
+}
