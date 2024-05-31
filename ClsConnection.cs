@@ -24,7 +24,6 @@ namespace Reportes
 		public void ReportVentasCosto(string fechaA, string fechaB)
 		{
 			DataTable reporte = new DataTable();
-
 			try
 			{
 				MySqlConnection con = new MySqlConnection(this.con);

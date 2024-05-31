@@ -34,8 +34,9 @@
 			// 
 			// BtnVentaCosto
 			// 
+			this.BtnVentaCosto.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnVentaCosto.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnVentaCosto.Location = new System.Drawing.Point(58, 41);
+			this.BtnVentaCosto.Location = new System.Drawing.Point(54, 42);
 			this.BtnVentaCosto.Name = "BtnVentaCosto";
 			this.BtnVentaCosto.Size = new System.Drawing.Size(257, 58);
 			this.BtnVentaCosto.TabIndex = 0;
@@ -47,6 +48,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
 			this.ClientSize = new System.Drawing.Size(363, 260);
 			this.Controls.Add(this.BtnVentaCosto);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
