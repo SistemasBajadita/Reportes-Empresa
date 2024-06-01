@@ -38,7 +38,8 @@ namespace Reportes
 					"inner join tblgpoarticulos ga on rv.COD1_ART = ga.COD1_ART " +
 					"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
 					$"where  (gv.FEC_DOC between '{parametroA}' and '{parametroB}') and ga.COD_GPO = 25 " +
-					$"GROUP BY caa.DES_AGR";
+					$"GROUP BY caa.DES_AGR " +
+					$"ORDER BY Departamento ASC";
 
 			BtnCorrerQuery.Enabled = false;
 			label4.Visible = true;
