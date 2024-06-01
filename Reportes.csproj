@@ -103,6 +103,12 @@
   <ItemGroup>
     <Compile Include="ClsConnection.cs" />
     <Compile Include="ClsPageEventHelper.cs" />
+    <Compile Include="FrmComprasPD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmComprasPD.Designer.cs">
+      <DependentUpon>FrmComprasPD.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +123,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmComprasPD.resx">
+      <DependentUpon>FrmComprasPD.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmPrincipal.resx">
       <DependentUpon>FrmPrincipal.cs</DependentUpon>
     </EmbeddedResource>

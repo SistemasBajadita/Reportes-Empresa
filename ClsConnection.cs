@@ -21,20 +21,13 @@ namespace Reportes
 			this.con = con;
 		}
 
-		public void ReportVentasCosto(string fechaA, string fechaB)
+		public void ReportVentasCosto(string query)
 		{
 			DataTable reporte = new DataTable();
 			try
 			{
 				MySqlConnection con = new MySqlConnection(this.con);
 				con.Open();
-
-				string query = "select caa.DES_AGR as Departamento, round(sum(rv.CAN_ART * rv.PCIO_VEN),2) as 'Venta Total', round(sum(rv.CAN_ART * rv.COS_VEN),2) as Costo, round((1 - (sum(rv.CAN_ART * rv.COS_VEN) / sum(rv.CAN_ART * rv.PCIO_VEN))) * 100, 2) as Porc from tblgralventas gv " +
-					"inner join tblrenventas rv on gv.REF_DOC = rv.REF_DOC " +
-					"inner join tblgpoarticulos ga on rv.COD1_ART = ga.COD1_ART " +
-					"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
-					$"where  (gv.FEC_DOC between '{fechaA}' and '{fechaB}') and ga.COD_GPO = 25 " +
-					$"GROUP BY caa.DES_AGR";
 
 				MySqlDataAdapter ad = new MySqlDataAdapter(query, con);
 
@@ -48,7 +41,116 @@ namespace Reportes
 			ReporteActivo = reporte;
 		}
 
-		public void PrintReportInPDF(string fechaA, string fechaB, string path)
+		public void PrintReportInPDFCompras(string fechaA, string fechaB, string path)
+		{
+			try
+			{
+				Document doc = new Document();
+				string pdfPath = path;
+
+				using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
+				{
+					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+					ClsPageEventHelper pageEventHelper = new ClsPageEventHelper("C:/Users/HUAWEI/Desktop/Empresa/Reportes/Imagenes/LOGO_EMPRESA-removebg-preview.png");
+					writer.PageEvent = pageEventHelper;
+
+					doc.Open();
+
+					// Título del documento
+					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 24);
+					Paragraph title = new Paragraph("Reporte de Compras", titleFont);
+					title.Alignment = Element.ALIGN_CENTER;
+					doc.Add(title);
+
+					// Subtítulo con el periodo
+					string periodo = $"Periodo: {fechaA} al {fechaB}";
+					Paragraph period = new Paragraph(periodo)
+					{
+						Alignment = Element.ALIGN_CENTER
+					};
+					doc.Add(period);
+
+					// Añadir un espacio después del encabezado
+					doc.Add(new Paragraph("\n"));
+
+					// Crear una tabla para los datos
+					PdfPTable table = new PdfPTable(4);
+					table.WidthPercentage = 100;
+
+					// Establecer anchos de las columnas
+					float[] columnWidths = new float[] { 3f, 2f, 2f, 2f }; // Ajusta estos valores según sea necesario
+					table.SetWidths(columnWidths);
+
+					iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+					PdfPCell headerCell;
+
+					// Añadir encabezados
+					headerCell = new PdfPCell(new Phrase("Departamento", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("Total de compra", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("IVA", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f }; // Celda vacía para la columna de totales
+					table.AddCell(headerCell);
+
+					iTextSharp.text.Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+					PdfPCell dataCell;
+
+					double totalCompra = 0;
+					double totalImpuesto = 0;
+
+					foreach (DataRow row in ReporteActivo.Rows)
+					{
+						string departamento = row["Departamento"].ToString();
+						string venta = "$" + double.Parse(row["Total"].ToString()).ToString("N2");
+						string costo = "$" + double.Parse(row["Iva"].ToString()).ToString("N2");
+
+						dataCell = new PdfPCell(new Phrase(departamento, dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(venta, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(costo, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase("", dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f }; // Celda vacía para la columna de totales
+						table.AddCell(dataCell);
+
+						totalCompra += double.Parse(row["Total"].ToString());
+						totalImpuesto += double.Parse(row["Iva"].ToString());
+					}
+
+					// Añadir fila de totales
+					PdfPCell totalCell;
+					totalCell = new PdfPCell(new Phrase("TOTAL:", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f, Colspan = 1 };
+					table.AddCell(totalCell);
+					totalCell = new PdfPCell(new Phrase("$" + totalCompra.ToString("N2"), headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
+					table.AddCell(totalCell);
+					totalCell = new PdfPCell(new Phrase("$" + totalImpuesto.ToString("N2"), headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
+					table.AddCell(totalCell);
+					totalCell = new PdfPCell(new Phrase("", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
+					table.AddCell(totalCell);
+
+					Paragraph date = new Paragraph($"Fecha: {DateTime.Now}");
+					date.Alignment = Element.ALIGN_LEFT;
+
+					doc.Add(table);
+					doc.Add(new Paragraph("\n"));
+					doc.Add(date);
+					doc.Close();
+					writer.Close();
+				}
+				MessageBox.Show("Reporte PDF generado exitosamente, por favor espera y se abrirá el archivo automáticamente después de que cierres este mensaje.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Ocurrió un error al generar el PDF\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+
+		}
+
+
+		public void PrintReportInPDFVentas(string fechaA, string fechaB, string path)
 		{
 			try
 			{

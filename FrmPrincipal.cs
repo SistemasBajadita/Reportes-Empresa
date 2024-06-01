@@ -22,5 +22,11 @@ namespace Reportes
 			FrmVentaCosto frm = new FrmVentaCosto();
 			frm.ShowDialog();
 		}
+
+		private void BtnCompras_Click(object sender, EventArgs e)
+		{
+			FrmComprasPD frm = new FrmComprasPD();	
+			frm.ShowDialog();
+		}
 	}
 }
