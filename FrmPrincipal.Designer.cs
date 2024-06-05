@@ -31,13 +31,14 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrincipal));
 			this.BtnVentaCosto = new System.Windows.Forms.Button();
 			this.BtnCompras = new System.Windows.Forms.Button();
+			this.BtnTopProductos = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// BtnVentaCosto
 			// 
 			this.BtnVentaCosto.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnVentaCosto.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnVentaCosto.Location = new System.Drawing.Point(77, 67);
+			this.BtnVentaCosto.Location = new System.Drawing.Point(85, 36);
 			this.BtnVentaCosto.Name = "BtnVentaCosto";
 			this.BtnVentaCosto.Size = new System.Drawing.Size(431, 58);
 			this.BtnVentaCosto.TabIndex = 0;
@@ -49,7 +50,7 @@
 			// 
 			this.BtnCompras.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnCompras.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnCompras.Location = new System.Drawing.Point(76, 126);
+			this.BtnCompras.Location = new System.Drawing.Point(84, 97);
 			this.BtnCompras.Name = "BtnCompras";
 			this.BtnCompras.Size = new System.Drawing.Size(431, 58);
 			this.BtnCompras.TabIndex = 1;
@@ -57,12 +58,25 @@
 			this.BtnCompras.UseVisualStyleBackColor = true;
 			this.BtnCompras.Click += new System.EventHandler(this.BtnCompras_Click);
 			// 
+			// BtnTopProductos
+			// 
+			this.BtnTopProductos.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.BtnTopProductos.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
+			this.BtnTopProductos.Location = new System.Drawing.Point(85, 159);
+			this.BtnTopProductos.Name = "BtnTopProductos";
+			this.BtnTopProductos.Size = new System.Drawing.Size(431, 58);
+			this.BtnTopProductos.TabIndex = 2;
+			this.BtnTopProductos.Text = "Productos mas vendidos";
+			this.BtnTopProductos.UseVisualStyleBackColor = true;
+			this.BtnTopProductos.Click += new System.EventHandler(this.BtnTopProductos_Click);
+			// 
 			// FrmPrincipal
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
 			this.ClientSize = new System.Drawing.Size(568, 260);
+			this.Controls.Add(this.BtnTopProductos);
 			this.Controls.Add(this.BtnCompras);
 			this.Controls.Add(this.BtnVentaCosto);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -76,6 +90,7 @@
 
 		private System.Windows.Forms.Button BtnVentaCosto;
 		private System.Windows.Forms.Button BtnCompras;
+		private System.Windows.Forms.Button BtnTopProductos;
 	}
 }
 

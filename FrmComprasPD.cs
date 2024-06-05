@@ -28,12 +28,12 @@ namespace Reportes
 
 		private async void BtnCorrerQuery_Click(object sender, EventArgs e)
 		{
+
+
 			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString())
 			{
 				sendReport = SetearQuery
 			};
-
-
 
 			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");
 			string parametroB = FechaB.Value.ToString("yyyy-MM-dd");

@@ -28,5 +28,11 @@ namespace Reportes
 			FrmComprasPD frm = new FrmComprasPD();	
 			frm.ShowDialog();
 		}
+
+		private void BtnTopProductos_Click(object sender, EventArgs e)
+		{
+			FrmTopProductos frm = new FrmTopProductos();
+			frm.ShowDialog();
+		}
 	}
 }
