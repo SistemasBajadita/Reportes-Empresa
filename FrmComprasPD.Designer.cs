@@ -70,6 +70,7 @@
 			this.BtnExcel.TabIndex = 26;
 			this.BtnExcel.Text = "Mandar a Excel";
 			this.BtnExcel.UseVisualStyleBackColor = true;
+			this.BtnExcel.Click += new System.EventHandler(this.BtnExcel_Click);
 			// 
 			// label4
 			// 

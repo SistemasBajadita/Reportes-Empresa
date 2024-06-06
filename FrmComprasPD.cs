@@ -28,8 +28,6 @@ namespace Reportes
 
 		private async void BtnCorrerQuery_Click(object sender, EventArgs e)
 		{
-
-
 			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString())
 			{
 				sendReport = SetearQuery
@@ -50,7 +48,7 @@ namespace Reportes
 			FechaA.Enabled = false;
 			FechaB.Enabled = false;
 
-			await Task.Run(() => metodos.ReportVentasCosto(query));
+			await Task.Run(() => metodos.SetQuery(query));
 
 			BtnCorrerQuery.Enabled = true;
 			label4.Visible = false;
@@ -78,6 +76,11 @@ namespace Reportes
 				metodos.PrintReportInPDFCompras(parametroA, parametroB, guardarArchivo.FileName);
 				Process.Start(guardarArchivo.FileName);
 			}
+		}
+
+		private void BtnExcel_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

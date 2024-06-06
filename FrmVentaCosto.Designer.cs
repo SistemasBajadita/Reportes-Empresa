@@ -77,11 +77,11 @@
 			this.label4.AutoSize = true;
 			this.label4.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
-			this.label4.Location = new System.Drawing.Point(543, 154);
+			this.label4.Location = new System.Drawing.Point(516, 154);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(193, 21);
+			this.label4.Size = new System.Drawing.Size(350, 21);
 			this.label4.TabIndex = 15;
-			this.label4.Text = "Cargando reporte ...";
+			this.label4.Text = "Cargando reporte, por favor espere...";
 			this.label4.Visible = false;
 			// 
 			// reporte
@@ -143,7 +143,7 @@
 			this.BtnCorrerQuery.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(78)))), ((int)(((byte)(80)))));
 			this.BtnCorrerQuery.FlatAppearance.BorderSize = 5;
 			this.BtnCorrerQuery.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnCorrerQuery.Location = new System.Drawing.Point(393, 137);
+			this.BtnCorrerQuery.Location = new System.Drawing.Point(366, 137);
 			this.BtnCorrerQuery.Name = "BtnCorrerQuery";
 			this.BtnCorrerQuery.Size = new System.Drawing.Size(144, 42);
 			this.BtnCorrerQuery.TabIndex = 13;

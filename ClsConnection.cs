@@ -21,12 +21,37 @@ namespace Reportes
 			this.con = con;
 		}
 
-		public void ReportVentasCosto(string query)
+		public DataTable GetQuery(string query)
 		{
+			MySqlConnection con = new MySqlConnection(this.con); ;
 			DataTable reporte = new DataTable();
 			try
 			{
-				MySqlConnection con = new MySqlConnection(this.con);
+				con = new MySqlConnection(this.con);
+				con.Open();
+
+				MySqlDataAdapter ad = new MySqlDataAdapter(query, con);
+
+				ad.Fill(reporte);
+			}
+			catch (MySqlException ex)
+			{
+				MessageBox.Show($"Ocurrio un error\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally
+			{
+				con.Close();
+			}
+			return reporte;
+		}
+
+		public void SetQuery(string query)
+		{
+			MySqlConnection con = new MySqlConnection(this.con); ;
+			DataTable reporte = new DataTable();
+			try
+			{
+				con = new MySqlConnection(this.con);
 				con.Open();
 
 				MySqlDataAdapter ad = new MySqlDataAdapter(query, con);
@@ -37,6 +62,10 @@ namespace Reportes
 			catch (MySqlException ex)
 			{
 				MessageBox.Show($"Ocurrio un error\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally
+			{
+				con.Close();
 			}
 			ReporteActivo = reporte;
 		}

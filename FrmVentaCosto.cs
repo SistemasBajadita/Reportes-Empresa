@@ -46,7 +46,7 @@ namespace Reportes
 			FechaA.Enabled = false;
 			FechaB.Enabled = false;
 
-			await Task.Run(() => metodos.ReportVentasCosto(query));
+			await Task.Run(() => metodos.SetQuery(query));
 
 			BtnCorrerQuery.Enabled = true;
 			label4.Visible = false;
