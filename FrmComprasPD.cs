@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,10 @@ namespace Reportes
 		public FrmComprasPD()
 		{
 			InitializeComponent();
+
+			string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Imagenes", "LOGO_EMPRESA-removebg-preview.ico");
+
+			this.Icon = new Icon(imagePath);
 		}
 
 		private void SetearQuery(DataTable quer)

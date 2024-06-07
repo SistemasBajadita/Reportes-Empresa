@@ -46,14 +46,15 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.cbDepartamentos = new System.Windows.Forms.ComboBox();
 			this.label5 = new System.Windows.Forms.Label();
+			this.rbDesplazamiento = new System.Windows.Forms.RadioButton();
+			this.rbDinero = new System.Windows.Forms.RadioButton();
 			((System.ComponentModel.ISupportInitialize)(this.reporte)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// BtnPDF
 			// 
-			this.BtnPDF.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnPDF.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnPDF.Location = new System.Drawing.Point(339, 466);
+			this.BtnPDF.Location = new System.Drawing.Point(336, 513);
 			this.BtnPDF.Name = "BtnPDF";
 			this.BtnPDF.Size = new System.Drawing.Size(197, 30);
 			this.BtnPDF.TabIndex = 37;
@@ -62,9 +63,8 @@
 			// 
 			// BtnExcel
 			// 
-			this.BtnExcel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnExcel.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnExcel.Location = new System.Drawing.Point(539, 466);
+			this.BtnExcel.Location = new System.Drawing.Point(536, 513);
 			this.BtnExcel.Name = "BtnExcel";
 			this.BtnExcel.Size = new System.Drawing.Size(197, 30);
 			this.BtnExcel.TabIndex = 36;
@@ -73,11 +73,10 @@
 			// 
 			// label4
 			// 
-			this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label4.AutoSize = true;
 			this.label4.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
-			this.label4.Location = new System.Drawing.Point(644, 155);
+			this.label4.Location = new System.Drawing.Point(654, 146);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(193, 21);
 			this.label4.TabIndex = 35;
@@ -92,7 +91,6 @@
 			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Fax", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Navy;
 			this.reporte.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-			this.reporte.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.reporte.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
 			this.reporte.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
 			this.reporte.BackgroundColor = System.Drawing.Color.Linen;
@@ -115,7 +113,7 @@
 			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.reporte.DefaultCellStyle = dataGridViewCellStyle3;
 			this.reporte.EnableHeadersVisualStyles = false;
-			this.reporte.Location = new System.Drawing.Point(45, 189);
+			this.reporte.Location = new System.Drawing.Point(42, 236);
 			this.reporte.MultiSelect = false;
 			this.reporte.Name = "reporte";
 			this.reporte.ReadOnly = true;
@@ -140,11 +138,10 @@
 			// 
 			// BtnCorrerQuery
 			// 
-			this.BtnCorrerQuery.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnCorrerQuery.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(78)))), ((int)(((byte)(80)))));
 			this.BtnCorrerQuery.FlatAppearance.BorderSize = 5;
 			this.BtnCorrerQuery.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnCorrerQuery.Location = new System.Drawing.Point(494, 138);
+			this.BtnCorrerQuery.Location = new System.Drawing.Point(504, 129);
 			this.BtnCorrerQuery.Name = "BtnCorrerQuery";
 			this.BtnCorrerQuery.Size = new System.Drawing.Size(144, 42);
 			this.BtnCorrerQuery.TabIndex = 33;
@@ -154,20 +151,18 @@
 			// 
 			// FechaB
 			// 
-			this.FechaB.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.FechaB.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.FechaB.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.FechaB.Location = new System.Drawing.Point(568, 85);
+			this.FechaB.Location = new System.Drawing.Point(578, 76);
 			this.FechaB.Name = "FechaB";
 			this.FechaB.Size = new System.Drawing.Size(141, 29);
 			this.FechaB.TabIndex = 32;
 			// 
 			// label3
 			// 
-			this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label3.AutoSize = true;
 			this.label3.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label3.Location = new System.Drawing.Point(542, 88);
+			this.label3.Location = new System.Drawing.Point(552, 79);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(20, 21);
 			this.label3.TabIndex = 31;
@@ -175,20 +170,18 @@
 			// 
 			// FechaA
 			// 
-			this.FechaA.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.FechaA.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.FechaA.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.FechaA.Location = new System.Drawing.Point(395, 85);
+			this.FechaA.Location = new System.Drawing.Point(405, 76);
 			this.FechaA.Name = "FechaA";
 			this.FechaA.Size = new System.Drawing.Size(141, 29);
 			this.FechaA.TabIndex = 30;
 			// 
 			// label2
 			// 
-			this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label2.AutoSize = true;
 			this.label2.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(127, 88);
+			this.label2.Location = new System.Drawing.Point(142, 80);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(241, 21);
 			this.label2.TabIndex = 29;
@@ -196,10 +189,9 @@
 			// 
 			// label1
 			// 
-			this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.label1.Location = new System.Drawing.Point(151, 39);
+			this.label1.Location = new System.Drawing.Point(161, 30);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(642, 26);
 			this.label1.TabIndex = 28;
@@ -209,28 +201,53 @@
 			// 
 			this.cbDepartamentos.Font = new System.Drawing.Font("Lucida Fax", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cbDepartamentos.FormattingEnabled = true;
-			this.cbDepartamentos.Location = new System.Drawing.Point(186, 148);
+			this.cbDepartamentos.Location = new System.Drawing.Point(196, 139);
 			this.cbDepartamentos.Name = "cbDepartamentos";
 			this.cbDepartamentos.Size = new System.Drawing.Size(302, 25);
 			this.cbDepartamentos.TabIndex = 38;
 			// 
 			// label5
 			// 
-			this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label5.AutoSize = true;
 			this.label5.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label5.Location = new System.Drawing.Point(28, 148);
+			this.label5.Location = new System.Drawing.Point(38, 139);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(138, 21);
 			this.label5.TabIndex = 39;
 			this.label5.Text = "Departamento";
+			// 
+			// rbDesplazamiento
+			// 
+			this.rbDesplazamiento.AutoSize = true;
+			this.rbDesplazamiento.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
+			this.rbDesplazamiento.Location = new System.Drawing.Point(217, 201);
+			this.rbDesplazamiento.Name = "rbDesplazamiento";
+			this.rbDesplazamiento.Size = new System.Drawing.Size(248, 25);
+			this.rbDesplazamiento.TabIndex = 40;
+			this.rbDesplazamiento.TabStop = true;
+			this.rbDesplazamiento.Text = "Ver por desplazamiento";
+			this.rbDesplazamiento.UseVisualStyleBackColor = true;
+			// 
+			// rbDinero
+			// 
+			this.rbDinero.AutoSize = true;
+			this.rbDinero.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
+			this.rbDinero.Location = new System.Drawing.Point(534, 201);
+			this.rbDinero.Name = "rbDinero";
+			this.rbDinero.Size = new System.Drawing.Size(163, 25);
+			this.rbDinero.TabIndex = 41;
+			this.rbDinero.TabStop = true;
+			this.rbDinero.Text = "Ver por dinero";
+			this.rbDinero.UseVisualStyleBackColor = true;
 			// 
 			// FrmTopProductos
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
-			this.ClientSize = new System.Drawing.Size(906, 532);
+			this.ClientSize = new System.Drawing.Size(906, 554);
+			this.Controls.Add(this.rbDinero);
+			this.Controls.Add(this.rbDesplazamiento);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.cbDepartamentos);
 			this.Controls.Add(this.BtnPDF);
@@ -246,6 +263,7 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "FrmTopProductos";
 			this.Text = "Top de Productos";
+			this.Load += new System.EventHandler(this.FrmTopProductos_Load);
 			((System.ComponentModel.ISupportInitialize)(this.reporte)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -266,5 +284,7 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ComboBox cbDepartamentos;
 		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.RadioButton rbDesplazamiento;
+		private System.Windows.Forms.RadioButton rbDinero;
 	}
 }

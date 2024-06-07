@@ -32,13 +32,14 @@
 			this.BtnVentaCosto = new System.Windows.Forms.Button();
 			this.BtnCompras = new System.Windows.Forms.Button();
 			this.BtnTopProductos = new System.Windows.Forms.Button();
+			this.BtnActiveReport = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// BtnVentaCosto
 			// 
 			this.BtnVentaCosto.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnVentaCosto.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnVentaCosto.Location = new System.Drawing.Point(85, 36);
+			this.BtnVentaCosto.Location = new System.Drawing.Point(81, 55);
 			this.BtnVentaCosto.Name = "BtnVentaCosto";
 			this.BtnVentaCosto.Size = new System.Drawing.Size(431, 58);
 			this.BtnVentaCosto.TabIndex = 0;
@@ -50,7 +51,7 @@
 			// 
 			this.BtnCompras.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnCompras.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnCompras.Location = new System.Drawing.Point(84, 97);
+			this.BtnCompras.Location = new System.Drawing.Point(80, 116);
 			this.BtnCompras.Name = "BtnCompras";
 			this.BtnCompras.Size = new System.Drawing.Size(431, 58);
 			this.BtnCompras.TabIndex = 1;
@@ -61,8 +62,9 @@
 			// BtnTopProductos
 			// 
 			this.BtnTopProductos.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.BtnTopProductos.Enabled = false;
 			this.BtnTopProductos.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnTopProductos.Location = new System.Drawing.Point(85, 159);
+			this.BtnTopProductos.Location = new System.Drawing.Point(81, 178);
 			this.BtnTopProductos.Name = "BtnTopProductos";
 			this.BtnTopProductos.Size = new System.Drawing.Size(431, 58);
 			this.BtnTopProductos.TabIndex = 2;
@@ -70,16 +72,28 @@
 			this.BtnTopProductos.UseVisualStyleBackColor = true;
 			this.BtnTopProductos.Click += new System.EventHandler(this.BtnTopProductos_Click);
 			// 
+			// BtnActiveReport
+			// 
+			this.BtnActiveReport.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.BtnActiveReport.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
+			this.BtnActiveReport.Location = new System.Drawing.Point(80, 242);
+			this.BtnActiveReport.Name = "BtnActiveReport";
+			this.BtnActiveReport.Size = new System.Drawing.Size(431, 58);
+			this.BtnActiveReport.TabIndex = 3;
+			this.BtnActiveReport.Text = "Habilitar reporte de cortes";
+			this.BtnActiveReport.UseVisualStyleBackColor = true;
+			this.BtnActiveReport.Click += new System.EventHandler(this.BtnActiveReport_Click);
+			// 
 			// FrmPrincipal
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
-			this.ClientSize = new System.Drawing.Size(568, 260);
+			this.ClientSize = new System.Drawing.Size(568, 345);
+			this.Controls.Add(this.BtnActiveReport);
 			this.Controls.Add(this.BtnTopProductos);
 			this.Controls.Add(this.BtnCompras);
 			this.Controls.Add(this.BtnVentaCosto);
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "FrmPrincipal";
 			this.Text = "Reportes";
 			this.ResumeLayout(false);
@@ -91,6 +105,7 @@
 		private System.Windows.Forms.Button BtnVentaCosto;
 		private System.Windows.Forms.Button BtnCompras;
 		private System.Windows.Forms.Button BtnTopProductos;
+		private System.Windows.Forms.Button BtnActiveReport;
 	}
 }
 

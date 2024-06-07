@@ -1,12 +1,12 @@
 ﻿using Aspose.Cells;
 using Aspose.Cells.Tables;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
 using System.IO;
 using System.Windows.Forms;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
 
 namespace Reportes
 {
@@ -30,7 +30,10 @@ namespace Reportes
 				con = new MySqlConnection(this.con);
 				con.Open();
 
-				MySqlDataAdapter ad = new MySqlDataAdapter(query, con);
+				MySqlCommand cmd = new MySqlCommand(query, con);
+				cmd.ExecuteNonQuery();
+
+				MySqlDataAdapter ad = new MySqlDataAdapter(cmd);
 
 				ad.Fill(reporte);
 			}
@@ -47,14 +50,18 @@ namespace Reportes
 
 		public void SetQuery(string query)
 		{
-			MySqlConnection con = new MySqlConnection(this.con); ;
+			MySqlConnection con = new MySqlConnection(this.con); 
 			DataTable reporte = new DataTable();
 			try
 			{
 				con = new MySqlConnection(this.con);
 				con.Open();
 
-				MySqlDataAdapter ad = new MySqlDataAdapter(query, con);
+				MySqlCommand cmd = new MySqlCommand(query, con);
+				cmd.CommandTimeout = 120;
+				cmd.ExecuteNonQuery();
+
+				MySqlDataAdapter ad = new MySqlDataAdapter(cmd);
 
 				ad.Fill(reporte);
 				sendReport(reporte);
@@ -81,7 +88,10 @@ namespace Reportes
 				{
 					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
 
-					ClsPageEventHelper pageEventHelper = new ClsPageEventHelper("C:/Users/HUAWEI/Desktop/Empresa/Reportes/Imagenes/LOGO_EMPRESA-removebg-preview.png");
+					string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Imagenes", "LOGO_EMPRESA-removebg-preview.png");
+
+
+					ClsPageEventHelper pageEventHelper = new ClsPageEventHelper(imagePath);
 					writer.PageEvent = pageEventHelper;
 
 					doc.Open();
@@ -160,8 +170,10 @@ namespace Reportes
 					totalCell = new PdfPCell(new Phrase("", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
 
-					Paragraph date = new Paragraph($"Fecha: {DateTime.Now}");
-					date.Alignment = Element.ALIGN_LEFT;
+					Paragraph date = new Paragraph($"Fecha: {DateTime.Now}")
+					{
+						Alignment = Element.ALIGN_LEFT
+					};
 
 					doc.Add(table);
 					doc.Add(new Paragraph("\n"));
