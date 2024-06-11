@@ -42,9 +42,9 @@
 			this.FechaB = new System.Windows.Forms.DateTimePicker();
 			this.label3 = new System.Windows.Forms.Label();
 			this.FechaA = new System.Windows.Forms.DateTimePicker();
-			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.guardarArchivo = new System.Windows.Forms.SaveFileDialog();
+			this.label2 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.reporte)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -184,17 +184,6 @@
 			this.FechaA.Size = new System.Drawing.Size(141, 29);
 			this.FechaA.TabIndex = 20;
 			// 
-			// label2
-			// 
-			this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.label2.AutoSize = true;
-			this.label2.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(116, 85);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(241, 21);
-			this.label2.TabIndex = 19;
-			this.label2.Text = "Ingresa el rango de fecha";
-			// 
 			// label1
 			// 
 			this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -205,6 +194,17 @@
 			this.label1.Size = new System.Drawing.Size(457, 26);
 			this.label1.TabIndex = 18;
 			this.label1.Text = "Reporte de compras por departamento";
+			// 
+			// label2
+			// 
+			this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.label2.AutoSize = true;
+			this.label2.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.Location = new System.Drawing.Point(116, 85);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(241, 21);
+			this.label2.TabIndex = 19;
+			this.label2.Text = "Ingresa el rango de fecha";
 			// 
 			// FrmComprasPD
 			// 
@@ -241,8 +241,8 @@
 		private System.Windows.Forms.DateTimePicker FechaB;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.DateTimePicker FechaA;
-		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.SaveFileDialog guardarArchivo;
+		private System.Windows.Forms.Label label2;
 	}
 }

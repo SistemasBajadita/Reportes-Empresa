@@ -28,20 +28,20 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrincipal));
 			this.BtnVentaCosto = new System.Windows.Forms.Button();
 			this.BtnCompras = new System.Windows.Forms.Button();
 			this.BtnTopProductos = new System.Windows.Forms.Button();
 			this.BtnActiveReport = new System.Windows.Forms.Button();
+			this.BtnCountProducts = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// BtnVentaCosto
 			// 
 			this.BtnVentaCosto.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnVentaCosto.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnVentaCosto.Location = new System.Drawing.Point(81, 55);
+			this.BtnVentaCosto.Location = new System.Drawing.Point(43, 54);
 			this.BtnVentaCosto.Name = "BtnVentaCosto";
-			this.BtnVentaCosto.Size = new System.Drawing.Size(431, 58);
+			this.BtnVentaCosto.Size = new System.Drawing.Size(437, 58);
 			this.BtnVentaCosto.TabIndex = 0;
 			this.BtnVentaCosto.Text = "Ventas con costo";
 			this.BtnVentaCosto.UseVisualStyleBackColor = true;
@@ -51,9 +51,9 @@
 			// 
 			this.BtnCompras.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnCompras.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnCompras.Location = new System.Drawing.Point(80, 116);
+			this.BtnCompras.Location = new System.Drawing.Point(42, 115);
 			this.BtnCompras.Name = "BtnCompras";
-			this.BtnCompras.Size = new System.Drawing.Size(431, 58);
+			this.BtnCompras.Size = new System.Drawing.Size(437, 58);
 			this.BtnCompras.TabIndex = 1;
 			this.BtnCompras.Text = "Compras por departamento";
 			this.BtnCompras.UseVisualStyleBackColor = true;
@@ -64,9 +64,9 @@
 			this.BtnTopProductos.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnTopProductos.Enabled = false;
 			this.BtnTopProductos.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnTopProductos.Location = new System.Drawing.Point(81, 178);
+			this.BtnTopProductos.Location = new System.Drawing.Point(43, 177);
 			this.BtnTopProductos.Name = "BtnTopProductos";
-			this.BtnTopProductos.Size = new System.Drawing.Size(431, 58);
+			this.BtnTopProductos.Size = new System.Drawing.Size(437, 58);
 			this.BtnTopProductos.TabIndex = 2;
 			this.BtnTopProductos.Text = "Productos mas vendidos";
 			this.BtnTopProductos.UseVisualStyleBackColor = true;
@@ -76,20 +76,33 @@
 			// 
 			this.BtnActiveReport.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnActiveReport.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnActiveReport.Location = new System.Drawing.Point(80, 242);
+			this.BtnActiveReport.Location = new System.Drawing.Point(43, 305);
 			this.BtnActiveReport.Name = "BtnActiveReport";
-			this.BtnActiveReport.Size = new System.Drawing.Size(431, 58);
+			this.BtnActiveReport.Size = new System.Drawing.Size(437, 58);
 			this.BtnActiveReport.TabIndex = 3;
 			this.BtnActiveReport.Text = "Habilitar reporte de cortes";
 			this.BtnActiveReport.UseVisualStyleBackColor = true;
 			this.BtnActiveReport.Click += new System.EventHandler(this.BtnActiveReport_Click);
+			// 
+			// BtnCountProducts
+			// 
+			this.BtnCountProducts.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.BtnCountProducts.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
+			this.BtnCountProducts.Location = new System.Drawing.Point(43, 241);
+			this.BtnCountProducts.Name = "BtnCountProducts";
+			this.BtnCountProducts.Size = new System.Drawing.Size(437, 58);
+			this.BtnCountProducts.TabIndex = 4;
+			this.BtnCountProducts.Text = "Hoja de conteo";
+			this.BtnCountProducts.UseVisualStyleBackColor = true;
+			this.BtnCountProducts.Click += new System.EventHandler(this.BtnCountProducts_Click);
 			// 
 			// FrmPrincipal
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
-			this.ClientSize = new System.Drawing.Size(568, 345);
+			this.ClientSize = new System.Drawing.Size(510, 416);
+			this.Controls.Add(this.BtnCountProducts);
 			this.Controls.Add(this.BtnActiveReport);
 			this.Controls.Add(this.BtnTopProductos);
 			this.Controls.Add(this.BtnCompras);
@@ -106,6 +119,7 @@
 		private System.Windows.Forms.Button BtnCompras;
 		private System.Windows.Forms.Button BtnTopProductos;
 		private System.Windows.Forms.Button BtnActiveReport;
+		private System.Windows.Forms.Button BtnCountProducts;
 	}
 }
 

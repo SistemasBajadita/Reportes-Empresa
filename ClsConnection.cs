@@ -50,7 +50,7 @@ namespace Reportes
 
 		public void SetQuery(string query)
 		{
-			MySqlConnection con = new MySqlConnection(this.con); 
+			MySqlConnection con = new MySqlConnection(this.con);
 			DataTable reporte = new DataTable();
 			try
 			{
@@ -88,10 +88,7 @@ namespace Reportes
 				{
 					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
 
-					string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Imagenes", "LOGO_EMPRESA-removebg-preview.png");
-
-
-					ClsPageEventHelper pageEventHelper = new ClsPageEventHelper(imagePath);
+					ClsPageEventHelper pageEventHelper = new ClsPageEventHelper("Imagenes/LOGO_EMPRESA-removebg-preview.png");
 					writer.PageEvent = pageEventHelper;
 
 					doc.Open();
@@ -203,7 +200,7 @@ namespace Reportes
 					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
 
 					// Añadir el evento de página para el encabezado con imagen
-					ClsPageEventHelper pageEventHelper = new ClsPageEventHelper("C:/Users/HUAWEI/Desktop/Empresa/Reportes/Imagenes/LOGO_EMPRESA-removebg-preview.png");
+					ClsPageEventHelper pageEventHelper = new ClsPageEventHelper("Imagenes/LOGO_EMPRESA-removebg-preview.png");
 					writer.PageEvent = pageEventHelper;
 
 					doc.Open();

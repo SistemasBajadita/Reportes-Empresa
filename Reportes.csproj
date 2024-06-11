@@ -23,7 +23,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationRevision>7</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -108,6 +108,12 @@
     <Compile Include="FrmComprasPD.Designer.cs">
       <DependentUpon>FrmComprasPD.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmConteo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmConteo.Designer.cs">
+      <DependentUpon>FrmConteo.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +136,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmComprasPD.resx">
       <DependentUpon>FrmComprasPD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmConteo.resx">
+      <DependentUpon>FrmConteo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPrincipal.resx">
       <DependentUpon>FrmPrincipal.cs</DependentUpon>

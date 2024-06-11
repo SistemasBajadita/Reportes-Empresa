@@ -17,9 +17,8 @@ namespace Reportes
 		{
 			InitializeComponent();
 
-			string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Imagenes", "LOGO_EMPRESA-removebg-preview.ico");
 
-			this.Icon = new Icon(imagePath);
+			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
 		}
 
 		private void SetearQuery(DataTable quer)

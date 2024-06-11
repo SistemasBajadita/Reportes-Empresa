@@ -1,14 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Reportes
@@ -20,7 +15,7 @@ namespace Reportes
 			InitializeComponent();
 			string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Imagenes", "LOGO_EMPRESA-removebg-preview.ico");
 
-			this.Icon = new Icon(imagePath);
+			this.Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
 		}
 
 		private void BtnVentaCosto_Click(object sender, EventArgs e)
@@ -61,6 +56,12 @@ namespace Reportes
 			{
 				_con.Close();
 			}
+		}
+
+		private void BtnCountProducts_Click(object sender, EventArgs e)
+		{
+			FrmConteo frm = new FrmConteo();
+			frm.ShowDialog();
 		}
 	}
 }
