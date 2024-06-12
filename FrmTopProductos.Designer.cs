@@ -60,6 +60,7 @@
 			this.BtnPDF.TabIndex = 37;
 			this.BtnPDF.Text = "Mandar a PDF";
 			this.BtnPDF.UseVisualStyleBackColor = true;
+			this.BtnPDF.Click += new System.EventHandler(this.BtnPDF_Click);
 			// 
 			// BtnExcel
 			// 

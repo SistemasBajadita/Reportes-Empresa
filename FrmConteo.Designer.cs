@@ -33,6 +33,7 @@
 			this.rbCategoria = new System.Windows.Forms.RadioButton();
 			this.cbOP = new System.Windows.Forms.ComboBox();
 			this.BtnPDF = new System.Windows.Forms.Button();
+			this.guardarArchivo = new System.Windows.Forms.SaveFileDialog();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -40,7 +41,7 @@
 			this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(44, 30);
+			this.label1.Location = new System.Drawing.Point(53, 30);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(596, 21);
 			this.label1.TabIndex = 20;
@@ -51,7 +52,7 @@
 			this.rbDepartamento.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.rbDepartamento.AutoSize = true;
 			this.rbDepartamento.Font = new System.Drawing.Font("Lucida Fax", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.rbDepartamento.Location = new System.Drawing.Point(220, 72);
+			this.rbDepartamento.Location = new System.Drawing.Point(239, 72);
 			this.rbDepartamento.Name = "rbDepartamento";
 			this.rbDepartamento.Size = new System.Drawing.Size(136, 21);
 			this.rbDepartamento.TabIndex = 21;
@@ -65,7 +66,7 @@
 			this.rbCategoria.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.rbCategoria.AutoSize = true;
 			this.rbCategoria.Font = new System.Drawing.Font("Lucida Fax", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.rbCategoria.Location = new System.Drawing.Point(378, 72);
+			this.rbCategoria.Location = new System.Drawing.Point(397, 72);
 			this.rbCategoria.Name = "rbCategoria";
 			this.rbCategoria.Size = new System.Drawing.Size(100, 21);
 			this.rbCategoria.TabIndex = 22;
@@ -78,17 +79,18 @@
 			// cbOP
 			// 
 			this.cbOP.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.cbOP.Font = new System.Drawing.Font("Lucida Fax", 9F);
 			this.cbOP.FormattingEnabled = true;
-			this.cbOP.Location = new System.Drawing.Point(192, 108);
+			this.cbOP.Location = new System.Drawing.Point(211, 108);
 			this.cbOP.Name = "cbOP";
-			this.cbOP.Size = new System.Drawing.Size(316, 24);
+			this.cbOP.Size = new System.Drawing.Size(316, 25);
 			this.cbOP.TabIndex = 23;
 			// 
 			// BtnPDF
 			// 
 			this.BtnPDF.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnPDF.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnPDF.Location = new System.Drawing.Point(248, 147);
+			this.BtnPDF.Location = new System.Drawing.Point(267, 147);
 			this.BtnPDF.Name = "BtnPDF";
 			this.BtnPDF.Size = new System.Drawing.Size(197, 30);
 			this.BtnPDF.TabIndex = 38;
@@ -101,7 +103,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
-			this.ClientSize = new System.Drawing.Size(678, 207);
+			this.ClientSize = new System.Drawing.Size(717, 207);
 			this.Controls.Add(this.BtnPDF);
 			this.Controls.Add(this.cbOP);
 			this.Controls.Add(this.rbCategoria);
@@ -122,5 +124,6 @@
 		private System.Windows.Forms.RadioButton rbCategoria;
 		private System.Windows.Forms.ComboBox cbOP;
 		private System.Windows.Forms.Button BtnPDF;
+		private System.Windows.Forms.SaveFileDialog guardarArchivo;
 	}
 }

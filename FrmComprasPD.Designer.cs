@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -45,6 +46,7 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.guardarArchivo = new System.Windows.Forms.SaveFileDialog();
 			this.label2 = new System.Windows.Forms.Label();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.reporte)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -52,7 +54,7 @@
 			// 
 			this.BtnPDF.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnPDF.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnPDF.Location = new System.Drawing.Point(328, 463);
+			this.BtnPDF.Location = new System.Drawing.Point(333, 485);
 			this.BtnPDF.Name = "BtnPDF";
 			this.BtnPDF.Size = new System.Drawing.Size(197, 30);
 			this.BtnPDF.TabIndex = 27;
@@ -64,7 +66,7 @@
 			// 
 			this.BtnExcel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnExcel.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnExcel.Location = new System.Drawing.Point(528, 463);
+			this.BtnExcel.Location = new System.Drawing.Point(533, 485);
 			this.BtnExcel.Name = "BtnExcel";
 			this.BtnExcel.Size = new System.Drawing.Size(197, 30);
 			this.BtnExcel.TabIndex = 26;
@@ -116,7 +118,7 @@
 			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.reporte.DefaultCellStyle = dataGridViewCellStyle3;
 			this.reporte.EnableHeadersVisualStyles = false;
-			this.reporte.Location = new System.Drawing.Point(34, 186);
+			this.reporte.Location = new System.Drawing.Point(39, 208);
 			this.reporte.MultiSelect = false;
 			this.reporte.Name = "reporte";
 			this.reporte.ReadOnly = true;
@@ -150,6 +152,7 @@
 			this.BtnCorrerQuery.Size = new System.Drawing.Size(144, 42);
 			this.BtnCorrerQuery.TabIndex = 23;
 			this.BtnCorrerQuery.Text = "Ver reporte";
+			this.toolTip1.SetToolTip(this.BtnCorrerQuery, "Boton para generar el reporte");
 			this.BtnCorrerQuery.UseVisualStyleBackColor = true;
 			this.BtnCorrerQuery.Click += new System.EventHandler(this.BtnCorrerQuery_Click);
 			// 
@@ -244,5 +247,6 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.SaveFileDialog guardarArchivo;
 		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.ToolTip toolTip1;
 	}
 }

@@ -114,6 +114,12 @@
     <Compile Include="FrmConteo.Designer.cs">
       <DependentUpon>FrmConteo.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmMovimientos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMovimientos.Designer.cs">
+      <DependentUpon>FrmMovimientos.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmConteo.resx">
       <DependentUpon>FrmConteo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMovimientos.resx">
+      <DependentUpon>FrmMovimientos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPrincipal.resx">
       <DependentUpon>FrmPrincipal.cs</DependentUpon>

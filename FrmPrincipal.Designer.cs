@@ -33,13 +33,14 @@
 			this.BtnTopProductos = new System.Windows.Forms.Button();
 			this.BtnActiveReport = new System.Windows.Forms.Button();
 			this.BtnCountProducts = new System.Windows.Forms.Button();
+			this.BtnMovAlm = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// BtnVentaCosto
 			// 
 			this.BtnVentaCosto.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnVentaCosto.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnVentaCosto.Location = new System.Drawing.Point(43, 54);
+			this.BtnVentaCosto.Location = new System.Drawing.Point(45, 45);
 			this.BtnVentaCosto.Name = "BtnVentaCosto";
 			this.BtnVentaCosto.Size = new System.Drawing.Size(437, 58);
 			this.BtnVentaCosto.TabIndex = 0;
@@ -51,7 +52,7 @@
 			// 
 			this.BtnCompras.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnCompras.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnCompras.Location = new System.Drawing.Point(42, 115);
+			this.BtnCompras.Location = new System.Drawing.Point(45, 109);
 			this.BtnCompras.Name = "BtnCompras";
 			this.BtnCompras.Size = new System.Drawing.Size(437, 58);
 			this.BtnCompras.TabIndex = 1;
@@ -62,9 +63,8 @@
 			// BtnTopProductos
 			// 
 			this.BtnTopProductos.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.BtnTopProductos.Enabled = false;
 			this.BtnTopProductos.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnTopProductos.Location = new System.Drawing.Point(43, 177);
+			this.BtnTopProductos.Location = new System.Drawing.Point(45, 173);
 			this.BtnTopProductos.Name = "BtnTopProductos";
 			this.BtnTopProductos.Size = new System.Drawing.Size(437, 58);
 			this.BtnTopProductos.TabIndex = 2;
@@ -76,7 +76,7 @@
 			// 
 			this.BtnActiveReport.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnActiveReport.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnActiveReport.Location = new System.Drawing.Point(43, 305);
+			this.BtnActiveReport.Location = new System.Drawing.Point(45, 365);
 			this.BtnActiveReport.Name = "BtnActiveReport";
 			this.BtnActiveReport.Size = new System.Drawing.Size(437, 58);
 			this.BtnActiveReport.TabIndex = 3;
@@ -88,7 +88,7 @@
 			// 
 			this.BtnCountProducts.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnCountProducts.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnCountProducts.Location = new System.Drawing.Point(43, 241);
+			this.BtnCountProducts.Location = new System.Drawing.Point(45, 237);
 			this.BtnCountProducts.Name = "BtnCountProducts";
 			this.BtnCountProducts.Size = new System.Drawing.Size(437, 58);
 			this.BtnCountProducts.TabIndex = 4;
@@ -96,12 +96,25 @@
 			this.BtnCountProducts.UseVisualStyleBackColor = true;
 			this.BtnCountProducts.Click += new System.EventHandler(this.BtnCountProducts_Click);
 			// 
+			// BtnMovAlm
+			// 
+			this.BtnMovAlm.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.BtnMovAlm.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
+			this.BtnMovAlm.Location = new System.Drawing.Point(45, 301);
+			this.BtnMovAlm.Name = "BtnMovAlm";
+			this.BtnMovAlm.Size = new System.Drawing.Size(437, 58);
+			this.BtnMovAlm.TabIndex = 5;
+			this.BtnMovAlm.Text = "Movimientos de almacen";
+			this.BtnMovAlm.UseVisualStyleBackColor = true;
+			this.BtnMovAlm.Click += new System.EventHandler(this.BtnMovAlm_Click);
+			// 
 			// FrmPrincipal
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
-			this.ClientSize = new System.Drawing.Size(510, 416);
+			this.ClientSize = new System.Drawing.Size(510, 492);
+			this.Controls.Add(this.BtnMovAlm);
 			this.Controls.Add(this.BtnCountProducts);
 			this.Controls.Add(this.BtnActiveReport);
 			this.Controls.Add(this.BtnTopProductos);
@@ -120,6 +133,7 @@
 		private System.Windows.Forms.Button BtnTopProductos;
 		private System.Windows.Forms.Button BtnActiveReport;
 		private System.Windows.Forms.Button BtnCountProducts;
+		private System.Windows.Forms.Button BtnMovAlm;
 	}
 }
 

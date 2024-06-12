@@ -63,5 +63,11 @@ namespace Reportes
 			FrmConteo frm = new FrmConteo();
 			frm.ShowDialog();
 		}
+
+		private void BtnMovAlm_Click(object sender, EventArgs e)
+		{
+			FrmMovimientos frm = new FrmMovimientos();
+			frm.ShowDialog();
+		}
 	}
 }

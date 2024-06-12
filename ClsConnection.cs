@@ -58,7 +58,7 @@ namespace Reportes
 				con.Open();
 
 				MySqlCommand cmd = new MySqlCommand(query, con);
-				cmd.CommandTimeout = 120;
+				cmd.CommandTimeout = 520;
 				cmd.ExecuteNonQuery();
 
 				MySqlDataAdapter ad = new MySqlDataAdapter(cmd);
@@ -344,6 +344,175 @@ namespace Reportes
 					MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
+		public void PrintReportInPDFExistencia(string path, string encabezado)
+		{
+			try
+			{
+				Document doc = new Document(PageSize.A4, 10, 10, 10, 10);
+				string pdfPath = path;
+
+				using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
+				{
+					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+					//ClsPageEventHelper pageEventHelper = new ClsPageEventHelper("Imagenes/LOGO_EMPRESA-removebg-preview.png", 160f - 40f, 110f - 40f);
+					//writer.PageEvent = pageEventHelper;
+
+					doc.Open();
+
+					// Título del documento
+					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 24);
+					Paragraph title = new Paragraph("Reporte de Existencias", titleFont)
+					{
+						Alignment = Element.ALIGN_CENTER
+					};
+					doc.Add(title);
+
+					// Añadir un espacio después del encabezado
+					doc.Add(new Paragraph("\n"));
+					doc.Add(new Paragraph("\n"));
+					doc.Add(new Paragraph(encabezado));
+					doc.Add(new Paragraph($"Fecha: {DateTime.Now.ToString("yyyy/MM/dd")}"));
+
+					// Crear una tabla para los datos
+					PdfPTable table = new PdfPTable(5) { WidthPercentage = 100 };
+					float[] columnWidths = new float[] { 3f, 3f, 2f, 2f, 2f }; // Ajusta estos valores según sea necesario
+					table.SetWidths(columnWidths);
+
+					iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+					PdfPCell headerCell;
+
+					// Añadir encabezados
+					headerCell = new PdfPCell(new Phrase("Código", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("Descripción", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("Costo", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("Existencia", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("Existencia Real", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+
+					iTextSharp.text.Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+					PdfPCell dataCell;
+
+					foreach (DataRow row in ReporteActivo.Rows)
+					{
+						string codigo = row["Codigo"].ToString();
+						string descripcion = row["Descripcion"].ToString();
+						string costo = "$" + double.Parse(row["Costo"].ToString()).ToString("N2");
+						string existencia = row["Existencia"].ToString(); // Suponiendo que esta columna está en el DataTable
+
+						dataCell = new PdfPCell(new Phrase(codigo, dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(descripcion, dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(costo, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(existencia, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase("____________", dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+					}
+
+					// Añadir la tabla al documento
+					doc.Add(table);
+
+					doc.Close();
+					writer.Close();
+				}
+				MessageBox.Show("Reporte PDF generado exitosamente, por favor espera y se abrirá el archivo automáticamente después de que cierres este mensaje.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Ocurrió un error al generar el PDF\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
+		public void PrintReportForMovimientos(string fechaA, string fechaB, string path, string movimiento)
+		{
+			try
+			{
+				Document doc = new Document(PageSize.A4, 10, 10, 10, 10);
+				string pdfPath = path;
+
+				using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
+				{
+					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+					ClsPageEventHelper pageEventHelper = new ClsPageEventHelper("Imagenes/LOGO_EMPRESA-removebg-preview.png");
+					writer.PageEvent = pageEventHelper;
+
+					doc.Open();
+
+					// Título del documento
+					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 24);
+					Paragraph title = new Paragraph($"Reporte de {movimiento}", titleFont)
+					{
+						Alignment = Element.ALIGN_CENTER
+					};
+					doc.Add(title);
+
+					// Añadir un espacio después del encabezado
+					doc.Add(new Paragraph("\n"));
+					doc.Add(new Paragraph("\n"));
+					doc.Add(new Paragraph("\n"));
+					doc.Add(new Paragraph("\n"));
+					doc.Add(new Paragraph("\n"));
+					doc.Add(new Paragraph($"Periodo: {fechaA} al {fechaB}"));
+					doc.Add(new Paragraph("\n"));
+
+
+					// Crear una tabla para los datos
+					PdfPTable table = new PdfPTable(2) { WidthPercentage = 100 };
+					float[] columnWidths = new float[] { 3f, 3f }; // Ajusta estos valores según sea necesario
+					table.SetWidths(columnWidths);
+
+					iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+					PdfPCell headerCell;
+
+					// Añadir encabezados
+					headerCell = new PdfPCell(new Phrase("Departamento", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("Total", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+
+					iTextSharp.text.Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+					PdfPCell dataCell;
+
+					foreach (DataRow row in ReporteActivo.Rows)
+					{
+						string codigo = row[0].ToString();
+						string costo = row[1].ToString();
+
+						dataCell = new PdfPCell(new Phrase(codigo, dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(costo, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+					}
+
+					// Añadir la tabla al documento
+					doc.Add(table);
+
+					decimal total= Convert.ToDecimal(ReporteActivo.Compute($"SUM(Total)", string.Empty));
+
+					doc.Add(new Paragraph($"Total: {total}"));
+
+					doc.Add(new Paragraph($"\nFecha: {DateTime.Now.ToString("yyyy/MM/dd")}"));
+
+					doc.Close();
+					writer.Close();
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Ocurrio un error al generar el PDF\n{ex.Message}", "Error");
+			}
+		}
+
+
 	}
 }
 //Programado por Bryan Valdez Muñoz
