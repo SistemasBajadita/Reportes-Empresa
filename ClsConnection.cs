@@ -4,6 +4,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using MySql.Data.MySqlClient;
 using System;
+using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Windows.Forms;
@@ -15,6 +16,27 @@ namespace Reportes
 		public Action<DataTable> sendReport;
 		readonly string con;
 		private DataTable ReporteActivo;
+
+		public void SetOnReportsCortes()
+		{
+			MySqlConnection _con = new MySqlConnection(this.con);
+			try
+			{
+				_con.Open();
+				MySqlCommand cmd = _con.CreateCommand();
+				cmd.CommandText = "SELECT @@SQL_MODE;\r\nSET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
+				cmd.ExecuteNonQuery();
+				MessageBox.Show("Habilitacion completada, verifica el reporte nuevamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			catch (MySqlException ex)
+			{
+				MessageBox.Show("Ocurrio un error al intentar conectarse a la base de datos. \n" + ex.Message);
+			}
+			finally
+			{
+				_con.Close();
+			}
+		}
 
 		public ClsConnection(string con)
 		{

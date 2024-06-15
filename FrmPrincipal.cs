@@ -38,24 +38,9 @@ namespace Reportes
 
 		private void BtnActiveReport_Click(object sender, EventArgs e)
 		{
-			MySqlConnection _con = new MySqlConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
-			try
-			{
-				_con.Open();
-				MySqlCommand cmd = _con.CreateCommand();
-				cmd.CommandText = "SELECT @@SQL_MODE;\r\nSET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
-				cmd.ExecuteNonQuery();
-				MessageBox.Show("Habilitacion completada, verifica el reporte nuevamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				Application.Exit();
-			}
-			catch (MySqlException ex)
-			{
-				MessageBox.Show("Ocurrio un error al intentar conectarse a la base de datos. \n" + ex.Message);
-			}
-			finally
-			{
-				_con.Close();
-			}
+			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			con.SetOnReportsCortes();
+			con = null;
 		}
 
 		private void BtnCountProducts_Click(object sender, EventArgs e)
