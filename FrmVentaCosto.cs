@@ -51,8 +51,14 @@ namespace Reportes
 			FechaA.Enabled = false;
 			FechaB.Enabled = false;
 
+			Stopwatch cronometro = new Stopwatch();
+			cronometro.Start();
+
 			await Task.Run(() => metodos.SetQuery(query));
 
+			cronometro.Stop();
+
+			MessageBox.Show($"Tiempo en lanzar resultados: {cronometro.ElapsedMilliseconds/1000} segundos ");
 			BtnCorrerQuery.Enabled = true;
 			label4.Visible = false;
 			FechaA.Enabled = true;

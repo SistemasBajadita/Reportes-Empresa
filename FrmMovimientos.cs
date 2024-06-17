@@ -44,7 +44,7 @@ namespace Reportes
 		{
 			movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString())
 			{
-				sendReport = SetearQuery2
+				sendReport = SetearQuery
 			};
 
 			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");

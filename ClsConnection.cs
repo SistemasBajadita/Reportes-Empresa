@@ -4,7 +4,6 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using MySql.Data.MySqlClient;
 using System;
-using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Windows.Forms;
