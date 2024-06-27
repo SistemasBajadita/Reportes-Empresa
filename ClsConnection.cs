@@ -79,7 +79,7 @@ namespace Reportes
 				con.Open();
 
 				MySqlCommand cmd = new MySqlCommand(query, con);
-				cmd.CommandTimeout = 520;
+				cmd.CommandTimeout = 540;
 				cmd.ExecuteNonQuery();
 
 				MySqlDataAdapter ad = new MySqlDataAdapter(cmd);
@@ -206,6 +206,99 @@ namespace Reportes
 				MessageBox.Show($"Ocurrió un error al generar el PDF\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
+		}
+
+		public void PrintReportInPDFTOP(string fechaA, string fechaB, string path, string tipo, string departamento)
+		{
+			try
+			{
+				Document doc = new Document();
+				string pdfPath = path;
+
+				using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
+				{
+					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+					// Añadir el evento de página para el encabezado con imagen
+					//ClsPageEventHelper pageEventHelper = new ClsPageEventHelper("Imagenes/LOGO_EMPRESA-removebg-preview.png");
+					//writer.PageEvent = pageEventHelper;
+
+					doc.Open();
+
+					// Título del documento
+					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
+					Paragraph title = new Paragraph($"Reporte de productos mas vendidos por {tipo}", titleFont);
+					title.Alignment = Element.ALIGN_CENTER;
+					doc.Add(title);
+
+					// Subtítulo con el periodo
+					string periodo = $"Periodo: {fechaA} al {fechaB}";
+					Paragraph period = new Paragraph(periodo)
+					{
+						Alignment = Element.ALIGN_CENTER
+					};// Alineación centrada
+					doc.Add(period);
+
+					period = new Paragraph($"\nDepartamento: {departamento}")
+					{
+						Alignment = Element.ALIGN_CENTER
+					};// Alineación centrada
+					doc.Add(period);
+
+					// Añadir un espacio después del encabezado
+					doc.Add(new Paragraph("\n"));
+
+					// Crear una tabla para los datos
+					PdfPTable table = new PdfPTable(4);
+					table.WidthPercentage = 100;
+
+					// Añadir encabezados
+					iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12); // Fuente en negrita y tamaño 12
+					PdfPCell headerCell;
+					headerCell = new PdfPCell(new Phrase(ReporteActivo.Columns[0].ColumnName, headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase(ReporteActivo.Columns[1].ColumnName, headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase(ReporteActivo.Columns[2].ColumnName, headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase(ReporteActivo.Columns[3].ColumnName, headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+
+					// Añadir datos
+					iTextSharp.text.Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+					PdfPCell dataCell;
+
+					foreach (DataRow row in ReporteActivo.Rows)
+					{
+						string codigo = row[0].ToString();
+						string descripcion = row[1].ToString();
+						string existencia = row[2].ToString();
+						string parametro = row[3].ToString();
+
+						dataCell = new PdfPCell(new Phrase(codigo, dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(descripcion, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(existencia, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(parametro, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+
+					}
+
+					Paragraph date = new Paragraph($"Fecha: {DateTime.Now}");
+					date.Alignment = Element.ALIGN_LEFT;
+					doc.Add(table);
+					doc.Add(new Paragraph("\n"));
+					doc.Add(date);
+					doc.Close();
+					writer.Close();
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 		}
 
 
@@ -517,7 +610,7 @@ namespace Reportes
 					// Añadir la tabla al documento
 					doc.Add(table);
 
-					decimal total= Convert.ToDecimal(ReporteActivo.Compute($"SUM(Total)", string.Empty));
+					decimal total = Convert.ToDecimal(ReporteActivo.Compute($"SUM(Total)", string.Empty));
 
 					doc.Add(new Paragraph($"Total: {total}"));
 

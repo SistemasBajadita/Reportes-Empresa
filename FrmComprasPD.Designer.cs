@@ -36,7 +36,6 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmComprasPD));
 			this.BtnPDF = new System.Windows.Forms.Button();
-			this.BtnExcel = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.reporte = new System.Windows.Forms.DataGridView();
 			this.BtnCorrerQuery = new System.Windows.Forms.Button();
@@ -61,18 +60,6 @@
 			this.BtnPDF.Text = "Mandar a PDF";
 			this.BtnPDF.UseVisualStyleBackColor = true;
 			this.BtnPDF.Click += new System.EventHandler(this.BtnPDF_Click);
-			// 
-			// BtnExcel
-			// 
-			this.BtnExcel.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.BtnExcel.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnExcel.Location = new System.Drawing.Point(533, 485);
-			this.BtnExcel.Name = "BtnExcel";
-			this.BtnExcel.Size = new System.Drawing.Size(197, 30);
-			this.BtnExcel.TabIndex = 26;
-			this.BtnExcel.Text = "Mandar a Excel";
-			this.BtnExcel.UseVisualStyleBackColor = true;
-			this.BtnExcel.Click += new System.EventHandler(this.BtnExcel_Click);
 			// 
 			// label4
 			// 
@@ -162,6 +149,7 @@
 			this.FechaB.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.FechaB.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 			this.FechaB.Location = new System.Drawing.Point(557, 82);
+			this.FechaB.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
 			this.FechaB.Name = "FechaB";
 			this.FechaB.Size = new System.Drawing.Size(141, 29);
 			this.FechaB.TabIndex = 22;
@@ -183,6 +171,7 @@
 			this.FechaA.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.FechaA.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 			this.FechaA.Location = new System.Drawing.Point(384, 82);
+			this.FechaA.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
 			this.FechaA.Name = "FechaA";
 			this.FechaA.Size = new System.Drawing.Size(141, 29);
 			this.FechaA.TabIndex = 20;
@@ -216,7 +205,6 @@
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
 			this.ClientSize = new System.Drawing.Size(885, 528);
 			this.Controls.Add(this.BtnPDF);
-			this.Controls.Add(this.BtnExcel);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.reporte);
 			this.Controls.Add(this.BtnCorrerQuery);
@@ -237,7 +225,6 @@
 		#endregion
 
 		private System.Windows.Forms.Button BtnPDF;
-		private System.Windows.Forms.Button BtnExcel;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.DataGridView reporte;
 		private System.Windows.Forms.Button BtnCorrerQuery;

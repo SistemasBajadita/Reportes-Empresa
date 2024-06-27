@@ -15,12 +15,24 @@ namespace Reportes
 		public FrmComprasPD()
 		{
 			InitializeComponent();
+
+			string anio = DateTime.Now.Year.ToString();
+			string mes = DateTime.Now.Month.ToString();
+			string dya = (DateTime.Now.Day - 1).ToString();
+
+			FechaA.MaxDate = new DateTime(int.Parse(anio), int.Parse(mes), int.Parse(dya));
+			FechaB.MaxDate = new DateTime(int.Parse(anio), int.Parse(mes), int.Parse(dya));
+
 			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
 		}
 
 		private void SetearQuery(DataTable quer)
 		{
-			Invoke(new Action(() => { reporte.DataSource = quer; }));
+			try
+			{
+				Invoke(new Action(() => { reporte.DataSource = quer; }));
+			}
+			catch (Exception) { }
 		}
 
 		private async void BtnCorrerQuery_Click(object sender, EventArgs e)

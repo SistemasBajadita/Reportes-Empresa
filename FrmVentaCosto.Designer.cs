@@ -45,6 +45,7 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.guardarArchivo = new System.Windows.Forms.SaveFileDialog();
 			this.BtnPDF = new System.Windows.Forms.Button();
+			this.label5 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.reporte)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -157,6 +158,7 @@
 			this.FechaB.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.FechaB.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 			this.FechaB.Location = new System.Drawing.Point(576, 84);
+			this.FechaB.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
 			this.FechaB.Name = "FechaB";
 			this.FechaB.Size = new System.Drawing.Size(141, 29);
 			this.FechaB.TabIndex = 12;
@@ -178,6 +180,7 @@
 			this.FechaA.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.FechaA.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 			this.FechaA.Location = new System.Drawing.Point(403, 84);
+			this.FechaA.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
 			this.FechaA.Name = "FechaA";
 			this.FechaA.Size = new System.Drawing.Size(141, 29);
 			this.FechaA.TabIndex = 10;
@@ -205,12 +208,26 @@
 			this.BtnPDF.UseVisualStyleBackColor = true;
 			this.BtnPDF.Click += new System.EventHandler(this.BtnPDF_Click);
 			// 
+			// label5
+			// 
+			this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.label5.AutoSize = true;
+			this.label5.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
+			this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
+			this.label5.Location = new System.Drawing.Point(49, 470);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(207, 21);
+			this.label5.TabIndex = 18;
+			this.label5.Text = "Tiempo de respuesta:";
+			this.label5.Visible = false;
+			// 
 			// FrmVentaCosto
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
 			this.ClientSize = new System.Drawing.Size(910, 507);
+			this.Controls.Add(this.label5);
 			this.Controls.Add(this.BtnPDF);
 			this.Controls.Add(this.BtnExcel);
 			this.Controls.Add(this.label4);
@@ -243,5 +260,6 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.SaveFileDialog guardarArchivo;
 		private System.Windows.Forms.Button BtnPDF;
+		private System.Windows.Forms.Label label5;
 	}
 }

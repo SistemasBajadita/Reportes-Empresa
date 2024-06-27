@@ -35,7 +35,6 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmTopProductos));
 			this.BtnPDF = new System.Windows.Forms.Button();
-			this.BtnExcel = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.reporte = new System.Windows.Forms.DataGridView();
 			this.BtnCorrerQuery = new System.Windows.Forms.Button();
@@ -48,13 +47,14 @@
 			this.label5 = new System.Windows.Forms.Label();
 			this.rbDesplazamiento = new System.Windows.Forms.RadioButton();
 			this.rbDinero = new System.Windows.Forms.RadioButton();
+			this.guardarArchivo = new System.Windows.Forms.SaveFileDialog();
 			((System.ComponentModel.ISupportInitialize)(this.reporte)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// BtnPDF
 			// 
 			this.BtnPDF.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnPDF.Location = new System.Drawing.Point(336, 513);
+			this.BtnPDF.Location = new System.Drawing.Point(831, 562);
 			this.BtnPDF.Name = "BtnPDF";
 			this.BtnPDF.Size = new System.Drawing.Size(197, 30);
 			this.BtnPDF.TabIndex = 37;
@@ -62,22 +62,12 @@
 			this.BtnPDF.UseVisualStyleBackColor = true;
 			this.BtnPDF.Click += new System.EventHandler(this.BtnPDF_Click);
 			// 
-			// BtnExcel
-			// 
-			this.BtnExcel.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnExcel.Location = new System.Drawing.Point(536, 513);
-			this.BtnExcel.Name = "BtnExcel";
-			this.BtnExcel.Size = new System.Drawing.Size(197, 30);
-			this.BtnExcel.TabIndex = 36;
-			this.BtnExcel.Text = "Mandar a Excel";
-			this.BtnExcel.UseVisualStyleBackColor = true;
-			// 
 			// label4
 			// 
 			this.label4.AutoSize = true;
 			this.label4.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
-			this.label4.Location = new System.Drawing.Point(654, 146);
+			this.label4.Location = new System.Drawing.Point(758, 143);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(193, 21);
 			this.label4.TabIndex = 35;
@@ -134,7 +124,7 @@
 			this.reporte.RowsDefaultCellStyle = dataGridViewCellStyle5;
 			this.reporte.RowTemplate.Height = 24;
 			this.reporte.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.reporte.Size = new System.Drawing.Size(817, 271);
+			this.reporte.Size = new System.Drawing.Size(986, 311);
 			this.reporte.TabIndex = 34;
 			// 
 			// BtnCorrerQuery
@@ -142,7 +132,7 @@
 			this.BtnCorrerQuery.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(78)))), ((int)(((byte)(80)))));
 			this.BtnCorrerQuery.FlatAppearance.BorderSize = 5;
 			this.BtnCorrerQuery.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnCorrerQuery.Location = new System.Drawing.Point(504, 129);
+			this.BtnCorrerQuery.Location = new System.Drawing.Point(608, 126);
 			this.BtnCorrerQuery.Name = "BtnCorrerQuery";
 			this.BtnCorrerQuery.Size = new System.Drawing.Size(144, 42);
 			this.BtnCorrerQuery.TabIndex = 33;
@@ -154,7 +144,8 @@
 			// 
 			this.FechaB.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.FechaB.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.FechaB.Location = new System.Drawing.Point(578, 76);
+			this.FechaB.Location = new System.Drawing.Point(682, 73);
+			this.FechaB.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
 			this.FechaB.Name = "FechaB";
 			this.FechaB.Size = new System.Drawing.Size(141, 29);
 			this.FechaB.TabIndex = 32;
@@ -163,7 +154,7 @@
 			// 
 			this.label3.AutoSize = true;
 			this.label3.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label3.Location = new System.Drawing.Point(552, 79);
+			this.label3.Location = new System.Drawing.Point(656, 76);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(20, 21);
 			this.label3.TabIndex = 31;
@@ -173,7 +164,8 @@
 			// 
 			this.FechaA.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.FechaA.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.FechaA.Location = new System.Drawing.Point(405, 76);
+			this.FechaA.Location = new System.Drawing.Point(509, 73);
+			this.FechaA.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
 			this.FechaA.Name = "FechaA";
 			this.FechaA.Size = new System.Drawing.Size(141, 29);
 			this.FechaA.TabIndex = 30;
@@ -182,7 +174,7 @@
 			// 
 			this.label2.AutoSize = true;
 			this.label2.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(142, 80);
+			this.label2.Location = new System.Drawing.Point(246, 77);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(241, 21);
 			this.label2.TabIndex = 29;
@@ -192,7 +184,7 @@
 			// 
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.label1.Location = new System.Drawing.Point(161, 30);
+			this.label1.Location = new System.Drawing.Point(265, 27);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(642, 26);
 			this.label1.TabIndex = 28;
@@ -202,7 +194,7 @@
 			// 
 			this.cbDepartamentos.Font = new System.Drawing.Font("Lucida Fax", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cbDepartamentos.FormattingEnabled = true;
-			this.cbDepartamentos.Location = new System.Drawing.Point(196, 139);
+			this.cbDepartamentos.Location = new System.Drawing.Point(300, 136);
 			this.cbDepartamentos.Name = "cbDepartamentos";
 			this.cbDepartamentos.Size = new System.Drawing.Size(302, 25);
 			this.cbDepartamentos.TabIndex = 38;
@@ -211,7 +203,7 @@
 			// 
 			this.label5.AutoSize = true;
 			this.label5.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label5.Location = new System.Drawing.Point(38, 139);
+			this.label5.Location = new System.Drawing.Point(142, 136);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(138, 21);
 			this.label5.TabIndex = 39;
@@ -221,7 +213,7 @@
 			// 
 			this.rbDesplazamiento.AutoSize = true;
 			this.rbDesplazamiento.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.rbDesplazamiento.Location = new System.Drawing.Point(217, 201);
+			this.rbDesplazamiento.Location = new System.Drawing.Point(321, 198);
 			this.rbDesplazamiento.Name = "rbDesplazamiento";
 			this.rbDesplazamiento.Size = new System.Drawing.Size(248, 25);
 			this.rbDesplazamiento.TabIndex = 40;
@@ -233,7 +225,7 @@
 			// 
 			this.rbDinero.AutoSize = true;
 			this.rbDinero.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.rbDinero.Location = new System.Drawing.Point(534, 201);
+			this.rbDinero.Location = new System.Drawing.Point(638, 198);
 			this.rbDinero.Name = "rbDinero";
 			this.rbDinero.Size = new System.Drawing.Size(163, 25);
 			this.rbDinero.TabIndex = 41;
@@ -246,13 +238,12 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
-			this.ClientSize = new System.Drawing.Size(906, 554);
+			this.ClientSize = new System.Drawing.Size(1074, 605);
 			this.Controls.Add(this.rbDinero);
 			this.Controls.Add(this.rbDesplazamiento);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.cbDepartamentos);
 			this.Controls.Add(this.BtnPDF);
-			this.Controls.Add(this.BtnExcel);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.reporte);
 			this.Controls.Add(this.BtnCorrerQuery);
@@ -274,7 +265,6 @@
 		#endregion
 
 		private System.Windows.Forms.Button BtnPDF;
-		private System.Windows.Forms.Button BtnExcel;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.DataGridView reporte;
 		private System.Windows.Forms.Button BtnCorrerQuery;
@@ -287,5 +277,6 @@
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.RadioButton rbDesplazamiento;
 		private System.Windows.Forms.RadioButton rbDinero;
+		private System.Windows.Forms.SaveFileDialog guardarArchivo;
 	}
 }

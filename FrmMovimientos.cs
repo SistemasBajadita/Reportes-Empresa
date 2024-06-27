@@ -37,7 +37,11 @@ namespace Reportes
 
 		private void SetearQuery2(DataTable quer)
 		{
-			Invoke(new Action(() => { reporte2.DataSource = quer; }));
+			try
+			{
+				Invoke(new Action(() => { reporte2.DataSource = quer; }));
+			}
+			catch (Exception) { }
 		}
 
 		private async void BtnCorrerQuery_Click(object sender, EventArgs e)
