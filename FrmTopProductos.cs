@@ -118,6 +118,7 @@ namespace Reportes
 
 		private async void FrmTopProductos_Load(object sender, EventArgs e)
 		{
+			cbDepartamentos.Enabled = false;
 			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
 			await Task.Run(() =>
 			{
@@ -132,6 +133,7 @@ namespace Reportes
 				}));
 
 			});
+			cbDepartamentos.Enabled = true;
 			metodos = null;
 		}
 

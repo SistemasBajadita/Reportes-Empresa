@@ -38,7 +38,7 @@ namespace Reportes
 
 		private void BtnActiveReport_Click(object sender, EventArgs e)
 		{
-			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
 			con.SetOnReportsCortes();
 			con = null;
 		}
@@ -52,6 +52,12 @@ namespace Reportes
 		private void BtnMovAlm_Click(object sender, EventArgs e)
 		{
 			FrmMovimientos frm = new FrmMovimientos();
+			frm.ShowDialog();
+		}
+
+		private void BtnVentasDetalladas_Click(object sender, EventArgs e)
+		{
+			FrmVentaDetallada frm = new FrmVentaDetallada();
 			frm.ShowDialog();
 		}
 	}
