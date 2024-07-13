@@ -131,7 +131,6 @@ namespace Reportes
 					cbDepartamentos.ValueMember = "Codigo";
 					cbDepartamentos.DisplayMember = "Agrupacion";
 				}));
-
 			});
 			cbDepartamentos.Enabled = true;
 			metodos = null;

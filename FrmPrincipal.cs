@@ -60,5 +60,11 @@ namespace Reportes
 			FrmVentaDetallada frm = new FrmVentaDetallada();
 			frm.ShowDialog();
 		}
+
+		private void BtnTicketChofer_Click(object sender, EventArgs e)
+		{
+			FrmTickets frm = new FrmTickets();
+			frm.ShowDialog();
+		}
 	}
 }

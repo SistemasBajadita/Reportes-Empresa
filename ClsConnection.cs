@@ -195,6 +195,12 @@ namespace Reportes
 
 					doc.Add(table);
 					doc.Add(new Paragraph("\n"));
+
+					Paragraph nota = new Paragraph($"Nota:\n ")
+					{
+						Alignment = Element.ALIGN_LEFT
+					};
+
 					doc.Add(date);
 					doc.Close();
 					writer.Close();
