@@ -5,6 +5,7 @@ using iTextSharp.text.pdf;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -25,11 +26,11 @@ namespace Reportes
 				MySqlCommand cmd = _con.CreateCommand();
 				cmd.CommandText = "SELECT @@SQL_MODE;\r\nSET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
 				cmd.ExecuteNonQuery();
-				MessageBox.Show("Habilitacion completada, verifica el reporte nuevamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Habilitacion completada, verifica el reporte nuevamente", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			catch (MySqlException ex)
 			{
-				MessageBox.Show("Ocurrio un error al intentar conectarse a la base de datos. \n" + ex.Message);
+				MessageBox.Show("Ocurrio un error al intentar conectarse a la base de datos. \n" + ex.Message, "La Bajadita - Venta de Frutas y Verduras");
 			}
 			finally
 			{
@@ -60,7 +61,7 @@ namespace Reportes
 			}
 			catch (MySqlException ex)
 			{
-				MessageBox.Show($"Ocurrio un error\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show($"Ocurrio un error\n{ex.Message}", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			finally
 			{
@@ -85,11 +86,12 @@ namespace Reportes
 				MySqlDataAdapter ad = new MySqlDataAdapter(cmd);
 
 				ad.Fill(reporte);
-				sendReport(reporte);
+				sendReport?.Invoke(reporte);
 			}
 			catch (MySqlException ex)
 			{
-				MessageBox.Show($"Ocurrio un error\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				if (!ex.Message.Contains("already"))
+					MessageBox.Show($"Ocurrio un error\n{ex.Message}", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			finally
 			{
@@ -205,13 +207,12 @@ namespace Reportes
 					doc.Close();
 					writer.Close();
 				}
-				MessageBox.Show("Reporte PDF generado exitosamente, por favor espera y se abrirá el archivo automáticamente después de que cierres este mensaje.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Reporte PDF generado exitosamente, por favor espera y se abrirá el archivo automáticamente después de que cierres este mensaje.", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show($"Ocurrió un error al generar el PDF\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show($"Ocurrió un error al generar el PDF\n{ex.Message}", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-
 		}
 
 		public void PrintReportInPDFTOP(string fechaA, string fechaB, string path, string tipo, string departamento)
@@ -303,7 +304,7 @@ namespace Reportes
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				MessageBox.Show(ex.Message, "La Bajadita - Venta de Frutas y Verduras");
 			}
 		}
 
@@ -405,11 +406,11 @@ namespace Reportes
 					doc.Close();
 					writer.Close();
 				}
-				MessageBox.Show("Reporte PDF generado exitosamente, por favor espera y se abrirá el archivo automáticamente después de que cierres este mensaje.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Reporte PDF generado exitosamente, por favor espera y se abrirá el archivo automáticamente después de que cierres este mensaje.", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show($"Ocurrió un error al generar el PDF\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show($"Ocurrió un error al generar el PDF\n{ex.Message}", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -454,13 +455,13 @@ namespace Reportes
 			try
 			{
 				workbook.Save(path, SaveFormat.Xlsx);
-				MessageBox.Show("Reporte Excel generado exitosamente, por favor espera y se abrira el archivo automaticamente despues de que cierres este mensaje.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Reporte Excel generado exitosamente, por favor espera y se abrira el archivo automaticamente despues de que cierres este mensaje.", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			catch (IOException)
 			{
 				MessageBox.Show("Ocurrio un error al guardar el archivo. " +
 					"Si tienes abierto un archivo con el mismo nombre que " +
-					"quieres asignar por favor cierralo y vuelve a intentarlo.", "Error al intentar guardar el archivo",
+					"quieres asignar por favor cierralo y vuelve a intentarlo.", "La Bajadita - Venta de Frutas y Verduras",
 					MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
@@ -469,31 +470,19 @@ namespace Reportes
 		{
 			try
 			{
-				Document doc = new Document(PageSize.A4, 10, 10, 10, 10);
+				Document doc = new Document(PageSize.A4, 10, 10, 100, 50);
 				string pdfPath = path;
 
 				using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
 				{
 					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
 
-					//ClsPageEventHelper pageEventHelper = new ClsPageEventHelper("Imagenes/LOGO_EMPRESA-removebg-preview.png", 160f - 40f, 110f - 40f);
-					//writer.PageEvent = pageEventHelper;
+					ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", encabezado, "Hojas de conteo");
+					writer.PageEvent = pageEventHelper;
 
 					doc.Open();
 
-					// Título del documento
-					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 24);
-					Paragraph title = new Paragraph("Reporte de Existencias", titleFont)
-					{
-						Alignment = Element.ALIGN_CENTER
-					};
-					doc.Add(title);
-
-					// Añadir un espacio después del encabezado
-					doc.Add(new Paragraph("\n"));
-					doc.Add(new Paragraph("\n"));
-					doc.Add(new Paragraph(encabezado));
-					doc.Add(new Paragraph($"Fecha: {DateTime.Now.ToString("yyyy/MM/dd")}"));
+					
 
 					// Crear una tabla para los datos
 					PdfPTable table = new PdfPTable(5) { WidthPercentage = 100 };
@@ -543,11 +532,11 @@ namespace Reportes
 					doc.Close();
 					writer.Close();
 				}
-				MessageBox.Show("Reporte PDF generado exitosamente, por favor espera y se abrirá el archivo automáticamente después de que cierres este mensaje.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Reporte PDF generado exitosamente, por favor espera y se abrirá el archivo automáticamente después de que cierres este mensaje.", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show($"Ocurrió un error al generar el PDF\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show($"Ocurrió un error al generar el PDF\n{ex.Message}", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -628,11 +617,77 @@ namespace Reportes
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show($"Ocurrio un error al generar el PDF\n{ex.Message}", "Error");
+				MessageBox.Show($"Ocurrio un error al generar el PDF\n{ex.Message}", "La Bajadita - Venta de Frutas y Verduras");
 			}
 		}
 
+		public void PrintReportPDFMargen(string departamento, string titulo)
+		{
+			try
+			{
+				Document doc = new Document(PageSize.A4, 10, 10, 100, 50);
+				string pdfPath = "margenes.pdf";
+				using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
+				{
+					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
 
+					ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", departamento, titulo);
+					writer.PageEvent = pageEventHelper;
+
+					doc.Open();
+
+					// Crear una tabla para los datos
+					PdfPTable table = new PdfPTable(6) { WidthPercentage = 100 };
+					float[] columnWidths = new float[] { 3f, 3f, 3f, 3f, 3f, 3f }; // Ajusta estos valores según sea necesario
+					table.SetWidths(columnWidths);
+
+					iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+					PdfPCell headerCell;
+
+					// Añadir encabezados
+					headerCell = new PdfPCell(new Phrase("CODIGO", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("DESCRIPCION", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("COSTO PROMEDIO", headerFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("ULTIMA COMPRA", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("PRECIO ACTUAL", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("MARGEN ACTUAL", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+
+					iTextSharp.text.Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+					PdfPCell dataCell;
+
+					foreach (DataRow row in ReporteActivo.Rows)
+					{
+						dataCell = new PdfPCell(new Phrase(row[0].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(row[1].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase("$" + row[2].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(row[3].ToString() != "" ? "$"+row[3].ToString() : "SIN COMPRAS" , dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase("$"+row[4].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(row[5].ToString()+"%", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+					}
+					// Añadir la tabla al documento
+					doc.Add(table);
+					doc.Close();
+					writer.Close();
+				}
+				Process.Start(pdfPath);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "La Bajadita - Venta de Frutas y Verduras");
+			}
+		}
 	}
 }
 //Programado por Bryan Valdez Muñoz

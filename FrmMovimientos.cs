@@ -101,7 +101,7 @@ namespace Reportes
 		{
 			if (movimientos == null)
 			{
-				MessageBox.Show("Primero presiona el boton de Ver Reporte antes de guardarlo.", "No se puede guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Primero presiona el boton de Ver Reporte antes de guardarlo.", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 
@@ -111,6 +111,7 @@ namespace Reportes
 			string parametroA = fechaA.ToString("yyyy/MM/dd");
 			string parametroB = fechaB.ToString("yyyy/MM/dd");
 			guardarArchivo.Filter = "Archivos PDF|*.pdf|Todos los archivos|*.*";
+			guardarArchivo.FileName = $"movimientos_{DateTime.Now:dd-MM-yy}";
 
 			if (guardarArchivo.ShowDialog() == DialogResult.OK)
 			{

@@ -66,5 +66,9 @@ namespace Reportes
 			FrmTickets frm = new FrmTickets();
 			frm.ShowDialog();
 		}
+
+		private void FrmPrincipal_Load(object sender, EventArgs e)
+		{
+		}
 	}
 }

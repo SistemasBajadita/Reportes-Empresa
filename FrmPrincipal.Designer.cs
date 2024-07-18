@@ -113,12 +113,12 @@
 			// BtnVentasDetalladas
 			// 
 			this.BtnVentasDetalladas.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.BtnVentasDetalladas.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
+			this.BtnVentasDetalladas.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.BtnVentasDetalladas.Location = new System.Drawing.Point(29, 76);
 			this.BtnVentasDetalladas.Name = "BtnVentasDetalladas";
 			this.BtnVentasDetalladas.Size = new System.Drawing.Size(516, 58);
 			this.BtnVentasDetalladas.TabIndex = 6;
-			this.BtnVentasDetalladas.Text = "Ventas detalladas por departamento";
+			this.BtnVentasDetalladas.Text = "Margenes de articulos por departamento";
 			this.BtnVentasDetalladas.UseVisualStyleBackColor = true;
 			this.BtnVentasDetalladas.Click += new System.EventHandler(this.BtnVentasDetalladas_Click);
 			// 
@@ -150,6 +150,7 @@
 			this.Controls.Add(this.BtnVentaCosto);
 			this.Name = "FrmPrincipal";
 			this.Text = "Reportes";
+			this.Load += new System.EventHandler(this.FrmPrincipal_Load);
 			this.ResumeLayout(false);
 
 		}

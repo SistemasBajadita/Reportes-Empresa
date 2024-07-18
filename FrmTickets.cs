@@ -141,7 +141,7 @@ namespace Reportes
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				MessageBox.Show(ex.Message, "La Bajadita - Venta de Frutas y Verduras");
 			}
 		}
 

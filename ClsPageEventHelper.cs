@@ -27,7 +27,6 @@ namespace Reportes
 		{
 			PdfContentByte cb = writer.DirectContent;
 			cb.AddImage(_headerImage);
-
 		}
 	}
 }

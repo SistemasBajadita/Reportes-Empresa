@@ -34,6 +34,7 @@
 			this.cbOP = new System.Windows.Forms.ComboBox();
 			this.BtnPDF = new System.Windows.Forms.Button();
 			this.guardarArchivo = new System.Windows.Forms.SaveFileDialog();
+			this.label2 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -98,12 +99,26 @@
 			this.BtnPDF.UseVisualStyleBackColor = true;
 			this.BtnPDF.Click += new System.EventHandler(this.BtnPDF_Click);
 			// 
+			// label2
+			// 
+			this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.label2.AutoSize = true;
+			this.label2.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+			this.label2.Location = new System.Drawing.Point(187, 108);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(353, 21);
+			this.label2.TabIndex = 39;
+			this.label2.Text = "Cargando elementos por favor espere";
+			this.label2.Visible = false;
+			// 
 			// FrmConteo
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
 			this.ClientSize = new System.Drawing.Size(717, 207);
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.BtnPDF);
 			this.Controls.Add(this.cbOP);
 			this.Controls.Add(this.rbCategoria);
@@ -111,6 +126,7 @@
 			this.Controls.Add(this.label1);
 			this.Name = "FrmConteo";
 			this.Text = "Hojas de conteo";
+			this.Load += new System.EventHandler(this.FrmConteo_Load);
 			this.EnabledChanged += new System.EventHandler(this.ChangeRadios);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -125,5 +141,6 @@
 		private System.Windows.Forms.ComboBox cbOP;
 		private System.Windows.Forms.Button BtnPDF;
 		private System.Windows.Forms.SaveFileDialog guardarArchivo;
+		private System.Windows.Forms.Label label2;
 	}
 }

@@ -26,9 +26,11 @@ namespace Reportes
 			cbOP.DataSource = null;
 			cbOP.Items.Clear();
 
-			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
 
 			DataTable opciones = null;
+
+			label2.Visible = true;
 
 			if (rbCategoria.Checked)
 			{
@@ -42,6 +44,8 @@ namespace Reportes
 			cbOP.DataSource = opciones;
 			cbOP.DisplayMember = "des_agr";
 			cbOP.ValueMember = "cod_agr";
+
+			label2.Visible = false;
 			metodos = null;
 
 		}
@@ -79,7 +83,7 @@ namespace Reportes
 
 		private async void BtnPDF_Click(object sender, EventArgs e)
 		{
-			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
 			metodos.sendReport = GetReport;
 
 			string query = $"select art.cod1_art as Codigo, des1_art as Descripcion, c.Cos_Pro as Costo, EXI_ACT as Existencia " +
@@ -92,11 +96,12 @@ namespace Reportes
 
 			if (metodos == null)
 			{
-				MessageBox.Show("Primero presiona el boton de Ver Reporte antes de guardarlo.", "No se puede guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Primero presiona el boton de Ver Reporte antes de guardarlo.", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 
 			guardarArchivo.Filter = "Archivos PDF|*.pdf|Todos los archivos|*.*";
+			guardarArchivo.FileName = $"conteo {GetSelectedTextFromCombo()}_{DateTime.Now:dd-MM-yy}";
 
 			string Encabezado = "";
 
@@ -111,6 +116,11 @@ namespace Reportes
 				metodos.PrintReportInPDFExistencia(guardarArchivo.FileName, Encabezado);
 				Process.Start(guardarArchivo.FileName);
 			}
+		}
+
+		private void FrmConteo_Load(object sender, EventArgs e)
+		{
+
 		}
 	}
 }
