@@ -35,16 +35,19 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.cmbVendedor = new System.Windows.Forms.ComboBox();
 			this.label2 = new System.Windows.Forms.Label();
+			this.BtnAllTickets = new System.Windows.Forms.Button();
+			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// BtnPrintReport
 			// 
 			this.BtnPrintReport.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.BtnPrintReport.Location = new System.Drawing.Point(319, 222);
+			this.BtnPrintReport.Location = new System.Drawing.Point(90, 225);
 			this.BtnPrintReport.Name = "BtnPrintReport";
-			this.BtnPrintReport.Size = new System.Drawing.Size(262, 71);
+			this.BtnPrintReport.Size = new System.Drawing.Size(313, 71);
 			this.BtnPrintReport.TabIndex = 13;
-			this.BtnPrintReport.Text = "Imprimir";
+			this.BtnPrintReport.Text = "Imprimir venta de chofer";
 			this.BtnPrintReport.UseVisualStyleBackColor = true;
 			this.BtnPrintReport.Click += new System.EventHandler(this.BtnPrintReport_Click);
 			// 
@@ -105,12 +108,34 @@
 			this.label2.TabIndex = 7;
 			this.label2.Text = "Vendedor";
 			// 
+			// BtnAllTickets
+			// 
+			this.BtnAllTickets.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.BtnAllTickets.Location = new System.Drawing.Point(423, 225);
+			this.BtnAllTickets.Name = "BtnAllTickets";
+			this.BtnAllTickets.Size = new System.Drawing.Size(313, 71);
+			this.BtnAllTickets.TabIndex = 14;
+			this.BtnAllTickets.Text = "Imprimir todas las ventas";
+			this.BtnAllTickets.UseVisualStyleBackColor = true;
+			this.BtnAllTickets.Click += new System.EventHandler(this.BtnAllTickets_Click);
+			// 
+			// pictureBox1
+			// 
+			this.pictureBox1.Location = new System.Drawing.Point(1, 1);
+			this.pictureBox1.Name = "pictureBox1";
+			this.pictureBox1.Size = new System.Drawing.Size(794, 448);
+			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox1.TabIndex = 15;
+			this.pictureBox1.TabStop = false;
+			// 
 			// FrmTickets
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Linen;
 			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Controls.Add(this.pictureBox1);
+			this.Controls.Add(this.BtnAllTickets);
 			this.Controls.Add(this.BtnPrintReport);
 			this.Controls.Add(this.dateTimePicker4);
 			this.Controls.Add(this.label4);
@@ -121,6 +146,7 @@
 			this.Name = "FrmTickets";
 			this.Text = "Tickets por chofer";
 			this.Load += new System.EventHandler(this.FrmTickets_Load);
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -135,5 +161,7 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.ComboBox cmbVendedor;
 		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Button BtnAllTickets;
+		private System.Windows.Forms.PictureBox pictureBox1;
 	}
 }

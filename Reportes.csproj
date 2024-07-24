@@ -27,7 +27,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>18</ApplicationRevision>
+    <ApplicationRevision>23</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="ClsConnection.cs" />
     <Compile Include="ClsHeader.cs" />
+    <Compile Include="ClsHeaderTickets.cs" />
     <Compile Include="ClsPageEventHelper.cs" />
     <Compile Include="FrmComprasPD.cs">
       <SubType>Form</SubType>
@@ -209,6 +210,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Imagenes\load.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Imagenes\LOGO_EMPRESA-removebg-preview.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

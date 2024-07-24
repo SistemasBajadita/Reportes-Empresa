@@ -17,6 +17,33 @@ namespace Reportes
 		readonly string con;
 		private DataTable ReporteActivo;
 
+		public string GetRowQuery(string query)
+		{
+			MySqlConnection _con = new MySqlConnection(con);
+			try
+			{
+				_con.Open();
+
+				MySqlCommand cmd = new MySqlCommand(query, _con);
+				MySqlDataReader rd = cmd.ExecuteReader();
+
+				if (rd.Read())
+				{
+					return $"{rd.GetString(0)}, {rd.GetDecimal(1)}";
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+			finally
+			{
+				_con.Close();
+			}
+
+			return "";
+		}
+
 		public void SetOnReportsCortes()
 		{
 			MySqlConnection _con = new MySqlConnection(this.con);
@@ -291,6 +318,8 @@ namespace Reportes
 						dataCell = new PdfPCell(new Phrase(parametro, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 						table.AddCell(dataCell);
 
+
+
 					}
 
 					Paragraph date = new Paragraph($"Fecha: {DateTime.Now}");
@@ -482,7 +511,7 @@ namespace Reportes
 
 					doc.Open();
 
-					
+
 
 					// Crear una tabla para los datos
 					PdfPTable table = new PdfPTable(5) { WidthPercentage = 100 };
@@ -669,11 +698,11 @@ namespace Reportes
 						table.AddCell(dataCell);
 						dataCell = new PdfPCell(new Phrase("$" + row[2].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 						table.AddCell(dataCell);
-						dataCell = new PdfPCell(new Phrase(row[3].ToString() != "" ? "$"+row[3].ToString() : "SIN COMPRAS" , dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						dataCell = new PdfPCell(new Phrase(row[3].ToString() != "" ? "$" + row[3].ToString() : "SIN COMPRAS", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 						table.AddCell(dataCell);
-						dataCell = new PdfPCell(new Phrase("$"+row[4].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						dataCell = new PdfPCell(new Phrase("$" + row[4].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 						table.AddCell(dataCell);
-						dataCell = new PdfPCell(new Phrase(row[5].ToString()+"%", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						dataCell = new PdfPCell(new Phrase(row[5].ToString() + "%", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 						table.AddCell(dataCell);
 					}
 					// Añadir la tabla al documento

@@ -118,9 +118,25 @@ namespace Reportes
 			}
 		}
 
-		private void FrmConteo_Load(object sender, EventArgs e)
+		private async void FrmConteo_Load(object sender, EventArgs e)
 		{
+			cbOP.DataSource = null;
+			cbOP.Items.Clear();
 
+			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+
+			DataTable opciones = null;
+
+			label2.Visible = true;
+
+			await Task.Run(() => opciones = metodos.GetQuery("select cod_agr, des_agr from tblcatagrupacionart where cod_gpo=25 order by des_agr asc"));
+
+			cbOP.DataSource = opciones;
+			cbOP.DisplayMember = "des_agr";
+			cbOP.ValueMember = "cod_agr";
+
+			label2.Visible = false;
+			metodos = null;
 		}
 	}
 }
