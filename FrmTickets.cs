@@ -209,7 +209,7 @@ namespace Reportes
 								from tblrenventas ren
 								inner join tblvendedores v on v.COD_VEN=ren.cod_ven
 								inner join tblgralventas gral on gral.REF_DOC=ren.REF_DOC
-								where (gral.fec_doc between '{fechaA}' and '{fechaB}') 
+								where (gral.fec_doc between '{fechaA}' and '{fechaB}') and caja_doc=9
 								group by ren.cod_ven;";
 
 			BtnAllTickets.Enabled = false;
@@ -230,7 +230,6 @@ namespace Reportes
 				double dev = 0;
 				double totalDelDia = 0;
 				
-
 				try
 				{
 					Document doc = new Document(PageSize.A4, 10, 10, 100, 50);
