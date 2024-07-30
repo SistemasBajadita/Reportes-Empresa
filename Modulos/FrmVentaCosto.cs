@@ -32,24 +32,33 @@ namespace Reportes
 		{
 			try
 			{
-				Invoke(new Action(() => { reporte.DataSource = quer; }));
+				Invoke(new Action(() =>
+				{
+					double total = 0;
+					foreach (DataRow dr in quer.Rows)
+					{
+						total += Convert.ToDouble(dr[1]);
+					}
+					lblTotal.Visible = true;
+					lblTotal.Text = $"Total: ${total}";
+					reporte.DataSource = quer;
+				}));
 			}
 			catch (Exception) { }
 		}
 
 		private async void BtnCorrerQuery_Click(object sender, EventArgs e)
 		{
+			lblTotal.Visible = false;
 			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString())
 			{
 				sendReport = SetearQuery
 			};
 
-
-
 			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");
 			string parametroB = FechaB.Value.ToString("yyyy-MM-dd");
 
-			string query = "select caa.DES_AGR as Departamento, round(sum(rv.CAN_ART * rv.PCIO_VEN),2) as 'Venta Total', round(sum(rv.CAN_ART * rv.COS_VEN),2) as Costo, round((1 - (sum(rv.CAN_ART * rv.COS_VEN) / sum(rv.CAN_ART * rv.PCIO_VEN))) * 100, 2) as Porc from tblgralventas gv " +
+			string query = @"select caa.DES_AGR as Departamento, round(sum(rv.CAN_ART * rv.PCIO_VEN),2) as 'Venta Total', round(sum(rv.CAN_ART * rv.COS_VEN),2) as Costo, round((1 - (sum(rv.CAN_ART * rv.COS_VEN) / sum(rv.CAN_ART * rv.PCIO_VEN))) * 100, 2) as Porc from tblgralventas gv " +
 					"inner join tblrenventas rv on gv.REF_DOC = rv.REF_DOC " +
 					"inner join tblgpoarticulos ga on rv.COD1_ART = ga.COD1_ART " +
 					"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +

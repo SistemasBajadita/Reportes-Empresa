@@ -27,7 +27,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>23</ApplicationRevision>
+    <ApplicationRevision>27</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -111,22 +111,22 @@
     <Compile Include="ClsHeader.cs" />
     <Compile Include="ClsHeaderTickets.cs" />
     <Compile Include="ClsPageEventHelper.cs" />
-    <Compile Include="FrmComprasPD.cs">
+    <Compile Include="Modulos\FrmComprasPD.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmComprasPD.Designer.cs">
+    <Compile Include="Modulos\FrmComprasPD.Designer.cs">
       <DependentUpon>FrmComprasPD.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmConteo.cs">
+    <Compile Include="Modulos\FrmConteo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmConteo.Designer.cs">
+    <Compile Include="Modulos\FrmConteo.Designer.cs">
       <DependentUpon>FrmConteo.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmMovimientos.cs">
+    <Compile Include="Modulos\FrmMovimientos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmMovimientos.Designer.cs">
+    <Compile Include="Modulos\FrmMovimientos.Designer.cs">
       <DependentUpon>FrmMovimientos.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmPrincipal.cs">
@@ -135,54 +135,54 @@
     <Compile Include="FrmPrincipal.Designer.cs">
       <DependentUpon>FrmPrincipal.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmTickets.cs">
+    <Compile Include="Modulos\FrmTickets.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmTickets.Designer.cs">
+    <Compile Include="Modulos\FrmTickets.Designer.cs">
       <DependentUpon>FrmTickets.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmTopProductos.cs">
+    <Compile Include="Modulos\FrmTopProductos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmTopProductos.Designer.cs">
+    <Compile Include="Modulos\FrmTopProductos.Designer.cs">
       <DependentUpon>FrmTopProductos.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmVentaCosto.cs">
+    <Compile Include="Modulos\FrmVentaCosto.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmVentaCosto.Designer.cs">
+    <Compile Include="Modulos\FrmVentaCosto.Designer.cs">
       <DependentUpon>FrmVentaCosto.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmVentaDetallada.cs">
+    <Compile Include="Modulos\FrmVentaDetallada.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmVentaDetallada.Designer.cs">
+    <Compile Include="Modulos\FrmVentaDetallada.Designer.cs">
       <DependentUpon>FrmVentaDetallada.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FrmComprasPD.resx">
+    <EmbeddedResource Include="Modulos\FrmComprasPD.resx">
       <DependentUpon>FrmComprasPD.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmConteo.resx">
+    <EmbeddedResource Include="Modulos\FrmConteo.resx">
       <DependentUpon>FrmConteo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmMovimientos.resx">
+    <EmbeddedResource Include="Modulos\FrmMovimientos.resx">
       <DependentUpon>FrmMovimientos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPrincipal.resx">
       <DependentUpon>FrmPrincipal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmTickets.resx">
+    <EmbeddedResource Include="Modulos\FrmTickets.resx">
       <DependentUpon>FrmTickets.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmTopProductos.resx">
+    <EmbeddedResource Include="Modulos\FrmTopProductos.resx">
       <DependentUpon>FrmTopProductos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmVentaCosto.resx">
+    <EmbeddedResource Include="Modulos\FrmVentaCosto.resx">
       <DependentUpon>FrmVentaCosto.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmVentaDetallada.resx">
+    <EmbeddedResource Include="Modulos\FrmVentaDetallada.resx">
       <DependentUpon>FrmVentaDetallada.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

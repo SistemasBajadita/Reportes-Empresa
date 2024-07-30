@@ -48,9 +48,9 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
-			this.guardarArchivo = new System.Windows.Forms.SaveFileDialog();
+			this.cbDepartamentos = new System.Windows.Forms.ComboBox();
 			this.cbConceptos2 = new System.Windows.Forms.ComboBox();
-			this.button1 = new System.Windows.Forms.Button();
+			this.BtnPDFDetails = new System.Windows.Forms.Button();
 			this.label5 = new System.Windows.Forms.Label();
 			this.reporte2 = new System.Windows.Forms.DataGridView();
 			this.BtnCorrerQueryArticulos = new System.Windows.Forms.Button();
@@ -59,8 +59,8 @@
 			this.FechaA2 = new System.Windows.Forms.DateTimePicker();
 			this.label7 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
+			this.guardarArchivo = new System.Windows.Forms.SaveFileDialog();
 			this.help = new System.Windows.Forms.ToolTip(this.components);
-			this.cbDepartamentos = new System.Windows.Forms.ComboBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.reporte)).BeginInit();
@@ -242,7 +242,7 @@
 			// 
 			this.tabPage2.Controls.Add(this.cbDepartamentos);
 			this.tabPage2.Controls.Add(this.cbConceptos2);
-			this.tabPage2.Controls.Add(this.button1);
+			this.tabPage2.Controls.Add(this.BtnPDFDetails);
 			this.tabPage2.Controls.Add(this.label5);
 			this.tabPage2.Controls.Add(this.reporte2);
 			this.tabPage2.Controls.Add(this.BtnCorrerQueryArticulos);
@@ -259,6 +259,15 @@
 			this.tabPage2.Text = "Movimientos por articulo";
 			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
+			// cbDepartamentos
+			// 
+			this.cbDepartamentos.FormattingEnabled = true;
+			this.cbDepartamentos.Location = new System.Drawing.Point(48, 193);
+			this.cbDepartamentos.Name = "cbDepartamentos";
+			this.cbDepartamentos.Size = new System.Drawing.Size(306, 28);
+			this.cbDepartamentos.TabIndex = 49;
+			this.help.SetToolTip(this.cbDepartamentos, "Departamento");
+			// 
 			// cbConceptos2
 			// 
 			this.cbConceptos2.FormattingEnabled = true;
@@ -268,16 +277,17 @@
 			this.cbConceptos2.TabIndex = 48;
 			this.help.SetToolTip(this.cbConceptos2, "Tipo de movimiento");
 			// 
-			// button1
+			// BtnPDFDetails
 			// 
-			this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.button1.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.button1.Location = new System.Drawing.Point(628, 538);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(197, 30);
-			this.button1.TabIndex = 47;
-			this.button1.Text = "Mandar a PDF";
-			this.button1.UseVisualStyleBackColor = true;
+			this.BtnPDFDetails.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.BtnPDFDetails.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
+			this.BtnPDFDetails.Location = new System.Drawing.Point(628, 538);
+			this.BtnPDFDetails.Name = "BtnPDFDetails";
+			this.BtnPDFDetails.Size = new System.Drawing.Size(197, 30);
+			this.BtnPDFDetails.TabIndex = 47;
+			this.BtnPDFDetails.Text = "Mandar a PDF";
+			this.BtnPDFDetails.UseVisualStyleBackColor = true;
+			this.BtnPDFDetails.Click += new System.EventHandler(this.BtnPDFDetails_Click);
 			// 
 			// label5
 			// 
@@ -397,15 +407,6 @@
 			this.label8.TabIndex = 39;
 			this.label8.Text = "Reporte de movimientos por articulo";
 			// 
-			// cbDepartamentos
-			// 
-			this.cbDepartamentos.FormattingEnabled = true;
-			this.cbDepartamentos.Location = new System.Drawing.Point(48, 193);
-			this.cbDepartamentos.Name = "cbDepartamentos";
-			this.cbDepartamentos.Size = new System.Drawing.Size(306, 28);
-			this.cbDepartamentos.TabIndex = 49;
-			this.help.SetToolTip(this.cbDepartamentos, "Departamento");
-			// 
 			// FrmMovimientos
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -444,7 +445,7 @@
 		private System.Windows.Forms.ComboBox cbConceptos;
 		private System.Windows.Forms.SaveFileDialog guardarArchivo;
 		private System.Windows.Forms.ComboBox cbConceptos2;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button BtnPDFDetails;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.DataGridView reporte2;
 		private System.Windows.Forms.Button BtnCorrerQueryArticulos;

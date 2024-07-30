@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
@@ -54,7 +55,7 @@ namespace Reportes
 			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");
 			string parametroB = FechaB.Value.ToString("yyyy-MM-dd");
 
-			string query = $"SELECT tblCatAgrupacionArt.DES_AGR as Departamento, concat('$',round(Sum(COS_UNI * can_ren * tblGralAlmacen.TIP_CAM),2)) AS Total " +
+			string query = $"SELECT tblCatAgrupacionArt.DES_AGR as Departamento, round(Sum(COS_UNI * can_ren * tblGralAlmacen.TIP_CAM),2) AS Total " +
 				$"FROM ((tblGralAlmacen INNER JOIN tblRenAlmacen ON tblGralAlmacen.REF_MOV = tblRenAlmacen.REF_MOV) " +
 				$"INNER JOIN tblCatArticulos ON tblRenAlmacen.COD1_ART = tblCatArticulos.COD1_ART) " +
 				$"INNER JOIN tblGpoArticulos ON tblCatArticulos.COD1_ART = tblGpoArticulos.COD1_ART " +
@@ -76,23 +77,68 @@ namespace Reportes
 
 		}
 
-		private string GetSelectedTextFromCombo()
+		private string GetSelectedTextFromCombo(int op)
 		{
-			// Asegúrate de que hay un elemento seleccionado
-			if (cbConceptos.SelectedItem != null)
+
+			if (op == 1)
 			{
-				// Accede al DataRowView del elemento seleccionado
-				DataRowView selectedRow = cbConceptos.SelectedItem as DataRowView;
-
-				// Asegúrate de que la conversión fue exitosa
-				if (selectedRow != null)
+				// Asegúrate de que hay un elemento seleccionado
+				if (cbConceptos.SelectedItem != null)
 				{
-					// Obtén el texto del elemento seleccionado usando el DisplayMember
-					string selectedText = selectedRow[cbConceptos.DisplayMember].ToString();
+					// Accede al DataRowView del elemento seleccionado
+					DataRowView selectedRow = cbConceptos.SelectedItem as DataRowView;
 
-					// Muestra el texto seleccionado (por ejemplo, en un MessageBox)
-					return selectedText;
+					// Asegúrate de que la conversión fue exitosa
+					if (selectedRow != null)
+					{
+						// Obtén el texto del elemento seleccionado usando el DisplayMember
+						string selectedText = selectedRow[cbConceptos.DisplayMember].ToString();
+
+						// Muestra el texto seleccionado (por ejemplo, en un MessageBox)
+						return selectedText;
+					}
 				}
+				return null;
+			}
+			if (op == 2)
+			{
+				// Asegúrate de que hay un elemento seleccionado
+				if (cbDepartamentos.SelectedItem != null)
+				{
+					// Accede al DataRowView del elemento seleccionado
+					DataRowView selectedRow = cbDepartamentos.SelectedItem as DataRowView;
+
+					// Asegúrate de que la conversión fue exitosa
+					if (selectedRow != null)
+					{
+						// Obtén el texto del elemento seleccionado usando el DisplayMember
+						string selectedText = selectedRow[cbDepartamentos.DisplayMember].ToString();
+
+						// Muestra el texto seleccionado (por ejemplo, en un MessageBox)
+						return selectedText;
+					}
+				}
+				return null;
+			}
+			if (op == 3)
+			{
+				// Asegúrate de que hay un elemento seleccionado
+				if (cbConceptos2.SelectedItem != null)
+				{
+					// Accede al DataRowView del elemento seleccionado
+					DataRowView selectedRow = cbConceptos2.SelectedItem as DataRowView;
+
+					// Asegúrate de que la conversión fue exitosa
+					if (selectedRow != null)
+					{
+						// Obtén el texto del elemento seleccionado usando el DisplayMember
+						string selectedText = selectedRow[cbConceptos2.DisplayMember].ToString();
+
+						// Muestra el texto seleccionado (por ejemplo, en un MessageBox)
+						return selectedText;
+					}
+				}
+				return null;
 			}
 			return null;
 		}
@@ -115,7 +161,7 @@ namespace Reportes
 
 			if (guardarArchivo.ShowDialog() == DialogResult.OK)
 			{
-				movimientos.PrintReportForMovimientos(parametroA, parametroB, guardarArchivo.FileName, GetSelectedTextFromCombo());
+				movimientos.PrintReportForMovimientos(parametroA, parametroB, guardarArchivo.FileName, GetSelectedTextFromCombo(1));
 				Process.Start(guardarArchivo.FileName);
 			}
 		}
@@ -128,12 +174,19 @@ namespace Reportes
 				DataTable departamentos = movimientos.GetQuery("select cod_agr as Codigo, des_agr as Agrupacion " +
 					"from tblcatagrupacionart agr inner join tblagrupacionart gpo on gpo.cod_gpo=agr.COD_GPO " +
 					"where agr.cod_gpo=25");
-				Invoke(new Action(() =>
+				try
 				{
-					cbDepartamentos.DataSource = departamentos;
-					cbDepartamentos.ValueMember = "Codigo";
-					cbDepartamentos.DisplayMember = "Agrupacion";
-				}));
+					Invoke(new Action(() =>
+							{
+								cbDepartamentos.DataSource = departamentos;
+								cbDepartamentos.ValueMember = "Codigo";
+								cbDepartamentos.DisplayMember = "Agrupacion";
+							}));
+				}
+				catch (Exception)
+				{
+
+				}
 			});
 			movimientos = null;
 		}
@@ -148,7 +201,7 @@ namespace Reportes
 			string parametroA = FechaA2.Value.ToString("yyyy-MM-dd");
 			string parametroB = FechaB2.Value.ToString("yyyy-MM-dd");
 
-			string query = $"SELECT tblCatArticulos.cod1_art as Codigo, des1_art as Descripcion, Sum(can_ren) as Piezas, Sum(COS_UNI * can_ren * tblGralAlmacen.TIP_CAM) AS Costo " +
+			string query = $"SELECT tblCatArticulos.cod1_art as Codigo, des1_art as Descripcion, round(Sum(can_ren),2) as Piezas, round(Sum(COS_UNI * can_ren * tblGralAlmacen.TIP_CAM),2) AS Costo " +
 				$"FROM ((tblGralAlmacen INNER JOIN tblRenAlmacen ON tblGralAlmacen.REF_MOV = tblRenAlmacen.REF_MOV) INNER JOIN tblCatArticulos ON tblRenAlmacen.COD1_ART = tblCatArticulos.COD1_ART) " +
 				$"INNER JOIN tblGpoArticulos ON tblCatArticulos.COD1_ART = tblGpoArticulos.COD1_ART " +
 				$"Where ((tblGralAlmacen.FEC_MOV >= '{parametroA}' And tblGralAlmacen.FEC_MOV <= '{parametroB}') And (tblGralAlmacen.COD_CON = '{cbConceptos2.SelectedValue}') AND (tblGpoArticulos.COD_AGR = {cbDepartamentos.SelectedValue})) " +
@@ -166,6 +219,12 @@ namespace Reportes
 			label5.Visible = false;
 			FechaA2.Enabled = true;
 			FechaB2.Enabled = true;
+		}
+
+		private void BtnPDFDetails_Click(object sender, EventArgs e)
+		{
+			movimientos.PrintReportMovimientosDetail(GetSelectedTextFromCombo(2), $"Reporte de {GetSelectedTextFromCombo(3)}");
+			Process.Start("movimientos.pdf");
 		}
 	}
 }

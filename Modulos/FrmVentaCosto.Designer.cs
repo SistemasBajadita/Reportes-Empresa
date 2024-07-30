@@ -46,6 +46,7 @@
 			this.guardarArchivo = new System.Windows.Forms.SaveFileDialog();
 			this.BtnPDF = new System.Windows.Forms.Button();
 			this.label5 = new System.Windows.Forms.Label();
+			this.lblTotal = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.reporte)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -64,7 +65,7 @@
 			// 
 			this.BtnExcel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnExcel.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnExcel.Location = new System.Drawing.Point(547, 465);
+			this.BtnExcel.Location = new System.Drawing.Point(704, 465);
 			this.BtnExcel.Name = "BtnExcel";
 			this.BtnExcel.Size = new System.Drawing.Size(197, 30);
 			this.BtnExcel.TabIndex = 16;
@@ -200,7 +201,7 @@
 			// 
 			this.BtnPDF.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnPDF.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnPDF.Location = new System.Drawing.Point(347, 465);
+			this.BtnPDF.Location = new System.Drawing.Point(504, 465);
 			this.BtnPDF.Name = "BtnPDF";
 			this.BtnPDF.Size = new System.Drawing.Size(197, 30);
 			this.BtnPDF.TabIndex = 17;
@@ -221,12 +222,26 @@
 			this.label5.Text = "Tiempo de respuesta:";
 			this.label5.Visible = false;
 			// 
+			// lblTotal
+			// 
+			this.lblTotal.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.lblTotal.AutoSize = true;
+			this.lblTotal.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
+			this.lblTotal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
+			this.lblTotal.Location = new System.Drawing.Point(49, 154);
+			this.lblTotal.Name = "lblTotal";
+			this.lblTotal.Size = new System.Drawing.Size(56, 21);
+			this.lblTotal.TabIndex = 20;
+			this.lblTotal.Text = "Total";
+			this.lblTotal.Visible = false;
+			// 
 			// FrmVentaCosto
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
 			this.ClientSize = new System.Drawing.Size(910, 507);
+			this.Controls.Add(this.lblTotal);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.BtnPDF);
 			this.Controls.Add(this.BtnExcel);
@@ -261,5 +276,6 @@
 		private System.Windows.Forms.SaveFileDialog guardarArchivo;
 		private System.Windows.Forms.Button BtnPDF;
 		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label lblTotal;
 	}
 }

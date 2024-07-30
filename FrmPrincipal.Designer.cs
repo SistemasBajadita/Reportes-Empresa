@@ -36,13 +36,13 @@
 			this.BtnMovAlm = new System.Windows.Forms.Button();
 			this.BtnVentasDetalladas = new System.Windows.Forms.Button();
 			this.BtnTicketChofer = new System.Windows.Forms.Button();
+			this.BtnNegativos = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// BtnVentaCosto
 			// 
-			this.BtnVentaCosto.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnVentaCosto.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnVentaCosto.Location = new System.Drawing.Point(29, 12);
+			this.BtnVentaCosto.Location = new System.Drawing.Point(19, 18);
 			this.BtnVentaCosto.Name = "BtnVentaCosto";
 			this.BtnVentaCosto.Size = new System.Drawing.Size(516, 58);
 			this.BtnVentaCosto.TabIndex = 0;
@@ -52,9 +52,8 @@
 			// 
 			// BtnCompras
 			// 
-			this.BtnCompras.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnCompras.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnCompras.Location = new System.Drawing.Point(29, 140);
+			this.BtnCompras.Location = new System.Drawing.Point(19, 210);
 			this.BtnCompras.Name = "BtnCompras";
 			this.BtnCompras.Size = new System.Drawing.Size(516, 58);
 			this.BtnCompras.TabIndex = 1;
@@ -64,9 +63,8 @@
 			// 
 			// BtnTopProductos
 			// 
-			this.BtnTopProductos.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnTopProductos.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnTopProductos.Location = new System.Drawing.Point(29, 204);
+			this.BtnTopProductos.Location = new System.Drawing.Point(19, 274);
 			this.BtnTopProductos.Name = "BtnTopProductos";
 			this.BtnTopProductos.Size = new System.Drawing.Size(516, 58);
 			this.BtnTopProductos.TabIndex = 2;
@@ -76,9 +74,8 @@
 			// 
 			// BtnActiveReport
 			// 
-			this.BtnActiveReport.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnActiveReport.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnActiveReport.Location = new System.Drawing.Point(29, 460);
+			this.BtnActiveReport.Location = new System.Drawing.Point(19, 530);
 			this.BtnActiveReport.Name = "BtnActiveReport";
 			this.BtnActiveReport.Size = new System.Drawing.Size(516, 58);
 			this.BtnActiveReport.TabIndex = 3;
@@ -88,9 +85,8 @@
 			// 
 			// BtnCountProducts
 			// 
-			this.BtnCountProducts.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnCountProducts.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnCountProducts.Location = new System.Drawing.Point(29, 268);
+			this.BtnCountProducts.Location = new System.Drawing.Point(19, 338);
 			this.BtnCountProducts.Name = "BtnCountProducts";
 			this.BtnCountProducts.Size = new System.Drawing.Size(516, 58);
 			this.BtnCountProducts.TabIndex = 4;
@@ -100,9 +96,8 @@
 			// 
 			// BtnMovAlm
 			// 
-			this.BtnMovAlm.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnMovAlm.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnMovAlm.Location = new System.Drawing.Point(29, 332);
+			this.BtnMovAlm.Location = new System.Drawing.Point(19, 402);
 			this.BtnMovAlm.Name = "BtnMovAlm";
 			this.BtnMovAlm.Size = new System.Drawing.Size(516, 58);
 			this.BtnMovAlm.TabIndex = 5;
@@ -112,9 +107,8 @@
 			// 
 			// BtnVentasDetalladas
 			// 
-			this.BtnVentasDetalladas.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnVentasDetalladas.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.BtnVentasDetalladas.Location = new System.Drawing.Point(29, 76);
+			this.BtnVentasDetalladas.Location = new System.Drawing.Point(19, 146);
 			this.BtnVentasDetalladas.Name = "BtnVentasDetalladas";
 			this.BtnVentasDetalladas.Size = new System.Drawing.Size(516, 58);
 			this.BtnVentasDetalladas.TabIndex = 6;
@@ -124,9 +118,8 @@
 			// 
 			// BtnTicketChofer
 			// 
-			this.BtnTicketChofer.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnTicketChofer.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.BtnTicketChofer.Location = new System.Drawing.Point(29, 396);
+			this.BtnTicketChofer.Location = new System.Drawing.Point(19, 466);
 			this.BtnTicketChofer.Name = "BtnTicketChofer";
 			this.BtnTicketChofer.Size = new System.Drawing.Size(516, 58);
 			this.BtnTicketChofer.TabIndex = 8;
@@ -134,12 +127,24 @@
 			this.BtnTicketChofer.UseVisualStyleBackColor = true;
 			this.BtnTicketChofer.Click += new System.EventHandler(this.BtnTicketChofer_Click);
 			// 
+			// BtnNegativos
+			// 
+			this.BtnNegativos.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
+			this.BtnNegativos.Location = new System.Drawing.Point(19, 82);
+			this.BtnNegativos.Name = "BtnNegativos";
+			this.BtnNegativos.Size = new System.Drawing.Size(516, 58);
+			this.BtnNegativos.TabIndex = 9;
+			this.BtnNegativos.Text = "Negativos en inventario";
+			this.BtnNegativos.UseVisualStyleBackColor = true;
+			this.BtnNegativos.Click += new System.EventHandler(this.BtnNegativos_Click);
+			// 
 			// FrmPrincipal
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
-			this.ClientSize = new System.Drawing.Size(557, 543);
+			this.ClientSize = new System.Drawing.Size(547, 607);
+			this.Controls.Add(this.BtnNegativos);
 			this.Controls.Add(this.BtnTicketChofer);
 			this.Controls.Add(this.BtnVentasDetalladas);
 			this.Controls.Add(this.BtnMovAlm);
@@ -165,6 +170,7 @@
 		private System.Windows.Forms.Button BtnMovAlm;
 		private System.Windows.Forms.Button BtnVentasDetalladas;
 		private System.Windows.Forms.Button BtnTicketChofer;
+		private System.Windows.Forms.Button BtnNegativos;
 	}
 }
 

@@ -1,7 +1,9 @@
 ﻿using Aspose.Cells;
+using Aspose.Cells.Charts;
 using Aspose.Cells.Tables;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.codec.wmf;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
@@ -85,6 +87,7 @@ namespace Reportes
 				MySqlDataAdapter ad = new MySqlDataAdapter(cmd);
 
 				ad.Fill(reporte);
+				ReporteActivo = reporte;
 			}
 			catch (MySqlException ex)
 			{
@@ -650,6 +653,66 @@ namespace Reportes
 			}
 		}
 
+		public void PrintReportMovimientosDetail(string departamento, string titulo)
+		{
+			try
+			{
+				Document doc = new Document(PageSize.A4, 10, 10, 100, 50);
+				string pdfPath = "movimientos.pdf";
+				using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
+				{
+					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+					ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", departamento, titulo);
+					writer.PageEvent = pageEventHelper;
+
+					doc.Open();
+
+					// Crear una tabla para los datos
+					PdfPTable table = new PdfPTable(4) { WidthPercentage = 100 };
+					float[] columnWidths = new float[] { 3f, 3f, 3f, 3f }; // Ajusta estos valores según sea necesario
+					table.SetWidths(columnWidths);
+
+					iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+					PdfPCell headerCell;
+
+					// Añadir encabezados
+					headerCell = new PdfPCell(new Phrase("CODIGO", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("DESCRIPCION", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("PIEZAS", headerFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("COSTO", headerFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+
+					iTextSharp.text.Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+					PdfPCell dataCell;
+
+					foreach (DataRow row in ReporteActivo.Rows)
+					{
+						dataCell = new PdfPCell(new Phrase(row[0].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(row[1].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(row[2].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(row[3].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+					}
+
+					doc.Add(table);
+
+					doc.Close();
+					writer.Close();
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
+
 		public void PrintReportPDFMargen(string departamento, string titulo)
 		{
 			try
@@ -715,6 +778,58 @@ namespace Reportes
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message, "La Bajadita - Venta de Frutas y Verduras");
+			}
+		}
+
+		public void PrintReportInPDFNegativos(string titulo)
+		{
+			try
+			{
+				Document doc = new Document(PageSize.A4, 10, 10, 100, 50);
+				string pdfPath = "negativos.pdf";
+				using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
+				{
+					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+					ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", "", titulo);
+					writer.PageEvent = pageEventHelper;
+
+					doc.Open();
+					PdfPTable table = new PdfPTable(3) { WidthPercentage = 100 };
+					float[] columnWidths = new float[] { 4f, 7f, 3f };
+					table.SetWidths(columnWidths);
+
+					iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+					PdfPCell headerCell;
+					headerCell = new PdfPCell(new Phrase("CODIGO", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("DESCRIPCION", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("EXISTENCIA", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
+
+					iTextSharp.text.Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+					PdfPCell dataCell;
+					foreach (DataRow row in ReporteActivo.Rows)
+					{
+						dataCell = new PdfPCell(new Phrase(row[0].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 6f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(row[1].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 6f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(row[2].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 6f };
+						table.AddCell(dataCell);
+					}
+
+					doc.Add(table);
+					doc.Close();
+					writer.Close();
+					Process.Start(pdfPath);
+
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
 			}
 		}
 	}

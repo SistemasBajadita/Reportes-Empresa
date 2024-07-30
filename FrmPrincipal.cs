@@ -26,7 +26,7 @@ namespace Reportes
 
 		private void BtnCompras_Click(object sender, EventArgs e)
 		{
-			FrmComprasPD frm = new FrmComprasPD();	
+			FrmComprasPD frm = new FrmComprasPD();
 			frm.ShowDialog();
 		}
 
@@ -68,7 +68,16 @@ namespace Reportes
 		}
 
 		private void FrmPrincipal_Load(object sender, EventArgs e)
+		{ 
+
+		}
+
+		private void BtnNegativos_Click(object sender, EventArgs e)
 		{
+			ClsConnection _con = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			DataTable negativos = _con.GetQuery("select cod1_art, des1_art, exi_act from tblcatarticulos where EXI_ACT <0");
+
+			_con.PrintReportInPDFNegativos("Negativos en inventario");
 		}
 	}
 }
