@@ -148,6 +148,7 @@ namespace Reportes
 				{
 					ad.Fill(tables);
 					sendTables?.Invoke(tables);
+					ReporteActivo = tables.Tables[0];
 					return;
 				}
 
@@ -521,7 +522,7 @@ namespace Reportes
 					doc.Close();
 					writer.Close();
 				}
-				MessageBox.Show("Reporte PDF generado exitosamente, por favor espera y se abrirá el archivo automáticamente después de que cierres este mensaje.", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Reporte PDF generado exitosamente, por favor espere y se abrirá el archivo automáticamente después de que cierre este mensaje.", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			catch (Exception ex)
 			{

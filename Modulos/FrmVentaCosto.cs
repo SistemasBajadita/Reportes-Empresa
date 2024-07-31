@@ -34,14 +34,6 @@ namespace Reportes
 			{
 				Invoke(new Action(() =>
 				{
-					//double total = 0;
-					//foreach (DataRow dr in quer.Rows)
-					//{
-					//	total += Convert.ToDouble(dr[1]);
-					//}
-					//lblTotal.Visible = true;
-					//lblTotal.Text = $"Total: ${total}";
-					//reporte.DataSource = quer;
 					reporte.Columns.Clear();
 					reporte.Columns.Add("Departamento", "Departamento");
 					reporte.Columns.Add("Venta", "Venta");
@@ -52,10 +44,12 @@ namespace Reportes
 
 					DataTable venta = quer.Tables[0];
 					DataTable merma = quer.Tables[1];
+					double total = 0;
 
 					foreach (DataRow row in venta.Rows)
 					{
 						bool mer = true;
+						total += Convert.ToDouble(row[1]);
 						foreach (DataRow r in merma.Rows)
 						{
 							if (r[0].ToString() == row[0].ToString())
@@ -70,6 +64,9 @@ namespace Reportes
 						}
 						if (mer) reporte.Rows.Add(row[0], row[1], row[2], row[3], "0.00", "0.00");
 					}
+
+					lblTotal.Visible = true;
+					lblTotal.Text = $"Total: ${total}";
 				}));
 			}
 			catch (Exception) { }
@@ -169,13 +166,11 @@ namespace Reportes
 			string parametroA = fechaA.ToString("yyyy/MM/dd");
 			string parametroB = fechaB.ToString("yyyy/MM/dd");
 			guardarArchivo.Filter = "Archivos PDF|*.pdf|Todos los archivos|*.*";
-			guardarArchivo.FileName = $"Ventas_{DateTime.Now:dd-MM-yy}";
+			guardarArchivo.FileName = $"Ventas_{DateTime.Now:dd-MM-yy}.pdf";
 
-			if (guardarArchivo.ShowDialog() == DialogResult.OK)
-			{
+			
 				metodos.PrintReportInPDFVentas(parametroA, parametroB, guardarArchivo.FileName);
 				Process.Start(guardarArchivo.FileName);
-			}
 		}
 	}
 }
