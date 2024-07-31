@@ -13,7 +13,7 @@ namespace Reportes
 		{
 			_headerImage = Image.GetInstance(imagePath);
 			_headerImage.ScaleToFit(160f, 110f); // Ajusta el tamaño de la imagen si es necesario
-			_headerImage.SetAbsolutePosition(10, PageSize.A4.Height - _headerImage.ScaledHeight - 10);
+			_headerImage.SetAbsolutePosition(10, 730);
 		}
 
 		public ClsPageEventHelper(string imagePath, float witdh, float height)

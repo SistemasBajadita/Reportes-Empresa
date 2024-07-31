@@ -16,6 +16,7 @@ namespace Reportes
 	public class ClsConnection
 	{
 		public Action<DataTable> sendReport;
+		public Action<DataSet> sendTables;
 		readonly string con;
 		private DataTable ReporteActivo;
 
@@ -100,6 +101,33 @@ namespace Reportes
 			return reporte;
 		}
 
+		public DataTable GetQuery2(string query)
+		{
+			MySqlConnection con = new MySqlConnection(this.con); ;
+			DataTable reporte = new DataTable();
+			try
+			{
+				con = new MySqlConnection(this.con);
+				con.Open();
+
+				MySqlCommand cmd = new MySqlCommand(query, con);
+				cmd.ExecuteNonQuery();
+
+				MySqlDataAdapter ad = new MySqlDataAdapter(cmd);
+
+				ad.Fill(reporte);
+			}
+			catch (MySqlException ex)
+			{
+				MessageBox.Show($"Ocurrio un error\n{ex.Message}", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally
+			{
+				con.Close();
+			}
+			return reporte;
+		}
+
 		public void SetQuery(string query)
 		{
 			MySqlConnection con = new MySqlConnection(this.con);
@@ -114,6 +142,14 @@ namespace Reportes
 				cmd.ExecuteNonQuery();
 
 				MySqlDataAdapter ad = new MySqlDataAdapter(cmd);
+				DataSet tables = new DataSet();
+
+				if (query.Split(';').Length > 2)
+				{
+					ad.Fill(tables);
+					sendTables?.Invoke(tables);
+					return;
+				}
 
 				ad.Fill(reporte);
 				sendReport?.Invoke(reporte);
@@ -345,7 +381,15 @@ namespace Reportes
 		{
 			try
 			{
-				Document doc = new Document();
+				DataTable merma = GetQuery2($@" select caa.DES_AGR as Departamento, round(sum(cos_uni*can_ren),2) as Merma
+												from tblrenalmacen ren_alm
+												inner join tblgralalmacen enc_alm on ren_alm.REF_MOV=enc_alm.REF_MOV
+												inner join tblgpoarticulos ga on ren_alm.COD1_ART = ga.COD1_ART 
+												inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR
+												where (enc_alm.FEC_MOV between'{fechaA}' and '{fechaB}') and enc_alm.cod_con='SMER' and caa.COD_GPO=25
+												group by caa.des_agr;");
+
+				Document doc = new Document(PageSize.A4, 10, 10, 30, 50);
 				string pdfPath = path;
 
 				using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
@@ -376,8 +420,10 @@ namespace Reportes
 					doc.Add(new Paragraph("\n"));
 
 					// Crear una tabla para los datos
-					PdfPTable table = new PdfPTable(4);
+					PdfPTable table = new PdfPTable(6);
 					table.WidthPercentage = 100;
+					//float[] columnWidths = new float[] { 1f, 2f, 1f, 1f, 1f, 1f }; // Ajusta estos valores según sea necesario
+					//table.SetWidths(columnWidths);
 
 					// Añadir encabezados
 					iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12); // Fuente en negrita y tamaño 12
@@ -390,6 +436,10 @@ namespace Reportes
 					table.AddCell(headerCell);
 					headerCell = new PdfPCell(new Phrase("Utilidad", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("Merma", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("M/V *", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
 
 					// Añadir datos
 					iTextSharp.text.Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
@@ -397,13 +447,15 @@ namespace Reportes
 
 					double totalVenta = 0;
 					double totalCosto = 0;
+					double mermaTotal = 0;
 
 					foreach (DataRow row in ReporteActivo.Rows)
 					{
-						string departamento = row["Departamento"].ToString();
-						string venta = "$" + double.Parse(row["Venta Total"].ToString()).ToString("N2");
-						string costo = "$" + double.Parse(row["Costo"].ToString()).ToString("N2");
-						string utilidad = row["Porc"].ToString() + "%";
+						string departamento = row[0].ToString();
+						string venta = "$" + double.Parse(row[1].ToString()).ToString("N2");
+						string costo = "$" + double.Parse(row[2].ToString()).ToString("N2");
+						string utilidad = row[3].ToString() + "%";
+
 
 						dataCell = new PdfPCell(new Phrase(departamento, dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 						table.AddCell(dataCell);
@@ -414,8 +466,35 @@ namespace Reportes
 						dataCell = new PdfPCell(new Phrase(utilidad, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 						table.AddCell(dataCell);
 
-						totalVenta += double.Parse(row["Venta Total"].ToString());
-						totalCosto += double.Parse(row["Costo"].ToString());
+						double mermaActual = 0;
+						
+
+						for (int i = 0; i < merma.Rows.Count; i++)
+						{
+							if (merma.Rows[i][0].ToString() == departamento)
+							{
+								mermaActual = Convert.ToDouble(merma.Rows[i][1].ToString());
+								mermaTotal += Convert.ToDouble(merma.Rows[i][1].ToString());
+								break;
+							}
+						}
+						if (mermaActual != 0)
+						{
+							dataCell = new PdfPCell(new Phrase($"${mermaActual.ToString("N2")}", dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+							table.AddCell(dataCell);
+							dataCell = new PdfPCell(new Phrase($"{Math.Round((mermaActual / double.Parse(row[1].ToString())) * 100,2)}%", dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+							table.AddCell(dataCell);
+						}
+						else
+						{
+							dataCell = new PdfPCell(new Phrase($"$0.00", dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+							table.AddCell(dataCell);
+							dataCell = new PdfPCell(new Phrase($"0.00%", dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+							table.AddCell(dataCell);
+						}
+
+						totalVenta += double.Parse(row[1].ToString());
+						totalCosto += double.Parse(row[2].ToString());
 					}
 
 					// Añadir fila de totales
@@ -428,8 +507,12 @@ namespace Reportes
 					table.AddCell(totalCell);
 					totalCell = new PdfPCell(new Phrase("", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
+					totalCell = new PdfPCell(new Phrase($"${Math.Round(mermaTotal,2):N2}", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
+					table.AddCell(totalCell);
+					totalCell = new PdfPCell(new Phrase("", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
+					table.AddCell(totalCell);
 
-					Paragraph date = new Paragraph($"Fecha: {DateTime.Now}");
+					Paragraph date = new Paragraph($"Fecha: {DateTime.Now}                                                                                    *MERMA/VENTA");
 					date.Alignment = Element.ALIGN_LEFT;
 
 					doc.Add(table);
