@@ -19,6 +19,10 @@ namespace Reportes
 			conn = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
 			pictureBox1.Image = System.Drawing.Image.FromFile("Imagenes/load.gif");
 			pictureBox1.Visible = false;
+
+
+			FechaA.MaxDate = DateTime.Now;
+			FechaB.MaxDate = DateTime.Now;
 		}
 
 		private string GetSelectedTextFromCombo()
@@ -40,8 +44,8 @@ namespace Reportes
 		{
 			DataTable tickets = new DataTable();
 			string cod = cmbVendedor.SelectedValue.ToString();
-			string fechaA = dateTimePicker3.Value.ToString("yyyy-MM-dd");
-			string fechaB = dateTimePicker4.Value.ToString("yyyy-MM-dd");
+			string fechaA = FechaA.Value.ToString("yyyy-MM-dd");
+			string fechaB = FechaB.Value.ToString("yyyy-MM-dd");
 
 			await Task.Run(() => tickets = conn.GetQuery($@"select DISTINCT ven.fec_doc, ven.ref_doc, cli.NOM_CLI, hora_reg, concat('$',round(tot_doc,2)), ven.COD_USU, ren.cod_ven
 												from tblgralventas ven
@@ -79,7 +83,7 @@ namespace Reportes
 					doc.Add(new Paragraph("                         C.P. 84063 H. NOGALES, SONORA", titleFont) { Alignment = Element.ALIGN_LEFT });
 
 					doc.Add(new Paragraph("\n"));
-					doc.Add(new Paragraph($"REPORTE DE TICKETS POR CHOFER\nCHOFER: {GetSelectedTextFromCombo()}\nPERIODO: {dateTimePicker3.Value.ToString("dd/MM/yyyy")} a {dateTimePicker4.Value.ToString("dd/MM/yyyy")}"));
+					doc.Add(new Paragraph($"REPORTE DE TICKETS POR CHOFER\nCHOFER: {GetSelectedTextFromCombo()}\nPERIODO: {FechaA.Value.ToString("dd/MM/yyyy")} a {FechaB.Value.ToString("dd/MM/yyyy")}"));
 					doc.Add(new Paragraph("\n"));
 
 					PdfPTable table = new PdfPTable(6);
@@ -203,8 +207,8 @@ namespace Reportes
 		private async void BtnAllTickets_Click(object sender, EventArgs e)
 		{
 			DataTable vendedores = new DataTable();
-			string fechaA = dateTimePicker3.Value.ToString("yyyy-MM-dd");
-			string fechaB = dateTimePicker4.Value.ToString("yyyy-MM-dd");
+			string fechaA = FechaA.Value.ToString("yyyy-MM-dd");
+			string fechaB = FechaB.Value.ToString("yyyy-MM-dd");
 			string query = $@"  select ren.COD_VEN, v.NOM_VEN as Chofer
 								from tblrenventas ren
 								inner join tblvendedores v on v.COD_VEN=ren.cod_ven
@@ -215,8 +219,8 @@ namespace Reportes
 			BtnAllTickets.Enabled = false;
 			BtnPrintReport.Enabled = false;
 			cmbVendedor.Enabled = false;
-			dateTimePicker3.Enabled = false;
-			dateTimePicker4.Enabled = false;
+			FechaA.Enabled = false;
+			FechaB.Enabled = false;
 
 			pictureBox1.Visible = true;
 
@@ -248,7 +252,7 @@ namespace Reportes
 							doc.Add(new Paragraph($"Chofer: {vendedor[1]}") { Alignment = Element.ALIGN_CENTER });
 							doc.Add(new Paragraph("\n") { Alignment = Element.ALIGN_CENTER });
 
-							query = $@"select DISTINCT ven.fec_doc, ven.ref_doc, cli.NOM_CLI, hora_reg, concat('$',round(tot_doc,2)), ven.COD_USU, ren.cod_ven
+							query = $@"select DISTINCT ven.fec_doc, ven.ref_doc, cli.NOM_CLI, hora_reg, round(tot_doc,2), ven.COD_USU, ren.cod_ven
 												from tblgralventas ven
 												inner join tblcatclientes cli on cli.COD_Cli=ven.COD_CLI
 												inner join tblrenventas ren on ren.REF_DOC=ven.REF_DOC
@@ -305,7 +309,7 @@ namespace Reportes
 									table.AddCell(dataCell);
 									dataCell = new PdfPCell(new Phrase($"{r[3]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f };
 									table.AddCell(dataCell);
-									dataCell = new PdfPCell(new Phrase($"{r[4]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f };
+									dataCell = new PdfPCell(new Phrase($"${Convert.ToDouble(r[4]).ToString("N2")}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f };
 									table.AddCell(dataCell);
 									dataCell = new PdfPCell(new Phrase($"${0}.00", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f };
 									table.AddCell(dataCell);
@@ -322,9 +326,9 @@ namespace Reportes
 									table.AddCell(dataCell);
 									dataCell = new PdfPCell(new Phrase($"{r[3]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
 									table.AddCell(dataCell);
-									dataCell = new PdfPCell(new Phrase($"{r[4]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
+									dataCell = new PdfPCell(new Phrase($"${Convert.ToDouble(r[4]).ToString("N2")}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
 									table.AddCell(dataCell);
-									dataCell = new PdfPCell(new Phrase($"${ro.Split(',')[1]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
+									dataCell = new PdfPCell(new Phrase($"${Convert.ToDouble(ro.Split(',')[1]).ToString("N2")}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
 									table.AddCell(dataCell);
 								}
 							}
@@ -339,9 +343,9 @@ namespace Reportes
 							}
 
 
-							doc.Add(new Paragraph($"Subtotal: ${subtotal}", titleFont) { Alignment = Element.ALIGN_RIGHT });
-							doc.Add(new Paragraph($"Devoluciones: ${devTotal}", titleFont) { Alignment = Element.ALIGN_RIGHT });
-							doc.Add(new Paragraph($"Total: ${subtotal - devTotal}", titleFont) { Alignment = Element.ALIGN_RIGHT });
+							doc.Add(new Paragraph($"Subtotal: ${subtotal.ToString("N2")}", titleFont) { Alignment = Element.ALIGN_RIGHT });
+							doc.Add(new Paragraph($"Devoluciones: ${devTotal.ToString("N2")}", titleFont) { Alignment = Element.ALIGN_RIGHT });
+							doc.Add(new Paragraph($"Total: ${(subtotal - devTotal).ToString("N2")}", titleFont) { Alignment = Element.ALIGN_RIGHT });
 
 							sub += subtotal;
 							dev += devTotal;
@@ -355,13 +359,13 @@ namespace Reportes
 
 						// Agregar las celdas con el texto y las variables
 						table1.AddCell(new PdfPCell(new Phrase("SUBTOTAL DEL DIA:", titleFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border=PdfPCell.NO_BORDER });
-						table1.AddCell(new PdfPCell(new Phrase($"${sub}", titleFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.NO_BORDER });
+						table1.AddCell(new PdfPCell(new Phrase($"${sub:N2}", titleFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.NO_BORDER });
 
 						table1.AddCell(new PdfPCell(new Phrase("DEVOLUCIONES DEL DIA:", titleFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.NO_BORDER });
-						table1.AddCell(new PdfPCell(new Phrase($"${dev}", titleFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.NO_BORDER });
+						table1.AddCell(new PdfPCell(new Phrase($"${dev:N2}", titleFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.NO_BORDER });
 
 						table1.AddCell(new PdfPCell(new Phrase("VENTA TOTAL NETA DEL DIA:", titleFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.NO_BORDER });
-						table1.AddCell(new PdfPCell(new Phrase($"${totalDelDia}", titleFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.NO_BORDER });
+						table1.AddCell(new PdfPCell(new Phrase($"${totalDelDia:N2}", titleFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.NO_BORDER });
 
 						// Agregar la tabla al documento
 						doc.Add(table1);
@@ -381,8 +385,8 @@ namespace Reportes
 			BtnAllTickets.Enabled = true;
 			BtnPrintReport.Enabled = true;
 			cmbVendedor.Enabled = true;
-			dateTimePicker3.Enabled = true;
-			dateTimePicker4.Enabled = true;
+			FechaA.Enabled = true;
+			FechaB.Enabled = true;
 
 			pictureBox1.Visible = false;
 		}

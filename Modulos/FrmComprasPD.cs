@@ -16,12 +16,8 @@ namespace Reportes
 		{
 			InitializeComponent();
 
-			string anio = DateTime.Now.Year.ToString();
-			string mes = DateTime.Now.Month.ToString();
-			string dya = (DateTime.Now.Day - 1).ToString();
-
-			FechaA.MaxDate = new DateTime(int.Parse(anio), int.Parse(mes), int.Parse(dya));
-			FechaB.MaxDate = new DateTime(int.Parse(anio), int.Parse(mes), int.Parse(dya));
+			FechaA.MaxDate = DateTime.Now.AddDays(-1);
+			FechaB.MaxDate = DateTime.Now.AddDays(-1);
 
 			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
 		}

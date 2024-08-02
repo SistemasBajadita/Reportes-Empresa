@@ -191,6 +191,7 @@
 			this.FechaB.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.FechaB.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 			this.FechaB.Location = new System.Drawing.Point(533, 94);
+			this.FechaB.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
 			this.FechaB.Name = "FechaB";
 			this.FechaB.Size = new System.Drawing.Size(141, 29);
 			this.FechaB.TabIndex = 32;
@@ -212,6 +213,7 @@
 			this.FechaA.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.FechaA.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 			this.FechaA.Location = new System.Drawing.Point(360, 94);
+			this.FechaA.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
 			this.FechaA.Name = "FechaA";
 			this.FechaA.Size = new System.Drawing.Size(141, 29);
 			this.FechaA.TabIndex = 30;
@@ -360,6 +362,7 @@
 			this.FechaB2.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.FechaB2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 			this.FechaB2.Location = new System.Drawing.Point(535, 97);
+			this.FechaB2.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
 			this.FechaB2.Name = "FechaB2";
 			this.FechaB2.Size = new System.Drawing.Size(141, 29);
 			this.FechaB2.TabIndex = 43;
@@ -381,6 +384,7 @@
 			this.FechaA2.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.FechaA2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 			this.FechaA2.Location = new System.Drawing.Point(362, 97);
+			this.FechaA2.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
 			this.FechaA2.Name = "FechaA2";
 			this.FechaA2.Size = new System.Drawing.Size(141, 29);
 			this.FechaA2.TabIndex = 41;

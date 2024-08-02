@@ -29,6 +29,13 @@ namespace Reportes
 			cbConceptos2.DataSource = conceptos;
 			cbConceptos2.DisplayMember = "nom";
 			cbConceptos2.ValueMember = "fol";
+
+			FechaA.MaxDate = DateTime.Now.AddDays(-1);
+			FechaB.MaxDate = DateTime.Now.AddDays(-1);
+
+			FechaA2.MaxDate = DateTime.Now.AddDays(-1);
+			FechaB2.MaxDate = DateTime.Now.AddDays(-1);
+
 		}
 
 		private void SetearQuery(DataTable quer)

@@ -29,9 +29,9 @@
 		private void InitializeComponent()
 		{
 			this.BtnPrintReport = new System.Windows.Forms.Button();
-			this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
+			this.FechaB = new System.Windows.Forms.DateTimePicker();
 			this.label4 = new System.Windows.Forms.Label();
-			this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
+			this.FechaA = new System.Windows.Forms.DateTimePicker();
 			this.label3 = new System.Windows.Forms.Label();
 			this.cmbVendedor = new System.Windows.Forms.ComboBox();
 			this.label2 = new System.Windows.Forms.Label();
@@ -51,14 +51,15 @@
 			this.BtnPrintReport.UseVisualStyleBackColor = true;
 			this.BtnPrintReport.Click += new System.EventHandler(this.BtnPrintReport_Click);
 			// 
-			// dateTimePicker4
+			// FechaB
 			// 
-			this.dateTimePicker4.Font = new System.Drawing.Font("Century", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.dateTimePicker4.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.dateTimePicker4.Location = new System.Drawing.Point(625, 135);
-			this.dateTimePicker4.Name = "dateTimePicker4";
-			this.dateTimePicker4.Size = new System.Drawing.Size(123, 28);
-			this.dateTimePicker4.TabIndex = 12;
+			this.FechaB.Font = new System.Drawing.Font("Century", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.FechaB.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+			this.FechaB.Location = new System.Drawing.Point(625, 135);
+			this.FechaB.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
+			this.FechaB.Name = "FechaB";
+			this.FechaB.Size = new System.Drawing.Size(123, 28);
+			this.FechaB.TabIndex = 12;
 			// 
 			// label4
 			// 
@@ -70,14 +71,15 @@
 			this.label4.TabIndex = 11;
 			this.label4.Text = "a";
 			// 
-			// dateTimePicker3
+			// FechaA
 			// 
-			this.dateTimePicker3.Font = new System.Drawing.Font("Century", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.dateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.dateTimePicker3.Location = new System.Drawing.Point(469, 135);
-			this.dateTimePicker3.Name = "dateTimePicker3";
-			this.dateTimePicker3.Size = new System.Drawing.Size(123, 28);
-			this.dateTimePicker3.TabIndex = 10;
+			this.FechaA.Font = new System.Drawing.Font("Century", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.FechaA.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+			this.FechaA.Location = new System.Drawing.Point(469, 135);
+			this.FechaA.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
+			this.FechaA.Name = "FechaA";
+			this.FechaA.Size = new System.Drawing.Size(123, 28);
+			this.FechaA.TabIndex = 10;
 			// 
 			// label3
 			// 
@@ -137,9 +139,9 @@
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.BtnAllTickets);
 			this.Controls.Add(this.BtnPrintReport);
-			this.Controls.Add(this.dateTimePicker4);
+			this.Controls.Add(this.FechaB);
 			this.Controls.Add(this.label4);
-			this.Controls.Add(this.dateTimePicker3);
+			this.Controls.Add(this.FechaA);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.cmbVendedor);
 			this.Controls.Add(this.label2);
@@ -155,9 +157,9 @@
 		#endregion
 
 		private System.Windows.Forms.Button BtnPrintReport;
-		private System.Windows.Forms.DateTimePicker dateTimePicker4;
+		private System.Windows.Forms.DateTimePicker FechaB;
 		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.DateTimePicker dateTimePicker3;
+		private System.Windows.Forms.DateTimePicker FechaA;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.ComboBox cmbVendedor;
 		private System.Windows.Forms.Label label2;
