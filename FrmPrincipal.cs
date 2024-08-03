@@ -74,7 +74,7 @@ namespace Reportes
 
 		private void BtnNegativos_Click(object sender, EventArgs e)
 		{
-			ClsConnection _con = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			ClsConnection _con = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
 			DataTable negativos = _con.GetQuery("select cod1_art, des1_art, exi_act from tblcatarticulos where EXI_ACT <0");
 
 			_con.PrintReportInPDFNegativos("Negativos en inventario");
