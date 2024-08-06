@@ -119,7 +119,7 @@ namespace Reportes
 						query = $@" select fol_dev, round( tot_dev,2)
 									from tblencdevolucion dev
 									inner join tblgralventas ven on dev.REF_DOC=ven.REF_DOC
-									where dev.REF_DOC='{r[1]}'";
+									where dev.REF_DOC='{r[1]}' and cod_sts=5; ";
 
 						string ro = conn.GetRowQuery(query);
 
@@ -339,9 +339,8 @@ namespace Reportes
 
 							foreach (DataRow r in tickets.Rows)
 							{
-								subtotal += double.Parse(r[4].ToString().Substring(1));
+								subtotal += double.Parse(r[4].ToString());
 							}
-
 
 							doc.Add(new Paragraph($"Subtotal: ${subtotal.ToString("N2")}", titleFont) { Alignment = Element.ALIGN_RIGHT });
 							doc.Add(new Paragraph($"Devoluciones: ${devTotal.ToString("N2")}", titleFont) { Alignment = Element.ALIGN_RIGHT });

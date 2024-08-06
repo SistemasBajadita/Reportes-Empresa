@@ -75,7 +75,7 @@ namespace Reportes
 
 		public DataTable GetQuery(string query)
 		{
-			MySqlConnection con = new MySqlConnection(this.con); ;
+			MySqlConnection con = new MySqlConnection(this.con);
 			DataTable reporte = new DataTable();
 			try
 			{
