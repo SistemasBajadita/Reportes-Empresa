@@ -141,6 +141,7 @@
 			// 
 			// BtnCocinaPrecios
 			// 
+			this.BtnCocinaPrecios.Enabled = false;
 			this.BtnCocinaPrecios.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
 			this.BtnCocinaPrecios.Location = new System.Drawing.Point(19, 530);
 			this.BtnCocinaPrecios.Name = "BtnCocinaPrecios";

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Reportes.Modulos;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -62,7 +62,7 @@ namespace Reportes
 					}
 
 					lblTotal.Visible = true;
-					lblTotal.Text = $"Total: ${total}";
+					lblTotal.Text = $"Total: ${Convert.ToDouble(total):N2}";
 				}));
 			}
 			catch (Exception) { }
@@ -134,18 +134,8 @@ namespace Reportes
 
 		private void BtnExcel_Click(object sender, EventArgs e)
 		{
-			if (metodos == null)
-			{
-				MessageBox.Show("Primero presiona el boton de Ver Reporte antes de guardarlo.", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
-
-			guardarArchivo.Filter = "Archivos de Excel|*.xlsx|Todos los archivos|*.*";
-			if (guardarArchivo.ShowDialog() == DialogResult.OK)
-			{
-				metodos.PrintReportInExcel(guardarArchivo.FileName);
-				Process.Start(guardarArchivo.FileName);
-			}
+			FrmYearSelection frmYearSelection = new FrmYearSelection();
+			frmYearSelection.ShowDialog();
 		}
 
 		private void BtnPDF_Click(object sender, EventArgs e)

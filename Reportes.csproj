@@ -27,7 +27,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>33</ApplicationRevision>
+    <ApplicationRevision>34</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -216,6 +216,12 @@
     <Compile Include="Modulos\FrmVentaDetallada.Designer.cs">
       <DependentUpon>FrmVentaDetallada.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modulos\FrmYearSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modulos\FrmYearSelection.Designer.cs">
+      <DependentUpon>FrmYearSelection.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modulos\ProgressProductsCocina.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -247,6 +253,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modulos\FrmVentaDetallada.resx">
       <DependentUpon>FrmVentaDetallada.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modulos\FrmYearSelection.resx">
+      <DependentUpon>FrmYearSelection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modulos\ProgressProductsCocina.resx">
       <DependentUpon>ProgressProductsCocina.cs</DependentUpon>

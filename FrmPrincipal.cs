@@ -1,10 +1,8 @@
 ﻿using Aspose.Cells;
-using MySql.Data.MySqlClient;
 using Reportes.Modulos;
 using System;
 using System.Configuration;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
@@ -19,7 +17,7 @@ namespace Reportes
 			InitializeComponent();
 			string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Imagenes", "LOGO_EMPRESA-removebg-preview.ico");
 
-			this.Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
+			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
 		}
 
 		private void BtnVentaCosto_Click(object sender, EventArgs e)
@@ -79,9 +77,10 @@ namespace Reportes
 		private void BtnNegativos_Click(object sender, EventArgs e)
 		{
 			ClsConnection _con = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
-			DataTable negativos = _con.GetQuery("select cod1_art, des1_art, exi_act from tblcatarticulos where EXI_ACT <0");
-
+			_ = _con.GetQuery("select cod1_art, des1_art, exi_act from tblcatarticulos where EXI_ACT <0");
 			_con.PrintReportInPDFNegativos("Negativos en inventario");
+
+		
 		}
 
 		private void CompararPrecios(string precio1, string precio2)
@@ -97,24 +96,20 @@ namespace Reportes
 
 			if (open.ShowDialog() == DialogResult.OK)
 			{
-				// Crear y mostrar el formulario de progreso
 				ProgressProductsCocina progressForm = new ProgressProductsCocina();
 				sendText = progressForm.SetMessage;
 				progressForm.Show();
 
-				// Crear la instancia de IProgress<int>
 				var progress = new Progress<int>(value =>
 				{
-					progressForm.UpdateProgress(value); // Usar delegado para actualizar el ProgressBar
+					progressForm.UpdateProgress(value);
 				});
 
-				// Ejecutar la tarea larga de forma asíncrona, reportando el progreso
 				await Task.Run(() => ProcessExcel(open.FileName, bd, progress));
 
-				// Cerrar el formulario de progreso
 				progressForm.Close();
 
-				MessageBox.Show("Proceso completado y archivo Excel actualizado.");
+				MessageBox.Show("Proceso completado y archivo Excel actualizado.", "La Bajadita -  Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
 
@@ -122,13 +117,11 @@ namespace Reportes
 
 		private void ProcessExcel(string filePath, ClsConnection bd, IProgress<int> progress)
 		{
-			// Cargar el archivo de Excel
 			Workbook workbook = new Workbook(filePath);
 
-			// Seleccionar la hoja (index 0 es la primera hoja)
 			Worksheet hoja = workbook.Worksheets[0];
 
-			int totalRows = hoja.Cells.MaxDataRow + 1; // Obtener el número total de filas a procesar
+			int totalRows = hoja.Cells.MaxDataRow + 1;
 			int r = 1;
 			Cell codigo = hoja.Cells[r, 0];
 
@@ -217,12 +210,9 @@ namespace Reportes
 				r++;
 				codigo = hoja.Cells[r, 0];
 
-				// Reportar el progreso
 				int progressPercentage = (int)((r / (float)totalRows) * 100);
 				progress.Report(progressPercentage);
 			}
-
-			// Guardar los cambios en el archivo Excel
 			workbook.Save(filePath);
 		}
 

@@ -55,7 +55,7 @@
 			this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.label1.Location = new System.Drawing.Point(116, 38);
+			this.label1.Location = new System.Drawing.Point(116, 48);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(611, 26);
 			this.label1.TabIndex = 1;
@@ -64,12 +64,12 @@
 			// BtnExcel
 			// 
 			this.BtnExcel.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.BtnExcel.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnExcel.Location = new System.Drawing.Point(704, 465);
+			this.BtnExcel.Font = new System.Drawing.Font("Lucida Fax", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.BtnExcel.Location = new System.Drawing.Point(656, 475);
 			this.BtnExcel.Name = "BtnExcel";
-			this.BtnExcel.Size = new System.Drawing.Size(197, 30);
+			this.BtnExcel.Size = new System.Drawing.Size(245, 40);
 			this.BtnExcel.TabIndex = 16;
-			this.BtnExcel.Text = "Mandar a Excel";
+			this.BtnExcel.Text = "Ver comparativa por mes";
 			this.BtnExcel.UseVisualStyleBackColor = true;
 			this.BtnExcel.Click += new System.EventHandler(this.BtnExcel_Click);
 			// 
@@ -79,7 +79,7 @@
 			this.label4.AutoSize = true;
 			this.label4.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
-			this.label4.Location = new System.Drawing.Point(516, 154);
+			this.label4.Location = new System.Drawing.Point(516, 164);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(350, 21);
 			this.label4.TabIndex = 15;
@@ -116,7 +116,7 @@
 			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.reporte.DefaultCellStyle = dataGridViewCellStyle3;
 			this.reporte.EnableHeadersVisualStyles = false;
-			this.reporte.Location = new System.Drawing.Point(53, 188);
+			this.reporte.Location = new System.Drawing.Point(53, 198);
 			this.reporte.MultiSelect = false;
 			this.reporte.Name = "reporte";
 			this.reporte.ReadOnly = true;
@@ -145,7 +145,7 @@
 			this.BtnCorrerQuery.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(78)))), ((int)(((byte)(80)))));
 			this.BtnCorrerQuery.FlatAppearance.BorderSize = 5;
 			this.BtnCorrerQuery.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnCorrerQuery.Location = new System.Drawing.Point(366, 137);
+			this.BtnCorrerQuery.Location = new System.Drawing.Point(366, 147);
 			this.BtnCorrerQuery.Name = "BtnCorrerQuery";
 			this.BtnCorrerQuery.Size = new System.Drawing.Size(144, 42);
 			this.BtnCorrerQuery.TabIndex = 13;
@@ -158,7 +158,7 @@
 			this.FechaB.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.FechaB.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.FechaB.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.FechaB.Location = new System.Drawing.Point(576, 84);
+			this.FechaB.Location = new System.Drawing.Point(576, 94);
 			this.FechaB.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
 			this.FechaB.Name = "FechaB";
 			this.FechaB.Size = new System.Drawing.Size(141, 29);
@@ -169,7 +169,7 @@
 			this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label3.AutoSize = true;
 			this.label3.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label3.Location = new System.Drawing.Point(550, 87);
+			this.label3.Location = new System.Drawing.Point(550, 97);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(20, 21);
 			this.label3.TabIndex = 11;
@@ -180,7 +180,7 @@
 			this.FechaA.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.FechaA.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.FechaA.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.FechaA.Location = new System.Drawing.Point(403, 84);
+			this.FechaA.Location = new System.Drawing.Point(403, 94);
 			this.FechaA.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
 			this.FechaA.Name = "FechaA";
 			this.FechaA.Size = new System.Drawing.Size(141, 29);
@@ -191,7 +191,7 @@
 			this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label2.AutoSize = true;
 			this.label2.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(135, 87);
+			this.label2.Location = new System.Drawing.Point(135, 97);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(241, 21);
 			this.label2.TabIndex = 9;
@@ -201,9 +201,9 @@
 			// 
 			this.BtnPDF.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.BtnPDF.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnPDF.Location = new System.Drawing.Point(504, 465);
+			this.BtnPDF.Location = new System.Drawing.Point(453, 475);
 			this.BtnPDF.Name = "BtnPDF";
-			this.BtnPDF.Size = new System.Drawing.Size(197, 30);
+			this.BtnPDF.Size = new System.Drawing.Size(197, 40);
 			this.BtnPDF.TabIndex = 17;
 			this.BtnPDF.Text = "Mandar a PDF";
 			this.BtnPDF.UseVisualStyleBackColor = true;
@@ -215,7 +215,7 @@
 			this.label5.AutoSize = true;
 			this.label5.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
-			this.label5.Location = new System.Drawing.Point(49, 470);
+			this.label5.Location = new System.Drawing.Point(49, 480);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(207, 21);
 			this.label5.TabIndex = 18;
@@ -228,7 +228,7 @@
 			this.lblTotal.AutoSize = true;
 			this.lblTotal.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.lblTotal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
-			this.lblTotal.Location = new System.Drawing.Point(49, 154);
+			this.lblTotal.Location = new System.Drawing.Point(49, 164);
 			this.lblTotal.Name = "lblTotal";
 			this.lblTotal.Size = new System.Drawing.Size(56, 21);
 			this.lblTotal.TabIndex = 20;
@@ -240,7 +240,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
-			this.ClientSize = new System.Drawing.Size(910, 507);
+			this.ClientSize = new System.Drawing.Size(910, 527);
 			this.Controls.Add(this.lblTotal);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.BtnPDF);

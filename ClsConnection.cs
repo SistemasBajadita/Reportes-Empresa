@@ -20,6 +20,49 @@ namespace Reportes
 		readonly string con;
 		private DataTable ReporteActivo;
 
+
+		public string[] HandleProcedureVentasMensuales(int departamento, int anio, int mes)
+		{
+			
+			MySqlConnection _con = new MySqlConnection(con);
+			string[] resultadoFinal = null;
+			MySqlDataReader result = null;
+
+			try
+			{
+				_con.Open();
+
+				MySqlCommand cmd = new MySqlCommand("VentaMensualDepartamento", _con);
+				cmd.CommandType = CommandType.StoredProcedure;
+
+				cmd.Parameters.AddWithValue("@anio", anio);
+				cmd.Parameters.AddWithValue("@mes", mes);
+				cmd.Parameters.AddWithValue("@departamento", departamento);
+
+				result = cmd.ExecuteReader();
+
+				if (result.Read())
+				{
+					resultadoFinal = new string[] { result.GetString(1), result.GetString(2) };
+				}
+				
+				
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+			finally
+			{
+				result.Close();
+				_con.Close();
+			}
+
+			return resultadoFinal;
+		}
+
+		
+
 		public string GetRowQuery(string query)
 		{
 			MySqlConnection _con = new MySqlConnection(con);
@@ -54,7 +97,8 @@ namespace Reportes
 			{
 				_con.Open();
 				MySqlCommand cmd = _con.CreateCommand();
-				cmd.CommandText = "SELECT @@SQL_MODE;\r\nSET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
+				cmd.CommandText = "SELECT @@SQL_MODE;" +
+								  "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
 				cmd.ExecuteNonQuery();
 				MessageBox.Show("Habilitacion completada, verifica el reporte nuevamente", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
@@ -185,8 +229,10 @@ namespace Reportes
 
 					// Título del documento
 					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 24);
-					Paragraph title = new Paragraph("Reporte de Compras", titleFont);
-					title.Alignment = Element.ALIGN_CENTER;
+					Paragraph title = new Paragraph("Reporte de Compras", titleFont)
+					{
+						Alignment = Element.ALIGN_CENTER
+					};
 					doc.Add(title);
 
 					// Subtítulo con el periodo
@@ -468,7 +514,7 @@ namespace Reportes
 						table.AddCell(dataCell);
 
 						double mermaActual = 0;
-						
+
 
 						for (int i = 0; i < merma.Rows.Count; i++)
 						{
@@ -483,7 +529,7 @@ namespace Reportes
 						{
 							dataCell = new PdfPCell(new Phrase($"${mermaActual.ToString("N2")}", dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 							table.AddCell(dataCell);
-							dataCell = new PdfPCell(new Phrase($"{Math.Round((mermaActual / double.Parse(row[1].ToString())) * 100,2)}%", dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+							dataCell = new PdfPCell(new Phrase($"{Math.Round((mermaActual / double.Parse(row[1].ToString())) * 100, 2)}%", dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 							table.AddCell(dataCell);
 						}
 						else
@@ -508,7 +554,7 @@ namespace Reportes
 					table.AddCell(totalCell);
 					totalCell = new PdfPCell(new Phrase("", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
-					totalCell = new PdfPCell(new Phrase($"${Math.Round(mermaTotal,2):N2}", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
+					totalCell = new PdfPCell(new Phrase($"${Math.Round(mermaTotal, 2):N2}", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
 					totalCell = new PdfPCell(new Phrase("", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
