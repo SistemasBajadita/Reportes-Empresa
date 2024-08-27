@@ -7,6 +7,10 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ModuloDespProv;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.Diagnostics;
 
 namespace Reportes
 {
@@ -80,7 +84,7 @@ namespace Reportes
 			_ = _con.GetQuery("select cod1_art, des1_art, exi_act from tblcatarticulos where EXI_ACT <0");
 			_con.PrintReportInPDFNegativos("Negativos en inventario");
 
-		
+
 		}
 
 		private void CompararPrecios(string precio1, string precio2)
@@ -216,5 +220,152 @@ namespace Reportes
 			workbook.Save(filePath);
 		}
 
+		FrmDespProv frm;
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			frm = new FrmDespProv(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			frm.MandarDataTable += RecibirDataTable;
+			frm.ShowDialog();
+		}
+
+		private async void RecibirDataTable(string prov, DataTable datos, DateTime FechaA, DateTime FechaB)
+		{
+			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			frm.ActiveReport(true);
+			await Task.Run(() =>
+			{
+
+				string name = con.GetScalar($"select nom_prov from tblcatproveedor where cod_prov='{prov}'");
+				try
+				{
+					Document doc = new Document(PageSize.A4, 10, 10, 100, 50);
+					string pdfPath = "desp.pdf";
+
+					using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
+					{
+						PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+						ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", name != "" ? $"Proveedor: {name}\nPeriodo: {FechaA:dd/MM/yy} a {FechaB:dd/MM/yy} " : $"Todos los proveedores\nPeriodo: {FechaA:dd/MM/yy} a {FechaB:dd/MM/yy}", "Desplazamiento de proveedor");
+						writer.PageEvent = pageEventHelper;
+
+						doc.Open();
+
+						PdfPTable table = new PdfPTable(4) { WidthPercentage = 100 };
+						float[] columnWidths = new float[] { 2f, 2f, 1f, 1f }; // Ajusta estos valores según sea necesario
+						table.SetWidths(columnWidths);
+
+						iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+						PdfPCell headerCell;
+
+						// Añadir encabezados
+
+						iTextSharp.text.Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+						PdfPCell dataCell;
+
+						if (prov != "")
+						{
+							headerCell = new PdfPCell(new Phrase("Código", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+							table.AddCell(headerCell);
+							headerCell = new PdfPCell(new Phrase("Descripción", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+							table.AddCell(headerCell);
+							headerCell = new PdfPCell(new Phrase("Desplazamiento", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+							table.AddCell(headerCell);
+							headerCell = new PdfPCell(new Phrase("Unidad", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+							table.AddCell(headerCell);
+
+							foreach (DataRow row in datos.Rows)
+							{
+								string codigo = row[0].ToString();
+								string descripcion = row[1].ToString();
+								string costo = double.Parse(row[2].ToString()).ToString("N2");
+								string existencia = row[3].ToString();
+
+								dataCell = new PdfPCell(new Phrase(codigo, dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+								table.AddCell(dataCell);
+								dataCell = new PdfPCell(new Phrase(descripcion, dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+								table.AddCell(dataCell);
+								dataCell = new PdfPCell(new Phrase(costo, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+								table.AddCell(dataCell);
+								dataCell = new PdfPCell(new Phrase(existencia, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+								table.AddCell(dataCell);
+							}
+
+							doc.Add(table);
+
+							doc.Close();
+							writer.Close();
+						}
+						else
+						{
+							DataTable provT = con.GetQuery("select cod_prov, nom_prov from tblcatproveedor;");
+							foreach (DataRow p in provT.Rows)
+							{
+								DataTable productos = con.GetQuery($@"SELECT 
+													ren.cOD1_ART AS Codigo, 
+													art.DES1_ART AS Descripcion, 
+													ROUND(SUM(ren.CAN_ART), 2) AS Desplazamiento, 
+													und.DES_UND AS Unidad
+												FROM tblrenventas ren
+												INNER JOIN tblgralventas enc ON enc.REF_DOC = ren.REF_DOC
+												INNER JOIN tblcatarticulos art ON art.cod1_art = ren.cod1_Art 
+												INNER JOIN tblcatunidades und ON und.COD_UND = ren.COD_UND
+												INNER JOIN tblartiproveedor prov ON prov.cod1_Art = ren.cod1_Art
+												WHERE enc.FEC_DOC BETWEEN '{FechaA:yyyy-MM-dd}' AND '{FechaB:yyyy-MM-dd}' 
+												AND prov.COD_PROV = '{p[0]}'
+												GROUP BY ren.cOD1_ART, art.DES1_ART, und.DES_UND;");
+
+								if (productos.Rows.Count > 0)
+								{
+									doc.Add(new Paragraph($"Proveedor: {p[1]}", headerFont) { Alignment = Element.ALIGN_CENTER });
+
+									table = new PdfPTable(4) { WidthPercentage = 100 };
+									columnWidths = new float[] { 2f, 2f, 1f, 1f };
+									table.SetWidths(columnWidths);
+
+									headerCell = new PdfPCell(new Phrase("Código", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+									table.AddCell(headerCell);
+									headerCell = new PdfPCell(new Phrase("Descripción", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+									table.AddCell(headerCell);
+									headerCell = new PdfPCell(new Phrase("Desplazamiento", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+									table.AddCell(headerCell);
+									headerCell = new PdfPCell(new Phrase("Unidad", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+									table.AddCell(headerCell);
+
+									foreach (DataRow row in productos.Rows)
+									{
+										string codigo = row[0].ToString();
+										string descripcion = row[1].ToString();
+										string costo = double.Parse(row[2].ToString()).ToString("N2");
+										string existencia = row[3].ToString();
+
+										dataCell = new PdfPCell(new Phrase(codigo, dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+										table.AddCell(dataCell);
+										dataCell = new PdfPCell(new Phrase(descripcion, dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+										table.AddCell(dataCell);
+										dataCell = new PdfPCell(new Phrase(costo, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+										table.AddCell(dataCell);
+										dataCell = new PdfPCell(new Phrase(existencia, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+										table.AddCell(dataCell);
+									}
+									doc.Add(table);
+									doc.Add(new Paragraph("\n") { Alignment = Element.ALIGN_CENTER });
+								}
+
+							}
+							doc.Close();
+							writer.Close();
+						}
+
+						Process.Start("desp.pdf");
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			});
+			frm.ActiveReport(false);
+		}
 	}
 }

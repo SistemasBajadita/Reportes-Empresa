@@ -56,7 +56,7 @@ namespace Reportes
 								mer = false;
 								break;
 							}
-							
+
 						}
 						if (mer) reporte.Rows.Add(row[0], row[1], row[2], row[3], "0.00", "0.00");
 					}
@@ -154,9 +154,9 @@ namespace Reportes
 			guardarArchivo.Filter = "Archivos PDF|*.pdf|Todos los archivos|*.*";
 			guardarArchivo.FileName = $"Ventas_{DateTime.Now:dd-MM-yy}.pdf";
 
-			
-				metodos.PrintReportInPDFVentas(parametroA, parametroB, guardarArchivo.FileName);
-				Process.Start(guardarArchivo.FileName);
+
+			metodos.PrintReportInPDFVentas(parametroA, parametroB, guardarArchivo.FileName);
+			Process.Start(guardarArchivo.FileName);
 		}
 	}
 }

@@ -61,7 +61,33 @@ namespace Reportes
 			return resultadoFinal;
 		}
 
-		
+		public string GetScalar(string query)
+		{
+			using (MySqlConnection _con = new MySqlConnection(con))
+			{
+				try
+				{
+					_con.Open();
+
+					MySqlCommand cmd = new MySqlCommand(query, _con);
+					object result = cmd.ExecuteScalar();
+
+					if (result != null)
+					{
+						return result.ToString();
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message);
+				}
+			}
+
+			return string.Empty;
+		}
+
+
+
 
 		public string GetRowQuery(string query)
 		{

@@ -90,7 +90,7 @@ namespace Reportes
 
 			// Ajustar la posición del encabezado
 			float yPos = document.PageSize.Height - _headerImage.ScaledHeight - 30; // Ajusta este valor según sea necesario
-			headerTable.WriteSelectedRows(0, -1, document.LeftMargin, 820, cb);
+			headerTable.WriteSelectedRows(0, -1, document.LeftMargin, 830, cb);
 		}
 	}
 }

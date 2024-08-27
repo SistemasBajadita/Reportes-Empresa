@@ -38,6 +38,7 @@
 			this.BtnTicketChofer = new System.Windows.Forms.Button();
 			this.BtnNegativos = new System.Windows.Forms.Button();
 			this.BtnCocinaPrecios = new System.Windows.Forms.Button();
+			this.button1 = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// BtnVentaCosto
@@ -151,12 +152,24 @@
 			this.BtnCocinaPrecios.UseVisualStyleBackColor = true;
 			this.BtnCocinaPrecios.Click += new System.EventHandler(this.BtnCocinaPrecios_Click);
 			// 
+			// button1
+			// 
+			this.button1.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
+			this.button1.Location = new System.Drawing.Point(19, 658);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(516, 58);
+			this.button1.TabIndex = 11;
+			this.button1.Text = "Desplazamiento por proveedor";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
 			// FrmPrincipal
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
-			this.ClientSize = new System.Drawing.Size(547, 663);
+			this.ClientSize = new System.Drawing.Size(547, 726);
+			this.Controls.Add(this.button1);
 			this.Controls.Add(this.BtnCocinaPrecios);
 			this.Controls.Add(this.BtnNegativos);
 			this.Controls.Add(this.BtnTicketChofer);
@@ -186,6 +199,7 @@
 		private System.Windows.Forms.Button BtnTicketChofer;
 		private System.Windows.Forms.Button BtnNegativos;
 		private System.Windows.Forms.Button BtnCocinaPrecios;
+		private System.Windows.Forms.Button button1;
 	}
 }
 
