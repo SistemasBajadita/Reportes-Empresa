@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -137,6 +138,23 @@ namespace Reportes
 
 			label2.Visible = false;
 			metodos = null;
+		}
+
+		private void FrmConteo_Paint(object sender, PaintEventArgs e)
+		{
+			// Crear un rectángulo que cubra todo el formulario
+			System.Drawing.Rectangle rect = this.ClientRectangle;
+
+			// Definir los colores del degradado (por ejemplo, de azul a blanco)
+			Color color1 = Color.FromArgb(251, 147, 60); //--original
+			Color color2 = ColorTranslator.FromHtml("#fdbc3c"); //--original
+
+			// Crear un pincel con un degradado lineal
+			using (LinearGradientBrush brush = new LinearGradientBrush(rect, color1, color2, LinearGradientMode.ForwardDiagonal))
+			{
+				// Dibujar el degradado en el fondo del formulario
+				e.Graphics.FillRectangle(brush, rect);
+			}
 		}
 	}
 }

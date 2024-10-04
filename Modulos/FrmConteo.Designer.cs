@@ -41,6 +41,7 @@
 			// 
 			this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label1.AutoSize = true;
+			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.Location = new System.Drawing.Point(53, 30);
 			this.label1.Name = "label1";
@@ -52,6 +53,7 @@
 			// 
 			this.rbDepartamento.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.rbDepartamento.AutoSize = true;
+			this.rbDepartamento.BackColor = System.Drawing.Color.Transparent;
 			this.rbDepartamento.Font = new System.Drawing.Font("Lucida Fax", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.rbDepartamento.Location = new System.Drawing.Point(239, 72);
 			this.rbDepartamento.Name = "rbDepartamento";
@@ -59,13 +61,14 @@
 			this.rbDepartamento.TabIndex = 21;
 			this.rbDepartamento.TabStop = true;
 			this.rbDepartamento.Text = "Departamento";
-			this.rbDepartamento.UseVisualStyleBackColor = true;
+			this.rbDepartamento.UseVisualStyleBackColor = false;
 			this.rbDepartamento.EnabledChanged += new System.EventHandler(this.ChangeRadios);
 			// 
 			// rbCategoria
 			// 
 			this.rbCategoria.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.rbCategoria.AutoSize = true;
+			this.rbCategoria.BackColor = System.Drawing.Color.Transparent;
 			this.rbCategoria.Font = new System.Drawing.Font("Lucida Fax", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.rbCategoria.Location = new System.Drawing.Point(397, 72);
 			this.rbCategoria.Name = "rbCategoria";
@@ -73,7 +76,7 @@
 			this.rbCategoria.TabIndex = 22;
 			this.rbCategoria.TabStop = true;
 			this.rbCategoria.Text = "Categoria";
-			this.rbCategoria.UseVisualStyleBackColor = true;
+			this.rbCategoria.UseVisualStyleBackColor = false;
 			this.rbCategoria.CheckedChanged += new System.EventHandler(this.ChangeRadios);
 			this.rbCategoria.EnabledChanged += new System.EventHandler(this.ChangeRadios);
 			// 
@@ -103,6 +106,7 @@
 			// 
 			this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.label2.AutoSize = true;
+			this.label2.BackColor = System.Drawing.Color.Transparent;
 			this.label2.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
 			this.label2.Location = new System.Drawing.Point(187, 108);
@@ -128,6 +132,7 @@
 			this.Text = "Hojas de conteo";
 			this.Load += new System.EventHandler(this.FrmConteo_Load);
 			this.EnabledChanged += new System.EventHandler(this.ChangeRadios);
+			this.Paint += new System.Windows.Forms.PaintEventHandler(this.FrmConteo_Paint);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -1,9 +1,7 @@
 ﻿using Aspose.Cells;
-using Aspose.Cells.Charts;
 using Aspose.Cells.Tables;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using iTextSharp.text.pdf.codec.wmf;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
@@ -19,11 +17,24 @@ namespace Reportes
 		public Action<DataSet> sendTables;
 		readonly string con;
 		private DataTable ReporteActivo;
+		private DataTable merma;
 
+		public void GetTxtExistencias(string path)
+		{
+			StreamWriter archivo = new StreamWriter(path);
+
+			for (int i = 0; i < ReporteActivo.Rows.Count; i++)
+			{
+				archivo.WriteLine($"{ReporteActivo.Rows[i][0]},{ReporteActivo.Rows[i][2].ToString().Substring(1)}");
+			}
+
+			archivo.Close();
+			Process.Start(path);
+		}
 
 		public string[] HandleProcedureVentasMensuales(int departamento, int anio, int mes)
 		{
-			
+
 			MySqlConnection _con = new MySqlConnection(con);
 			string[] resultadoFinal = null;
 			MySqlDataReader result = null;
@@ -45,8 +56,6 @@ namespace Reportes
 				{
 					resultadoFinal = new string[] { result.GetString(1), result.GetString(2) };
 				}
-				
-				
 			}
 			catch (Exception ex)
 			{
@@ -79,7 +88,8 @@ namespace Reportes
 				}
 				catch (Exception ex)
 				{
-					MessageBox.Show(ex.Message);
+					if (ex.Message.ToLower().Contains("unknown")) { MessageBox.Show(ex.Message); }
+					
 				}
 			}
 
@@ -97,11 +107,11 @@ namespace Reportes
 				_con.Open();
 
 				MySqlCommand cmd = new MySqlCommand(query, _con);
-				MySqlDataReader rd = cmd.ExecuteReader();
+				var rd = cmd.ExecuteScalar();
 
-				if (rd.Read())
+				if (rd!=null)
 				{
-					return $"{rd.GetString(0)}, {rd.GetDecimal(1)}";
+					return rd.ToString(); 
 				}
 			}
 			catch (Exception ex)
@@ -219,6 +229,7 @@ namespace Reportes
 					ad.Fill(tables);
 					sendTables?.Invoke(tables);
 					ReporteActivo = tables.Tables[0];
+					merma = tables.Tables[1];
 					return;
 				}
 
@@ -454,14 +465,6 @@ namespace Reportes
 		{
 			try
 			{
-				DataTable merma = GetQuery2($@" select caa.DES_AGR as Departamento, round(sum(cos_uni*can_ren),2) as Merma
-												from tblrenalmacen ren_alm
-												inner join tblgralalmacen enc_alm on ren_alm.REF_MOV=enc_alm.REF_MOV
-												inner join tblgpoarticulos ga on ren_alm.COD1_ART = ga.COD1_ART 
-												inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR
-												where (enc_alm.FEC_MOV between'{fechaA}' and '{fechaB}') and enc_alm.cod_con='SMER' and caa.COD_GPO=25
-												group by caa.des_agr;");
-
 				Document doc = new Document(PageSize.A4, 10, 10, 30, 50);
 				string pdfPath = path;
 
@@ -578,11 +581,11 @@ namespace Reportes
 					table.AddCell(totalCell);
 					totalCell = new PdfPCell(new Phrase("$" + totalCosto.ToString("N2"), headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
-					totalCell = new PdfPCell(new Phrase("", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
+					totalCell = new PdfPCell(new Phrase($"{(((totalVenta-totalCosto)/totalVenta)*100):N2}%", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
 					totalCell = new PdfPCell(new Phrase($"${Math.Round(mermaTotal, 2):N2}", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
-					totalCell = new PdfPCell(new Phrase("", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
+					totalCell = new PdfPCell(new Phrase($"{((mermaTotal/ totalVenta)*100):N2}%", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
 
 					Paragraph date = new Paragraph($"Fecha: {DateTime.Now}                                                                                    *MERMA/VENTA");
@@ -594,7 +597,7 @@ namespace Reportes
 					doc.Close();
 					writer.Close();
 				}
-				MessageBox.Show("Reporte PDF generado exitosamente, por favor espere y se abrirá el archivo automáticamente después de que cierre este mensaje.", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				//MessageBox.Show("Reporte PDF generado exitosamente, por favor espere y se abrirá el archivo automáticamente después de que cierre este mensaje.", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			catch (Exception ex)
 			{

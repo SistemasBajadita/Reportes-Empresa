@@ -96,8 +96,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Linen;
 			this.ClientSize = new System.Drawing.Size(388, 258);
-			this.Controls.Add(this.label1);
 			this.Controls.Add(this.pictureBox1);
+			this.Controls.Add(this.label1);
 			this.Controls.Add(this.BtnGetExcel);
 			this.Controls.Add(this.cbYears);
 			this.Controls.Add(this.label2);

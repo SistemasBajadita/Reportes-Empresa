@@ -47,6 +47,7 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
+			this.label5.BackColor = System.Drawing.Color.Transparent;
 			this.label5.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label5.Location = new System.Drawing.Point(206, 148);
 			this.label5.Name = "label5";
@@ -77,6 +78,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
+			this.label4.BackColor = System.Drawing.Color.Transparent;
 			this.label4.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
 			this.label4.Location = new System.Drawing.Point(822, 155);
@@ -155,6 +157,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
+			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
 			this.label1.Location = new System.Drawing.Point(393, 63);
 			this.label1.Name = "label1";
@@ -165,6 +168,7 @@
 			// lblMessage
 			// 
 			this.lblMessage.AutoSize = true;
+			this.lblMessage.BackColor = System.Drawing.Color.Transparent;
 			this.lblMessage.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblMessage.Location = new System.Drawing.Point(143, 546);
 			this.lblMessage.Name = "lblMessage";

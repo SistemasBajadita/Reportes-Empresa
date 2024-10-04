@@ -11,17 +11,50 @@ using ModuloDespProv;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 
 namespace Reportes
 {
 	public partial class FrmPrincipal : Form
 	{
-		public FrmPrincipal()
+		public List<Button> GetAllButtons(Control parent)
+		{
+			List<Button> buttons = new List<Button>();
+
+			foreach (Control control in parent.Controls)
+			{
+				if (control is Button button)
+				{
+					buttons.Add(button);
+				}
+				else if (control.HasChildren)
+				{
+					buttons.AddRange(GetAllButtons(control));
+				}
+			}
+			return buttons;
+		}
+
+		public FrmPrincipal(string userid)
 		{
 			InitializeComponent();
-			string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Imagenes", "LOGO_EMPRESA-removebg-preview.ico");
+			this.ControlBox = false;
 
 			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
+			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings["log"].ToString());
+			List<Button> buttons = GetAllButtons(this);
+			foreach (Button b in buttons)
+			{
+				string result = con.GetScalar($"select {b.Name} from users_roles where userid={userid}");
+				if (result == "True") b.Enabled = true;
+				else b.Enabled = false;
+			}
+
+			string super = con.GetScalar($"select super from users_roles where userid={userid}");
+
+			modificarRolesToolStripMenuItem.Visible = super == "True";
+			verMovimientosToolStripMenuItem.Visible = super == "True";
 		}
 
 		private void BtnVentaCosto_Click(object sender, EventArgs e)
@@ -73,23 +106,30 @@ namespace Reportes
 			frm.ShowDialog();
 		}
 
-		private void FrmPrincipal_Load(object sender, EventArgs e)
-		{
-
-		}
-
 		private void BtnNegativos_Click(object sender, EventArgs e)
 		{
 			ClsConnection _con = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
-			_ = _con.GetQuery("select cod1_art, des1_art, exi_act from tblcatarticulos where EXI_ACT <0");
+			_ = _con.GetQuery("select cod1_art, des1_art, exi_act from tblcatarticulos where EXI_ACT <0;");
+			DialogResult response = MessageBox.Show($"Hay {_con.GetScalar("select count(*) from tblcatarticulos where exi_act<0")} productos con existencia negativa\n" +
+				$"¿Deseas generar el archivo txt para hacer ajuste de negativos?", "La Bajadita - Existencias Negativas", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+			if (response == DialogResult.Yes)
+			{
+				SaveFileDialog save = new SaveFileDialog();
+
+				save.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+
+				// Nombre del archivo que quieres guardar
+				save.FileName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Ajuste de negativos.txt";
+
+
+				if (save.ShowDialog() == DialogResult.OK)
+				{
+					_con.GetTxtExistencias(save.FileName);
+				}
+			}
+
 			_con.PrintReportInPDFNegativos("Negativos en inventario");
-
-
-		}
-
-		private void CompararPrecios(string precio1, string precio2)
-		{
-
 		}
 
 		private async void BtnCocinaPrecios_Click(object sender, EventArgs e)
@@ -132,9 +172,9 @@ namespace Reportes
 			while (!string.IsNullOrEmpty(codigo.Value?.ToString()))
 			{
 				string q = $@"SELECT art.cod1_art, ROUND(pr.pre_iva, 1) 
-                      FROM tblcatarticulos art 
-                      INNER JOIN tblprecios pr ON pr.COD1_ART = art.COD1_ART
-                      WHERE pr.COD_LISTA = 1 AND art.cod1_art = '{codigo.Value}';";
+							  FROM tblcatarticulos art 
+							  INNER JOIN tblprecios pr ON pr.COD1_ART = art.COD1_ART
+							  WHERE pr.COD_LISTA = 1 AND art.cod1_art = '{codigo.Value}';";
 
 				DataTable query = bd.GetQuery(q);
 
@@ -155,18 +195,18 @@ namespace Reportes
 					{
 						string nuevoCodigo = "0" + codigo.Value.ToString();
 						q = $@"SELECT art.cod1_art, ROUND(pr.pre_iva, 1) 
-                       FROM tblcatarticulos art 
-                       INNER JOIN tblprecios pr ON pr.COD1_ART = art.COD1_ART
-                       WHERE pr.COD_LISTA = 1 AND art.cod1_art = '{nuevoCodigo}';";
+							   FROM tblcatarticulos art 
+							   INNER JOIN tblprecios pr ON pr.COD1_ART = art.COD1_ART
+							   WHERE pr.COD_LISTA = 1 AND art.cod1_art = '{nuevoCodigo}';";
 						query = bd.GetQuery(q);
 
 						if (query.Rows.Count == 0)
 						{
 							nuevoCodigo = nuevoCodigo.Insert(3, "-");
 							q = $@"SELECT art.cod1_art, ROUND(pr.pre_iva, 1) 
-                           FROM tblcatarticulos art 
-                           INNER JOIN tblprecios pr ON pr.COD1_ART = art.COD1_ART
-                           WHERE pr.COD_LISTA = 1 AND art.cod1_art = '{nuevoCodigo}';";
+								   FROM tblcatarticulos art 
+								   INNER JOIN tblprecios pr ON pr.COD1_ART = art.COD1_ART
+								   WHERE pr.COD_LISTA = 1 AND art.cod1_art = '{nuevoCodigo}';";
 							query = bd.GetQuery(q);
 						}
 
@@ -189,9 +229,9 @@ namespace Reportes
 					{
 						string nuevoCodigo = codigo.Value.ToString().Insert(3, "-");
 						q = $@"SELECT art.cod1_art, ROUND(pr.pre_iva, 1) 
-                       FROM tblcatarticulos art 
-                       INNER JOIN tblprecios pr ON pr.COD1_ART = art.COD1_ART
-                       WHERE pr.COD_LISTA = 1 AND art.cod1_art = '{nuevoCodigo}';";
+							   FROM tblcatarticulos art 
+							   INNER JOIN tblprecios pr ON pr.COD1_ART = art.COD1_ART
+							   WHERE pr.COD_LISTA = 1 AND art.cod1_art = '{nuevoCodigo}';";
 						query = bd.GetQuery(q);
 
 						if (query.Rows.Count > 0)
@@ -210,7 +250,6 @@ namespace Reportes
 						}
 					}
 				}
-
 				r++;
 				codigo = hoja.Cells[r, 0];
 
@@ -366,6 +405,63 @@ namespace Reportes
 				}
 			});
 			frm.ActiveReport(false);
+		}
+
+		private void FrmPrincipal_Load(object sender, EventArgs e)
+		{
+
+		}
+
+		private void modificarRolesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			FrmRoles prueba = new FrmRoles();
+			prueba.ShowDialog();
+		}
+
+		private void FrmPrincipal_FormClosing(object sender, FormClosingEventArgs e)
+		{
+		}
+
+		private void Cerrar()
+		{
+			DialogResult respuesta =
+			MessageBox.Show("¿Deseas entrar con otro usuario?", "Cerrar sesion", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+			if (respuesta == DialogResult.Yes)
+			{
+				Application.Restart();
+			}
+			else if (respuesta == DialogResult.No)
+			{
+				Application.Exit();
+			}
+		}
+
+		private void cerrarSesiónToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Cerrar();
+		}
+
+		private void FrmPrincipal_Paint(object sender, PaintEventArgs e)
+		{
+			// Crear un rectángulo que cubra todo el formulario
+			System.Drawing.Rectangle rect = this.ClientRectangle;
+
+			// Definir los colores del degradado (por ejemplo, de azul a blanco)
+			Color color1 = Color.FromArgb(251, 147, 60); //--original
+			Color color2 = ColorTranslator.FromHtml("#fdbc3c"); //--original
+
+			// Crear un pincel con un degradado lineal
+			using (LinearGradientBrush brush = new LinearGradientBrush(rect, color1, color2, LinearGradientMode.ForwardDiagonal))
+			{
+				// Dibujar el degradado en el fondo del formulario
+				e.Graphics.FillRectangle(brush, rect);
+			}
+		}
+
+		private void Tortillas_Click(object sender, EventArgs e)
+		{
+			FrmVentaDeTortilla frm = new FrmVentaDeTortilla();
+			frm.ShowDialog();
 		}
 	}
 }

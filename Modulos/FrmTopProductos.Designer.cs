@@ -65,6 +65,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
+			this.label4.BackColor = System.Drawing.Color.Transparent;
 			this.label4.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
 			this.label4.Location = new System.Drawing.Point(758, 143);
@@ -73,6 +74,7 @@
 			this.label4.TabIndex = 35;
 			this.label4.Text = "Cargando reporte ...";
 			this.label4.Visible = false;
+			this.label4.Click += new System.EventHandler(this.label4_Click);
 			// 
 			// reporte
 			// 
@@ -153,12 +155,14 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
+			this.label3.BackColor = System.Drawing.Color.Transparent;
 			this.label3.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label3.Location = new System.Drawing.Point(656, 76);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(20, 21);
 			this.label3.TabIndex = 31;
 			this.label3.Text = "a";
+			this.label3.Click += new System.EventHandler(this.label3_Click);
 			// 
 			// FechaA
 			// 
@@ -173,22 +177,26 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
+			this.label2.BackColor = System.Drawing.Color.Transparent;
 			this.label2.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.Location = new System.Drawing.Point(246, 77);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(241, 21);
 			this.label2.TabIndex = 29;
 			this.label2.Text = "Ingresa el rango de fecha";
+			this.label2.Click += new System.EventHandler(this.label2_Click);
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
+			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
 			this.label1.Location = new System.Drawing.Point(265, 27);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(642, 26);
 			this.label1.TabIndex = 28;
 			this.label1.Text = "Reporte de productos mas vendidos por departamento";
+			this.label1.Click += new System.EventHandler(this.label1_Click);
 			// 
 			// cbDepartamentos
 			// 
@@ -202,16 +210,19 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
+			this.label5.BackColor = System.Drawing.Color.Transparent;
 			this.label5.Font = new System.Drawing.Font("Lucida Fax", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label5.Location = new System.Drawing.Point(142, 136);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(138, 21);
 			this.label5.TabIndex = 39;
 			this.label5.Text = "Departamento";
+			this.label5.Click += new System.EventHandler(this.label5_Click);
 			// 
 			// rbDesplazamiento
 			// 
 			this.rbDesplazamiento.AutoSize = true;
+			this.rbDesplazamiento.BackColor = System.Drawing.Color.Transparent;
 			this.rbDesplazamiento.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.rbDesplazamiento.Location = new System.Drawing.Point(321, 198);
 			this.rbDesplazamiento.Name = "rbDesplazamiento";
@@ -219,11 +230,13 @@
 			this.rbDesplazamiento.TabIndex = 40;
 			this.rbDesplazamiento.TabStop = true;
 			this.rbDesplazamiento.Text = "Ver por desplazamiento";
-			this.rbDesplazamiento.UseVisualStyleBackColor = true;
+			this.rbDesplazamiento.UseVisualStyleBackColor = false;
+			this.rbDesplazamiento.CheckedChanged += new System.EventHandler(this.rbDesplazamiento_CheckedChanged);
 			// 
 			// rbDinero
 			// 
 			this.rbDinero.AutoSize = true;
+			this.rbDinero.BackColor = System.Drawing.Color.Transparent;
 			this.rbDinero.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.rbDinero.Location = new System.Drawing.Point(638, 198);
 			this.rbDinero.Name = "rbDinero";
@@ -231,7 +244,8 @@
 			this.rbDinero.TabIndex = 41;
 			this.rbDinero.TabStop = true;
 			this.rbDinero.Text = "Ver por dinero";
-			this.rbDinero.UseVisualStyleBackColor = true;
+			this.rbDinero.UseVisualStyleBackColor = false;
+			this.rbDinero.CheckedChanged += new System.EventHandler(this.rbDinero_CheckedChanged);
 			// 
 			// FrmTopProductos
 			// 
@@ -256,6 +270,7 @@
 			this.Name = "FrmTopProductos";
 			this.Text = "Top de Productos";
 			this.Load += new System.EventHandler(this.FrmTopProductos_Load);
+			this.Paint += new System.Windows.Forms.PaintEventHandler(this.FrmTopProductos_Paint);
 			((System.ComponentModel.ISupportInitialize)(this.reporte)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

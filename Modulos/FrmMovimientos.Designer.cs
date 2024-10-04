@@ -421,6 +421,7 @@
 			this.Name = "FrmMovimientos";
 			this.Text = "Movimientos de almacen";
 			this.Load += new System.EventHandler(this.FrmMovimientos_Load);
+			this.Paint += new System.Windows.Forms.PaintEventHandler(this.FrmMovimientos_Paint);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();

@@ -116,7 +116,7 @@ namespace Reportes
 
 					foreach (DataRow r in tickets.Rows)
 					{
-						query = $@" select fol_dev, round( tot_dev,2)
+						query = $@" select round( SUM(tot_dev),2)
 									from tblencdevolucion dev
 									inner join tblgralventas ven on dev.REF_DOC=ven.REF_DOC
 									where dev.REF_DOC='{r[1]}' and cod_sts=5; ";
@@ -140,7 +140,7 @@ namespace Reportes
 						}
 						else
 						{
-							devTotal += Convert.ToDouble(ro.Split(',')[1]);
+							devTotal += Convert.ToDouble(ro);
 
 							dataCell = new PdfPCell(new Phrase($"{Convert.ToDateTime(r[0]):dd/MM/yyyy}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f, BackgroundColor = new BaseColor(230, 133, 138) };
 							table.AddCell(dataCell);
@@ -152,7 +152,7 @@ namespace Reportes
 							table.AddCell(dataCell);
 							dataCell = new PdfPCell(new Phrase($"{r[4]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
 							table.AddCell(dataCell);
-							dataCell = new PdfPCell(new Phrase($"${ro.Split(',')[1]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
+							dataCell = new PdfPCell(new Phrase($"${Convert.ToDouble(ro):N2}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
 							table.AddCell(dataCell);
 						}
 
@@ -292,7 +292,7 @@ namespace Reportes
 
 							foreach (DataRow r in tickets.Rows)
 							{
-								query = $@" select fol_dev, round( tot_dev,2)
+								query = $@" select round( SUM(tot_dev),2)
 									from tblencdevolucion dev
 									inner join tblgralventas ven on dev.REF_DOC=ven.REF_DOC
 									where dev.REF_DOC='{r[1]}'";
@@ -316,7 +316,7 @@ namespace Reportes
 								}
 								else
 								{
-									devTotal += Convert.ToDouble(ro.Split(',')[1]);
+									devTotal += Convert.ToDouble(ro);
 
 									dataCell = new PdfPCell(new Phrase($"{Convert.ToDateTime(r[0]):dd/MM/yyyy}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f, BackgroundColor = new BaseColor(230, 133, 138) };
 									table.AddCell(dataCell);
@@ -328,7 +328,7 @@ namespace Reportes
 									table.AddCell(dataCell);
 									dataCell = new PdfPCell(new Phrase($"${Convert.ToDouble(r[4]).ToString("N2")}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
 									table.AddCell(dataCell);
-									dataCell = new PdfPCell(new Phrase($"${Convert.ToDouble(ro.Split(',')[1]).ToString("N2")}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
+									dataCell = new PdfPCell(new Phrase($"${Convert.ToDouble(ro).ToString("N2")}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
 									table.AddCell(dataCell);
 								}
 							}

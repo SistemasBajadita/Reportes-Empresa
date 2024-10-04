@@ -27,7 +27,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>34</ApplicationRevision>
+    <ApplicationRevision>35</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -156,6 +156,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -170,7 +171,20 @@
     <Compile Include="ClsConnection.cs" />
     <Compile Include="ClsHeader.cs" />
     <Compile Include="ClsHeaderTickets.cs" />
+    <Compile Include="ClsLoginVerification.cs" />
     <Compile Include="ClsPageEventHelper.cs" />
+    <Compile Include="Modulos\FrmVentaDeTortilla.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modulos\FrmVentaDeTortilla.Designer.cs">
+      <DependentUpon>FrmVentaDeTortilla.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modulos\Login y Permisos\FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modulos\Login y Permisos\FrmLogin.Designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modulos\FrmComprasPD.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -225,6 +239,12 @@
     <Compile Include="Modulos\FrmYearSelection.Designer.cs">
       <DependentUpon>FrmYearSelection.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modulos\Login y Permisos\FrmUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modulos\Login y Permisos\FrmUser.Designer.cs">
+      <DependentUpon>FrmUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modulos\ProgressProductsCocina.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -233,6 +253,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Modulos\Login y Permisos\FrmRoles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modulos\Login y Permisos\FrmRoles.Designer.cs">
+      <DependentUpon>FrmRoles.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Modulos\FrmVentaDeTortilla.resx">
+      <DependentUpon>FrmVentaDeTortilla.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modulos\Login y Permisos\FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modulos\FrmComprasPD.resx">
       <DependentUpon>FrmComprasPD.cs</DependentUpon>
     </EmbeddedResource>
@@ -260,6 +292,9 @@
     <EmbeddedResource Include="Modulos\FrmYearSelection.resx">
       <DependentUpon>FrmYearSelection.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modulos\Login y Permisos\FrmUser.resx">
+      <DependentUpon>FrmUser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modulos\ProgressProductsCocina.resx">
       <DependentUpon>ProgressProductsCocina.cs</DependentUpon>
     </EmbeddedResource>
@@ -272,6 +307,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Modulos\Login y Permisos\FrmRoles.resx">
+      <DependentUpon>FrmRoles.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

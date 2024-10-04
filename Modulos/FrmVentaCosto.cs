@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -85,7 +86,14 @@ namespace Reportes
 					"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
 					$"where  (gv.FEC_DOC between '{parametroA}' and '{parametroB}') and ga.COD_GPO = 25 " +
 					$"GROUP BY caa.DES_AGR " +
-					$"ORDER BY 'Departamento' ASC; select caa.DES_AGR as Departamento, round(sum(cos_uni*can_ren),2) as Merma\r\n\t\t\t\t\t\t\t\t\t\t\t\tfrom tblrenalmacen ren_alm\r\n\t\t\t\t\t\t\t\t\t\t\t\tinner join tblgralalmacen enc_alm on ren_alm.REF_MOV=enc_alm.REF_MOV\r\n\t\t\t\t\t\t\t\t\t\t\t\tinner join tblgpoarticulos ga on ren_alm.COD1_ART = ga.COD1_ART \r\n\t\t\t\t\t\t\t\t\t\t\t\tinner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR\r\n\t\t\t\t\t\t\t\t\t\t\t\twhere (enc_alm.FEC_MOV between'{parametroA}' and '{parametroB}') and enc_alm.cod_con='SMER' and caa.COD_GPO=25\r\n\t\t\t\t\t\t\t\t\t\t\t\tgroup by caa.des_agr;";
+					$"ORDER BY 'Departamento' ASC; " +
+					$"select caa.DES_AGR as Departamento, round(sum(cos_uni*can_ren),2) as Merma " +
+					$"from tblrenalmacen ren_alm " +
+					$"inner join tblgralalmacen enc_alm on ren_alm.REF_MOV=enc_alm.REF_MOV " +
+					$"inner join tblgpoarticulos ga on ren_alm.COD1_ART = ga.COD1_ART " +
+					$"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
+					$"where (enc_alm.FEC_MOV between'{parametroA}' and '{parametroB}') and enc_alm.cod_con='SMER' and caa.COD_GPO=25 " +
+					$"group by caa.des_agr;";
 
 			BtnCorrerQuery.Enabled = false;
 			label4.Visible = true;
@@ -120,8 +128,6 @@ namespace Reportes
 				{
 					label5.Visible = true;
 					label5.Text = $"Tiempo de respuesta: {cronometro.ElapsedMilliseconds / 1000} s";
-
-
 				}));
 				Thread.Sleep(6000);
 				Invoke(new Action(() => label5.Visible = false));
@@ -138,7 +144,7 @@ namespace Reportes
 			frmYearSelection.ShowDialog();
 		}
 
-		private void BtnPDF_Click(object sender, EventArgs e)
+		private async void BtnPDF_Click(object sender, EventArgs e)
 		{
 			if (metodos == null)
 			{
@@ -154,9 +160,27 @@ namespace Reportes
 			guardarArchivo.Filter = "Archivos PDF|*.pdf|Todos los archivos|*.*";
 			guardarArchivo.FileName = $"Ventas_{DateTime.Now:dd-MM-yy}.pdf";
 
-
-			metodos.PrintReportInPDFVentas(parametroA, parametroB, guardarArchivo.FileName);
+			label4.Visible = true;
+			await Task.Run(()=> metodos.PrintReportInPDFVentas(parametroA, parametroB, guardarArchivo.FileName));
+			label4.Visible=false;
 			Process.Start(guardarArchivo.FileName);
+		}
+
+		private void FrmVentaCosto_Paint(object sender, PaintEventArgs e)
+		{
+			// Crear un rectángulo que cubra todo el formulario
+			System.Drawing.Rectangle rect = this.ClientRectangle;
+
+			// Definir los colores del degradado (por ejemplo, de azul a blanco)
+			Color color1 = Color.FromArgb(251, 147, 60); //--original
+			Color color2 = ColorTranslator.FromHtml("#fdbc3c"); //--original
+
+			// Crear un pincel con un degradado lineal
+			using (LinearGradientBrush brush = new LinearGradientBrush(rect, color1, color2, LinearGradientMode.ForwardDiagonal))
+			{
+				// Dibujar el degradado en el fondo del formulario
+				e.Graphics.FillRectangle(brush, rect);
+			}
 		}
 	}
 }
