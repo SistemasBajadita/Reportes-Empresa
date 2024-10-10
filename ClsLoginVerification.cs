@@ -97,7 +97,7 @@ namespace Reportes
 		{
 			MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["log"].ConnectionString);
 			MySqlCommand cmd = con.CreateCommand();
-			cmd.CommandText = $"insert into users_roles values ({id}, 0,0,0,0,0,0,0,0,0,0,0,0,0)";
+			cmd.CommandText = $"insert into users_roles values ({id}, 0,0,0,0,0,0,0,0,0,0,0,0,0,0)";
 
 			try
 			{

@@ -75,9 +75,6 @@ namespace Reportes
 					doc.Add(new Paragraph("                         CURLANGO RAMOS CHRISTIAN YARELY \n" +
 						"                         R.F.C CURC890920PW1", titleFont)
 					{ Alignment = Element.ALIGN_LEFT });
-					//Paragraph title = new Paragraph("                         LA BAJADITA - VENTA DE FRUTAS Y VERDURAS", titleFont);
-					//title.Alignment = Element.ALIGN_LEFT;
-					//doc.Add(title);
 					doc.Add(new Paragraph("                         CALLE AVENIDA DE LOS MAESTROS #42 LOCAL 10", titleFont) { Alignment = Element.ALIGN_LEFT });
 					doc.Add(new Paragraph("                         COL. JARDINES DEL BOSQUE", titleFont) { Alignment = Element.ALIGN_LEFT });
 					doc.Add(new Paragraph("                         C.P. 84063 H. NOGALES, SONORA", titleFont) { Alignment = Element.ALIGN_LEFT });
@@ -86,10 +83,12 @@ namespace Reportes
 					doc.Add(new Paragraph($"REPORTE DE TICKETS POR CHOFER\nCHOFER: {GetSelectedTextFromCombo()}\nPERIODO: {FechaA.Value.ToString("dd/MM/yyyy")} a {FechaB.Value.ToString("dd/MM/yyyy")}"));
 					doc.Add(new Paragraph("\n"));
 
-					PdfPTable table = new PdfPTable(6);
-					table.WidthPercentage = 100;
+                    PdfPTable table = new PdfPTable(6)
+                    {
+                        WidthPercentage = 100
+                    };
 
-					float[] columnWidths = new float[] { 1f, 2f, 2f, 1f, 1f, 1f };
+                    float[] columnWidths = new float[] { 1f, 2f, 2f, 1f, 1f, 1f };
 					table.SetWidths(columnWidths);
 
 					Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
@@ -119,7 +118,7 @@ namespace Reportes
 						query = $@" select round( SUM(tot_dev),2)
 									from tblencdevolucion dev
 									inner join tblgralventas ven on dev.REF_DOC=ven.REF_DOC
-									where dev.REF_DOC='{r[1]}' and cod_sts=5; ";
+									where dev.REF_DOC='{r[1]}' and cod_sts=5;";
 
 						string ro = conn.GetRowQuery(query);
 
@@ -155,8 +154,6 @@ namespace Reportes
 							dataCell = new PdfPCell(new Phrase($"${Convert.ToDouble(ro):N2}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
 							table.AddCell(dataCell);
 						}
-
-
 					}
 
 					double subtotal = 0;
@@ -342,8 +339,8 @@ namespace Reportes
 								subtotal += double.Parse(r[4].ToString());
 							}
 
-							doc.Add(new Paragraph($"Subtotal: ${subtotal.ToString("N2")}", titleFont) { Alignment = Element.ALIGN_RIGHT });
-							doc.Add(new Paragraph($"Devoluciones: ${devTotal.ToString("N2")}", titleFont) { Alignment = Element.ALIGN_RIGHT });
+							doc.Add(new Paragraph($"Subtotal: ${subtotal:N2}", titleFont) { Alignment = Element.ALIGN_RIGHT });
+							doc.Add(new Paragraph($"Devoluciones: ${devTotal:N2}", titleFont) { Alignment = Element.ALIGN_RIGHT });
 							doc.Add(new Paragraph($"Total: ${(subtotal - devTotal).ToString("N2")}", titleFont) { Alignment = Element.ALIGN_RIGHT });
 
 							sub += subtotal;
@@ -351,13 +348,15 @@ namespace Reportes
 							totalDelDia += subtotal - devTotal;
 						}
 
-						// Crear una tabla con 2 columnas
-						PdfPTable table1 = new PdfPTable(2);
-						table1.WidthPercentage = 100; // Ancho de la tabla al 100%
+                        // Crear una tabla con 2 columnas
+                        PdfPTable table1 = new PdfPTable(2)
+                        {
+                            WidthPercentage = 100 // Ancho de la tabla al 100%
+                        };
 
 
-						// Agregar las celdas con el texto y las variables
-						table1.AddCell(new PdfPCell(new Phrase("SUBTOTAL DEL DIA:", titleFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border=PdfPCell.NO_BORDER });
+                        // Agregar las celdas con el texto y las variables
+                        table1.AddCell(new PdfPCell(new Phrase("SUBTOTAL DEL DIA:", titleFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border=PdfPCell.NO_BORDER });
 						table1.AddCell(new PdfPCell(new Phrase($"${sub:N2}", titleFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.NO_BORDER });
 
 						table1.AddCell(new PdfPCell(new Phrase("DEVOLUCIONES DEL DIA:", titleFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.NO_BORDER });
@@ -366,9 +365,7 @@ namespace Reportes
 						table1.AddCell(new PdfPCell(new Phrase("VENTA TOTAL NETA DEL DIA:", titleFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.NO_BORDER });
 						table1.AddCell(new PdfPCell(new Phrase($"${totalDelDia:N2}", titleFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.NO_BORDER });
 
-						// Agregar la tabla al documento
 						doc.Add(table1);
-
 
 						doc.Close();
 						writer.Close();
@@ -386,7 +383,6 @@ namespace Reportes
 			cmbVendedor.Enabled = true;
 			FechaA.Enabled = true;
 			FechaB.Enabled = true;
-
 			pictureBox1.Visible = false;
 		}
 	}
