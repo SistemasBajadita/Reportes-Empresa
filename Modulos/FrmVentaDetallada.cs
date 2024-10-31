@@ -17,11 +17,6 @@ namespace Reportes
             Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
         }
 
-        private async void FrmVentaDetallada_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void SetearQuery(DataTable quer)
         {
 
