@@ -10,207 +10,204 @@ using System.Windows.Forms;
 
 namespace Reportes
 {
-	public partial class FrmTopProductos : Form
-	{
+    public partial class FrmTopProductos : Form
+    {
 
-		ClsConnection metodos;
+        ClsConnection metodos;
 
-		public FrmTopProductos()
-		{
-			InitializeComponent();
+        public FrmTopProductos()
+        {
+            InitializeComponent();
 
-			FechaA.MaxDate = DateTime.Now.AddDays(-1);
-			FechaB.MaxDate = DateTime.Now.AddDays(-1);
+            FechaA.MaxDate = DateTime.Now.AddDays(-1);
+            FechaB.MaxDate = DateTime.Now.AddDays(-1);
 
-			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
-		}
+            Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
+        }
 
-		private void SetearQuery(DataTable quer)
-		{
-			try
-			{
-				Invoke(new Action(() => { reporte.DataSource = quer; }));
-			}
-			catch (Exception) { }
-		}
+        private void SetearQuery(DataTable quer)
+        {
+            try
+            {
+                Invoke(new Action(() => { reporte.DataSource = quer; }));
+            }
+            catch (Exception) { }
+        }
 
-		private string GetSelectedTextFromCombo()
-		{
-			// Asegúrate de que hay un elemento seleccionado
-			if (cbDepartamentos.SelectedItem != null)
-			{
-				// Accede al DataRowView del elemento seleccionado
-				DataRowView selectedRow = cbDepartamentos.SelectedItem as DataRowView;
+        private string GetSelectedTextFromCombo()
+        {
+            // Asegúrate de que hay un elemento seleccionado
+            if (cbDepartamentos.SelectedItem != null)
+            {
+                // Accede al DataRowView del elemento seleccionado
+                DataRowView selectedRow = cbDepartamentos.SelectedItem as DataRowView;
 
-				// Asegúrate de que la conversión fue exitosa
-				if (selectedRow != null)
-				{
-					// Obtén el texto del elemento seleccionado usando el DisplayMember
-					string selectedText = selectedRow[cbDepartamentos.DisplayMember].ToString();
+                // Asegúrate de que la conversión fue exitosa
+                if (selectedRow != null)
+                {
+                    // Obtén el texto del elemento seleccionado usando el DisplayMember
+                    string selectedText = selectedRow[cbDepartamentos.DisplayMember].ToString();
 
-					// Muestra el texto seleccionado (por ejemplo, en un MessageBox)
-					return selectedText;
-				}
-			}
-			return null;
-		}
+                    // Muestra el texto seleccionado (por ejemplo, en un MessageBox)
+                    return selectedText;
+                }
+            }
+            return null;
+        }
 
-		private async void BtnCorrerQuery_Click(object sender, EventArgs e)
-		{
-			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString())
-			{
-				sendReport = SetearQuery
-			};
+        private async void BtnCorrerQuery_Click(object sender, EventArgs e)
+        {
+            metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString())
+            {
+                sendReport = SetearQuery
+            };
 
-			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");
-			string parametroB = FechaB.Value.ToString("yyyy-MM-dd");
+            string parametroA = FechaA.Value.ToString("yyyy-MM-dd");
+            string parametroB = FechaB.Value.ToString("yyyy-MM-dd");
 
-			string query = "";
+            string query = "";
 
-			if (rbDesplazamiento.Checked)
-			{
-				query = $"SELECT tblcatarticulos.COD1_ART as Codigo, tblcatarticulos.DES1_ART as Descripcion, tblcatarticulos.EXI_ACT as Existencia, round(Sum(EQV_UND * tblrenventas.CAN_ART),2) AS Desp " +
-					$"FROM (((tblgralventas INNER JOIN tblrenventas ON tblgralventas.REF_DOC = tblrenventas.REF_DOC) " +
-					$"INNER JOIN tblcatarticulos ON tblrenventas.COD1_ART = tblcatarticulos.COD1_ART) " +
-					$"INNER JOIN tblgpoarticulos ON tblcatarticulos.COD1_ART = tblgpoarticulos.COD1_ART) " +
-					$"Where (tblgralventas.FEC_DOC >= '{parametroA}' and tblgralventas.FEC_DOC <= '{parametroB}' And tblgpoarticulos.COD_GPO = 25 and tblgpoarticulos.COD_AGR={cbDepartamentos.SelectedValue}) " +
-					$"GROUP BY tblcatarticulos.COD1_ART " +
-					$"ORDER BY Desp desc limit 30;";
+            if (rbDesplazamiento.Checked)
+            {
+                query = $"SELECT tblcatarticulos.COD1_ART as Codigo, tblcatarticulos.DES1_ART as Descripcion, tblcatarticulos.EXI_ACT as Existencia, round(Sum(EQV_UND * tblrenventas.CAN_ART),2) AS Desp " +
+                    $"FROM (((tblgralventas INNER JOIN tblrenventas ON tblgralventas.REF_DOC = tblrenventas.REF_DOC) " +
+                    $"INNER JOIN tblcatarticulos ON tblrenventas.COD1_ART = tblcatarticulos.COD1_ART) " +
+                    $"INNER JOIN tblgpoarticulos ON tblcatarticulos.COD1_ART = tblgpoarticulos.COD1_ART) " +
+                    $"Where (tblgralventas.FEC_DOC >= '{parametroA}' and tblgralventas.FEC_DOC <= '{parametroB}' And tblgpoarticulos.COD_GPO = 25 and tblgpoarticulos.COD_AGR={cbDepartamentos.SelectedValue}) " +
+                    $"GROUP BY tblcatarticulos.COD1_ART " +
+                    $"ORDER BY Desp desc limit 30;";
 
-				tupe = "desplazamiento";
+                tupe = "desplazamiento";
 
-			}
-			if (rbDinero.Checked)
-			{
-				query = $"SELECT tblcatarticulos.COD1_ART as Codigo, tblcatarticulos.DES1_ART as Descripcion, tblcatarticulos.EXI_ACT as Existencia,round( Sum(EQV_UND * tblrenventas.CAN_ART* tblrenventas.PCIO_VEN),2) as Dinero " +
-					$"FROM (((tblgralventas INNER JOIN tblrenventas ON tblgralventas.REF_DOC = tblrenventas.REF_DOC) " +
-					$"INNER JOIN tblcatarticulos ON tblrenventas.COD1_ART = tblcatarticulos.COD1_ART) " +
-					$"INNER JOIN tblgpoarticulos ON tblcatarticulos.COD1_ART = tblgpoarticulos.COD1_ART) " +
-					$"Where (tblgralventas.FEC_DOC >= '{parametroA}' and tblgralventas.FEC_DOC <= '{parametroB}' And tblgpoarticulos.COD_GPO = 25 and tblgpoarticulos.COD_AGR={cbDepartamentos.SelectedValue}) " +
-					$"GROUP BY tblcatarticulos.cod1_art " +
-					$"order by Dinero desc limit 30;";
-				tupe = "dinero";
-			}
-			if (!rbDesplazamiento.Checked && !rbDinero.Checked)
-			{
-				MessageBox.Show("Selecciona algun parametro por favor", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Question);
-				return;
-			}
+            }
+            if (rbDinero.Checked)
+            {
+                query = $"SELECT tblcatarticulos.COD1_ART as Codigo, tblcatarticulos.DES1_ART as Descripcion, tblcatarticulos.EXI_ACT as Existencia,round( Sum(EQV_UND * tblrenventas.CAN_ART* tblrenventas.PCIO_VEN),2) as Dinero " +
+                    $"FROM (((tblgralventas INNER JOIN tblrenventas ON tblgralventas.REF_DOC = tblrenventas.REF_DOC) " +
+                    $"INNER JOIN tblcatarticulos ON tblrenventas.COD1_ART = tblcatarticulos.COD1_ART) " +
+                    $"INNER JOIN tblgpoarticulos ON tblcatarticulos.COD1_ART = tblgpoarticulos.COD1_ART) " +
+                    $"Where (tblgralventas.FEC_DOC >= '{parametroA}' and tblgralventas.FEC_DOC <= '{parametroB}' And tblgpoarticulos.COD_GPO = 25 and tblgpoarticulos.COD_AGR={cbDepartamentos.SelectedValue}) " +
+                    $"GROUP BY tblcatarticulos.cod1_art " +
+                    $"order by Dinero desc limit 30;";
+                tupe = "dinero";
+            }
+            if (!rbDesplazamiento.Checked && !rbDinero.Checked)
+            {
+                MessageBox.Show("Selecciona algun parametro por favor", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                return;
+            }
 
-			departamento = GetSelectedTextFromCombo();
+            departamento = GetSelectedTextFromCombo();
 
-			BtnCorrerQuery.Enabled = false;
-			label4.Visible = true;
-			FechaA.Enabled = false;
-			FechaB.Enabled = false;
-			cbDepartamentos.Enabled = false;
+            BtnCorrerQuery.Enabled = false;
+            label4.Visible = true;
+            FechaA.Enabled = false;
+            FechaB.Enabled = false;
+            cbDepartamentos.Enabled = false;
 
-			await Task.Run(() => metodos.SetQuery(query));
+            await Task.Run(() => metodos.SetQuery(query));
 
-			BtnCorrerQuery.Enabled = true;
-			label4.Visible = false;
-			FechaA.Enabled = true;
-			FechaB.Enabled = true;
-			cbDepartamentos.Enabled = true;
-		}
+            BtnCorrerQuery.Enabled = true;
+            label4.Visible = false;
+            FechaA.Enabled = true;
+            FechaB.Enabled = true;
+            cbDepartamentos.Enabled = true;
+        }
 
-		private async void FrmTopProductos_Load(object sender, EventArgs e)
-		{
-			cbDepartamentos.Enabled = false;
-			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
-			await Task.Run(() =>
-			{
-				DataTable departamentos = metodos.GetQuery("select cod_agr as Codigo, des_agr as Agrupacion " +
-					"from tblcatagrupacionart agr inner join tblagrupacionart gpo on gpo.cod_gpo=agr.COD_GPO " +
-					"where agr.cod_gpo=25");
-				Invoke(new Action(() =>
-				{
-					cbDepartamentos.DataSource = departamentos;
-					cbDepartamentos.ValueMember = "Codigo";
-					cbDepartamentos.DisplayMember = "Agrupacion";
-				}));
-			});
-			cbDepartamentos.Enabled = true;
-			metodos = null;
-		}
-
-		string tupe = "";
-		string departamento = "";
+        private async void FrmTopProductos_Load(object sender, EventArgs e)
+        {
+            cbDepartamentos.Enabled = false;
+            metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+            await Task.Run(() =>
+            {
+                DataTable departamentos = metodos.GetQuery("select cod_agr as Codigo, des_agr as Agrupacion " +
+                    "from tblcatagrupacionart agr inner join tblagrupacionart gpo on gpo.cod_gpo=agr.COD_GPO " +
+                    "where agr.cod_gpo=25");
 
 
-		private void BtnPDF_Click(object sender, EventArgs e)
-		{
-			if (metodos == null)
-			{
-				MessageBox.Show("Primero presiona el boton de Ver Reporte antes de guardarlo.", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
+                try
+                {
+                    Invoke(new Action(() =>
+                    {
+                        cbDepartamentos.DataSource = departamentos;
+                        cbDepartamentos.ValueMember = "Codigo";
+                        cbDepartamentos.DisplayMember = "Agrupacion";
+                    }));
+                }
+                catch (InvalidOperationException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            });
+            cbDepartamentos.Enabled = true;
+            metodos = null;
+        }
 
-			DateTime fechaA = FechaA.Value;
-			DateTime fechaB = FechaB.Value;
+        string tupe = "";
+        string departamento = "";
 
-			string parametroA = fechaA.ToString("yyyy/MM/dd");
-			string parametroB = fechaB.ToString("yyyy/MM/dd");
-			guardarArchivo.Filter = "Archivos PDF|*.pdf|Todos los archivos|*.*";
-			guardarArchivo.FileName = $"topProductos_{DateTime.Now:dd-MM-yy}";
 
-			if (guardarArchivo.ShowDialog() == DialogResult.OK)
-			{
-				metodos.PrintReportInPDFTOP(parametroA, parametroB, guardarArchivo.FileName, tupe, departamento);
-				Process.Start(guardarArchivo.FileName);
-			}
-		}
+        private void BtnPDF_Click(object sender, EventArgs e)
+        {
+            if (metodos == null)
+            {
+                MessageBox.Show("Primero presiona el boton de Ver Reporte antes de guardarlo.", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-		private void label1_Click(object sender, EventArgs e)
-		{
+            DateTime fechaA = FechaA.Value;
+            DateTime fechaB = FechaB.Value;
 
-		}
+            string parametroA = fechaA.ToString("yyyy/MM/dd");
+            string parametroB = fechaB.ToString("yyyy/MM/dd");
+            guardarArchivo.Filter = "Archivos PDF|*.pdf|Todos los archivos|*.*";
+            guardarArchivo.FileName = $"topProductos_{DateTime.Now:dd-MM-yy}";
 
-		private void label2_Click(object sender, EventArgs e)
-		{
+            if (guardarArchivo.ShowDialog() == DialogResult.OK)
+            {
+                metodos.PrintReportInPDFTOP(parametroA, parametroB, guardarArchivo.FileName, tupe, departamento);
+                Process.Start(guardarArchivo.FileName);
+            }
+        }
 
-		}
+        private void label1_Click(object sender, EventArgs e)
+        {
 
-		private void label3_Click(object sender, EventArgs e)
-		{
+        }
 
-		}
+        private void label2_Click(object sender, EventArgs e)
+        {
 
-		private void label5_Click(object sender, EventArgs e)
-		{
+        }
 
-		}
+        private void label3_Click(object sender, EventArgs e)
+        {
 
-		private void label4_Click(object sender, EventArgs e)
-		{
+        }
 
-		}
+        private void label5_Click(object sender, EventArgs e)
+        {
 
-		private void rbDesplazamiento_CheckedChanged(object sender, EventArgs e)
-		{
+        }
 
-		}
+        private void label4_Click(object sender, EventArgs e)
+        {
 
-		private void rbDinero_CheckedChanged(object sender, EventArgs e)
-		{
+        }
 
-		}
+        private void rbDesplazamiento_CheckedChanged(object sender, EventArgs e)
+        {
 
-		private void FrmTopProductos_Paint(object sender, PaintEventArgs e)
-		{
-			// Crear un rectángulo que cubra todo el formulario
-			System.Drawing.Rectangle rect = this.ClientRectangle;
+        }
 
-			// Definir los colores del degradado (por ejemplo, de azul a blanco)
-			Color color1 = Color.FromArgb(251, 147, 60); //--original
-			Color color2 = ColorTranslator.FromHtml("#fdbc3c"); //--original
+        private void rbDinero_CheckedChanged(object sender, EventArgs e)
+        {
 
-			// Crear un pincel con un degradado lineal
-			using (LinearGradientBrush brush = new LinearGradientBrush(rect, color1, color2, LinearGradientMode.ForwardDiagonal))
-			{
-				// Dibujar el degradado en el fondo del formulario
-				e.Graphics.FillRectangle(brush, rect);
-			}
-		}
-	}
+        }
+
+        private void FrmTopProductos_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+    }
 }

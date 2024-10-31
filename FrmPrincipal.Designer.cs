@@ -248,10 +248,10 @@
             this.Controls.Add(this.ModificarAccesos);
             this.MainMenuStrip = this.ModificarAccesos;
             this.Name = "FrmPrincipal";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Reportes";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmPrincipal_FormClosing);
             this.Load += new System.EventHandler(this.FrmPrincipal_Load);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.FrmPrincipal_Paint);
             this.ModificarAccesos.ResumeLayout(false);
             this.ModificarAccesos.PerformLayout();
             this.ResumeLayout(false);

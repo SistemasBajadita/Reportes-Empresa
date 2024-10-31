@@ -259,7 +259,7 @@ namespace Reportes
                 if (query.Split(';').Length > 2)
                 {
                     ad.Fill(tables);
-                    sendTables?.Invoke(tables);
+                    sendTables?.Invoke(tables.Copy());
                     ReporteActivo = tables.Tables[0];
                     merma = tables.Tables[1];
                     return;

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -121,5 +122,24 @@ namespace Reportes
 			}
 			comboBox1_SelectedIndexChanged(sender, e);
 		}
-	}
+
+        private void FrmRoles_Paint(object sender, PaintEventArgs e)
+        {
+            // Crear un rectángulo que cubra todo el formulario
+            Rectangle rect = this.ClientRectangle;
+
+            // Definir los colores del degradado (por ejemplo, de azul a blanco)
+            Color color1 = Color.FromArgb(251, 147, 60); //--original
+            Color color2 = ColorTranslator.FromHtml("#fdbc3c"); //--original
+                                                                //Color color1 = ColorTranslator.FromHtml("#0C1A47");
+                                                                //Color color2 = ColorTranslator.FromHtml("#EC3F5D");
+
+            // Crear un pincel con un degradado lineal
+            using (LinearGradientBrush brush = new LinearGradientBrush(rect, color1, color2, LinearGradientMode.BackwardDiagonal))
+            {
+                // Dibujar el degradado en el fondo del formulario
+                e.Graphics.FillRectangle(brush, rect);
+            }
+        }
+    }
 }

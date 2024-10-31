@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Reportes.Modulos
@@ -16,6 +10,7 @@ namespace Reportes.Modulos
         public FrmCodigo()
         {
             InitializeComponent();
+            Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
         }
 
         private async void BtnGenerar_Click(object sender, EventArgs e)
@@ -56,10 +51,13 @@ namespace Reportes.Modulos
             Color color2 = ColorTranslator.FromHtml("#fdbc3c"); //--original
 
             // Crear un pincel con un degradado lineal
-            using (LinearGradientBrush brush = new LinearGradientBrush(rect, color1, color2, LinearGradientMode.ForwardDiagonal))
+            if (rect.X > 0 && rect.Y > 0)
             {
-                // Dibujar el degradado en el fondo del formulario
-                e.Graphics.FillRectangle(brush, rect);
+                using (LinearGradientBrush brush = new LinearGradientBrush(rect, color1, color2, LinearGradientMode.ForwardDiagonal))
+                {
+                    // Dibujar el degradado en el fondo del formulario
+                    e.Graphics.FillRectangle(brush, rect);
+                }
             }
         }
     }

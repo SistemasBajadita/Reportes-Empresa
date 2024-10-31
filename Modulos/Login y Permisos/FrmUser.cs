@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
+using System.Drawing.Drawing2D;
 
 namespace Reportes.Modulos.Login_y_Permisos
 {
@@ -17,6 +18,7 @@ namespace Reportes.Modulos.Login_y_Permisos
 		public FrmUser()
 		{
 			InitializeComponent();
+			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
 		}
 
 		public delegate void Evento(object sender, EventArgs e);
@@ -58,5 +60,24 @@ namespace Reportes.Modulos.Login_y_Permisos
 				TxtConfirmacion.UseSystemPasswordChar = true;
 			}
 		}
-	}
+
+        private void FrmUser_Paint(object sender, PaintEventArgs e)
+        {
+            // Crear un rectángulo que cubra todo el formulario
+            Rectangle rect = this.ClientRectangle;
+
+            // Definir los colores del degradado (por ejemplo, de azul a blanco)
+            Color color1 = Color.FromArgb(251, 147, 60); //--original
+            Color color2 = ColorTranslator.FromHtml("#fdbc3c"); //--original
+                                                                //Color color1 = ColorTranslator.FromHtml("#0C1A47");
+                                                                //Color color2 = ColorTranslator.FromHtml("#EC3F5D");
+
+            // Crear un pincel con un degradado lineal
+            using (LinearGradientBrush brush = new LinearGradientBrush(rect, color1, color2, LinearGradientMode.BackwardDiagonal))
+            {
+                // Dibujar el degradado en el fondo del formulario
+                e.Graphics.FillRectangle(brush, rect);
+            }
+        }
+    }
 }

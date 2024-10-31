@@ -15,23 +15,15 @@ namespace Reportes
 		public FrmVentaDeTortilla()
 		{
 			InitializeComponent();
+			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
 		}
 
 		private void FrmVentaDeTortilla_Paint(object sender, PaintEventArgs e)
 		{
-			System.Drawing.Rectangle rect = this.ClientRectangle;
 
-			Color color1 = Color.FromArgb(251, 147, 60); //--original
-			Color color2 = ColorTranslator.FromHtml("#fdbc3c"); //--original
+        }
 
-			// Crear un pincel con un degradado lineal
-			using (LinearGradientBrush brush = new LinearGradientBrush(rect, color1, color2, LinearGradientMode.ForwardDiagonal))
-			{
-				e.Graphics.FillRectangle(brush, rect);
-			}
-		}
-
-		private void FrmVentaDeTortilla_Load(object sender, System.EventArgs e)
+        private void FrmVentaDeTortilla_Load(object sender, System.EventArgs e)
 		{
 			for (int i = 2024; i <= DateTime.Now.Year; i++)
 			{
@@ -70,9 +62,9 @@ namespace Reportes
 				int numTicketsSinTortilla = int.Parse(numTicketsSinTortillaStr);
 
 				// Limpiar series y áreas de gráfico anteriores si ya existen
-				chart1.Series.Clear();
-				chart1.ChartAreas.Clear();
-				chart1.Titles.Clear();
+				graphic.Series.Clear();
+				graphic.ChartAreas.Clear();
+				graphic.Titles.Clear();
 
 				// Crear un área de gráfico
 				ChartArea chartArea = new ChartArea();
@@ -92,7 +84,7 @@ namespace Reportes
 				chartArea.AxisX.TitleFont = new Font("Arial", 12, FontStyle.Bold); // Estilo del título
 				chartArea.AxisX.TitleAlignment = StringAlignment.Center;
 
-				chart1.ChartAreas.Add(chartArea);
+				graphic.ChartAreas.Add(chartArea);
 
 				// Crear una serie
 				Series series1 = new Series("Tickets del mes");
@@ -110,14 +102,14 @@ namespace Reportes
 				series2.IsValueShownAsLabel = true;
 
 				// Añadir la serie al gráfico
-				chart1.Series.Add(series1);
-				chart1.Series.Add(series2);
+				graphic.Series.Add(series1);
+				graphic.Series.Add(series2);
 
 				// Añadir un título al gráfico
 				Title title = new Title();
 				title.Text = "Reporte tickets sin tortilla"; // Texto del título
 				title.Font = new Font("Arial", 16, FontStyle.Bold); // Puedes cambiar el estilo de la fuente si quieres
-				chart1.Titles.Add(title);
+				graphic.Titles.Add(title);
 
 				TextAnnotation annotation = new TextAnnotation
 				{
@@ -134,7 +126,7 @@ namespace Reportes
 				annotation.Alignment = ContentAlignment.MiddleLeft;
 
 				// Añadir la anotación al gráfico
-				chart1.Annotations.Add(annotation);
+				graphic.Annotations.Add(annotation);
 			}
 			else
 			{
@@ -144,12 +136,12 @@ namespace Reportes
 
 		private void BtnPrint_Click(object sender, EventArgs e)
 		{
-			if (chart1.Series.Count == 0)
+			if (graphic.Series.Count == 0)
 			{
 				MessageBox.Show("Primero presiona ver reporte");
 				return;
 			}
-			chart1.SaveImage("image.png", ChartImageFormat.Png);
+			graphic.SaveImage("image.png", ChartImageFormat.Png);
 			Process.Start("image.png");
 		}
 	}
