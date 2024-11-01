@@ -107,24 +107,49 @@ namespace Reportes
 
         private void FrmVentaDetallada_Paint(object sender, PaintEventArgs e)
         {
-            // Crear un rectángulo que cubra todo el formulario
-            Rectangle rect = this.ClientRectangle;
 
-            // Definir los colores del degradado (por ejemplo, de azul a blanco)
-            Color color1 = Color.FromArgb(251, 147, 60); //--original
-            Color color2 = ColorTranslator.FromHtml("#fdbc3c"); //--original
-                                                                //Color color1 = ColorTranslator.FromHtml("#0C1A47");
-                                                                //Color color2 = ColorTranslator.FromHtml("#EC3F5D");
+        }
 
-            // Crear un pincel con un degradado lineal
-            if (rect.X > 0 && rect.Y > 0)
+        private async void FrmVentaDetallada_Load(object sender, EventArgs e)
+        {
+            BtnCorrerQuery.Enabled = false;
+            lblMessage.Visible = true;
+            cbDepartamentos.Enabled = false;
+            BtnPDF.Enabled = false;
+            metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+            await Task.Run(() =>
             {
-                using (LinearGradientBrush brush = new LinearGradientBrush(rect, color1, color2, LinearGradientMode.BackwardDiagonal))
+                DataTable departamentos = metodos.GetQuery("select cod_agr as Codigo, des_agr as Agrupacion " +
+                    "from tblcatagrupacionart agr inner join tblagrupacionart gpo on gpo.cod_gpo=agr.COD_GPO " +
+                    "where agr.cod_gpo=25");
+                Invoke(new Action(() =>
                 {
-                    // Dibujar el degradado en el fondo del formulario
-                    e.Graphics.FillRectangle(brush, rect);
-                }
-            }
+                    cbDepartamentos.DataSource = departamentos;
+                    cbDepartamentos.ValueMember = "Codigo";
+                    cbDepartamentos.DisplayMember = "Agrupacion";
+                }));
+            });
+            await Task.Run(() =>
+            {
+                metodos.SetQuery(@"CREATE TEMPORARY TABLE temp_last_compras AS
+									SELECT cod1_art, cos_uni AS last_cos_uni
+									FROM (
+										SELECT cr.cod1_art, cr.cos_uni, 
+											   ROW_NUMBER() OVER (PARTITION BY cr.cod1_art ORDER BY cr.fol_doc DESC) AS rn
+										FROM tblcomprasren cr
+									) t
+									WHERE rn = 1;
+                    
+									CREATE TEMPORARY TABLE temp_precios AS
+									SELECT p.cod1_art, p.pre_iva 
+									FROM tblprecios p 
+									WHERE p.cod_lista = 1;");
+            });
+            metodos = null;
+            BtnPDF.Enabled = true;
+            cbDepartamentos.Enabled = true;
+            lblMessage.Visible = false;
+            BtnCorrerQuery.Enabled = true;
         }
     }
 }
