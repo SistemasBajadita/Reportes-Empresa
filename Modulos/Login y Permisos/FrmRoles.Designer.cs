@@ -159,6 +159,7 @@
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "FrmRoles";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Accesos y contraseñas";
             this.Load += new System.EventHandler(this.prueba_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.FrmRoles_Paint);

@@ -49,10 +49,11 @@
             // 
             // cbYears
             // 
+            this.cbYears.Font = new System.Drawing.Font("Lucida Fax", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbYears.FormattingEnabled = true;
-            this.cbYears.Location = new System.Drawing.Point(107, 95);
+            this.cbYears.Location = new System.Drawing.Point(106, 85);
             this.cbYears.Name = "cbYears";
-            this.cbYears.Size = new System.Drawing.Size(170, 24);
+            this.cbYears.Size = new System.Drawing.Size(170, 28);
             this.cbYears.TabIndex = 39;
             // 
             // BtnGetExcel
@@ -84,9 +85,10 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(177, 173);
+            this.label1.Font = new System.Drawing.Font("Lucida Sans", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(176, 180);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(26, 16);
+            this.label1.Size = new System.Drawing.Size(31, 19);
             this.label1.TabIndex = 42;
             this.label1.Text = "0%";
             // 
@@ -102,6 +104,7 @@
             this.Controls.Add(this.cbYears);
             this.Controls.Add(this.label2);
             this.Name = "FrmYearSelection";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmYearSelection";
             this.Load += new System.EventHandler(this.FrmYearSelection_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

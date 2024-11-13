@@ -47,7 +47,9 @@ namespace Reportes.Modulos
 				anio = int.Parse(cbYears.Text);
 			}));
 			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
-			DataTable departamentos = con.GetQuery("select DISTINCT agr.cod_agr, des_agr from tblcatagrupacionart agr \r\ninner join tblgpoarticulos cod on cod.COD_AGR=agr.COD_AGR where cod.COD_GPO=25;");
+			DataTable departamentos = con.GetQuery("select DISTINCT agr.cod_agr, des_agr from tblcatagrupacionart agr " +
+				"inner join tblgpoarticulos cod on cod.COD_AGR=agr.COD_AGR where cod.COD_GPO=25 " +
+				"order by des_agr asc;");
 			Workbook excel = new Workbook();
 
 			WorksheetCollection sheets = excel.Worksheets;
