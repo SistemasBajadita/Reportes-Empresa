@@ -17,10 +17,8 @@ namespace Reportes
 		public FrmVentaCosto()
 		{
 			InitializeComponent();
-
-			FechaA.MaxDate = DateTime.Now.AddDays(-1);
-			FechaB.MaxDate = DateTime.Now.AddDays(-1);
-
+			FechaA.MaxDate = DateTime.Now;
+			FechaB.MaxDate = DateTime.Now;
 			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
 		}
 
@@ -51,14 +49,14 @@ namespace Reportes
 							if (r[0].ToString() == row[0].ToString())
 							{
 								double porcentaje = (Convert.ToDouble(r[1]) / Convert.ToDouble(row[1])) * 100;
-								reporte.Rows.Add(row[0], row[1], row[2], row[3], r[1], Math.Round(porcentaje, 2));
+								reporte.Rows.Add(row[0], row[1], row[2], row[3], double.Parse(r[1].ToString()), Math.Round(porcentaje, 2));
 								merma.Rows.Remove(r);
 								mer = false;
 								break;
 							}
 
 						}
-						if (mer) reporte.Rows.Add(row[0], row[1], row[2], row[3], "0.00", "0.00");
+						if (mer) reporte.Rows.Add(row[0], row[1], row[2], row[3], 0.00, 0.00);
 					}
 
 					lblTotal.Visible = true;
@@ -71,10 +69,20 @@ namespace Reportes
 		private async void BtnCorrerQuery_Click(object sender, EventArgs e)
 		{
 			lblTotal.Visible = false;
-			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString())
+			if (FechaA.Value.Date == DateTime.Now.Date && FechaB.Value.Date == DateTime.Now.Date)
 			{
-				sendTables = SetearQuery
-			};
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString())
+				{
+					sendTables = SetearQuery
+				};
+			}
+			else
+			{
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString())
+				{
+					sendTables = SetearQuery
+				};
+			}
 
 			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");
 			string parametroB = FechaB.Value.ToString("yyyy-MM-dd");
@@ -85,7 +93,7 @@ namespace Reportes
 					"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
 					$"where  (gv.FEC_DOC between '{parametroA}' and '{parametroB}') and ga.COD_GPO = 25 " +
 					$"GROUP BY caa.DES_AGR " +
-					$"ORDER BY 'Departamento' ASC; " +
+					$"ORDER BY Departamento ASC; " +
 					$"select caa.DES_AGR as Departamento, round(sum(cos_uni*can_ren),2) as Merma " +
 					$"from tblrenalmacen ren_alm " +
 					$"inner join tblgralalmacen enc_alm on ren_alm.REF_MOV=enc_alm.REF_MOV " +
@@ -120,7 +128,6 @@ namespace Reportes
 
 		public void SetLabel()
 		{
-
 			try
 			{
 				Invoke(new Action(() =>
@@ -131,9 +138,9 @@ namespace Reportes
 				Thread.Sleep(6000);
 				Invoke(new Action(() => label5.Visible = false));
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-
+				MessageBox.Show(ex.Message);
 			}
 		}
 
@@ -160,14 +167,14 @@ namespace Reportes
 			guardarArchivo.FileName = $"Ventas_{DateTime.Now:dd-MM-yy}.pdf";
 
 			label4.Visible = true;
-			await Task.Run(()=> metodos.PrintReportInPDFVentas(parametroA, parametroB, guardarArchivo.FileName));
-			label4.Visible=false;
+			await Task.Run(() => metodos.PrintReportInPDFVentas(parametroA, parametroB, guardarArchivo.FileName));
+			label4.Visible = false;
 			Process.Start(guardarArchivo.FileName);
 		}
 
 		private void FrmVentaCosto_Paint(object sender, PaintEventArgs e)
 		{
 
-        }
-    }
+		}
+	}
 }

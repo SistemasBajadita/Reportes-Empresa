@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Reportes
@@ -36,7 +37,7 @@ namespace Reportes
 				return false;
 		}
 
-		public void CambiarPassword(string userId, string password)
+		public  void CambiarPassword(string userId, string password)
 		{
 			con.GetQuery($"update users set password='{ClsLoginVerification.Encriptar(password)}' where userid={userId};");
 		}

@@ -47,7 +47,7 @@ namespace Reportes
             string fechaA = FechaA.Value.ToString("yyyy-MM-dd");
             string fechaB = FechaB.Value.ToString("yyyy-MM-dd");
 
-            await Task.Run(() => tickets = conn.GetQuery($@"select DISTINCT ven.fec_doc, ven.ref_doc, cli.NOM_CLI, hora_reg, concat('$',round(tot_doc,2)), ven.COD_USU, ren.cod_ven
+            await Task.Run( () => tickets =  conn.GetQuery($@"select DISTINCT ven.fec_doc, ven.ref_doc, cli.NOM_CLI, hora_reg, concat('$',round(tot_doc,2)), ven.COD_USU, ren.cod_ven
 												from tblgralventas ven
 												inner join tblcatclientes cli on cli.COD_Cli=ven.COD_CLI
 												inner join tblrenventas ren on ren.REF_DOC=ven.REF_DOC
@@ -189,7 +189,7 @@ namespace Reportes
 
             DataTable vendedores = new DataTable();
 
-            await Task.Run(() => vendedores = conn.GetQuery("select cod_ven, nom_ven from tblvendedores where cod_ven!='BORR' " +
+            await Task.Run( () => vendedores = conn.GetQuery("select cod_ven, nom_ven from tblvendedores where cod_ven!='BORR' " +
                 "order by nom_ven asc;"));
 
             try
@@ -230,7 +230,7 @@ namespace Reportes
 
             await Task.Run(async () =>
             {
-                await Task.Run(() => vendedores = conn.GetQuery(query));
+                await Task.Run( () => vendedores =  conn.GetQuery(query));
                 Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
                 DataTable tickets = new DataTable();
 

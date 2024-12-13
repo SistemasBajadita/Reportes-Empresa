@@ -74,7 +74,6 @@
             this.label4.TabIndex = 35;
             this.label4.Text = "Cargando reporte ...";
             this.label4.Visible = false;
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // reporte
             // 
@@ -162,7 +161,6 @@
             this.label3.Size = new System.Drawing.Size(20, 21);
             this.label3.TabIndex = 31;
             this.label3.Text = "a";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // FechaA
             // 
@@ -184,7 +182,6 @@
             this.label2.Size = new System.Drawing.Size(241, 21);
             this.label2.TabIndex = 29;
             this.label2.Text = "Ingresa el rango de fecha";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label1
             // 
@@ -196,7 +193,6 @@
             this.label1.Size = new System.Drawing.Size(642, 26);
             this.label1.TabIndex = 28;
             this.label1.Text = "Reporte de productos mas vendidos por departamento";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // cbDepartamentos
             // 
@@ -217,7 +213,6 @@
             this.label5.Size = new System.Drawing.Size(138, 21);
             this.label5.TabIndex = 39;
             this.label5.Text = "Departamento";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // rbDesplazamiento
             // 
@@ -231,7 +226,6 @@
             this.rbDesplazamiento.TabStop = true;
             this.rbDesplazamiento.Text = "Ver por desplazamiento";
             this.rbDesplazamiento.UseVisualStyleBackColor = false;
-            this.rbDesplazamiento.CheckedChanged += new System.EventHandler(this.rbDesplazamiento_CheckedChanged);
             // 
             // rbDinero
             // 
@@ -245,7 +239,6 @@
             this.rbDinero.TabStop = true;
             this.rbDinero.Text = "Ver por dinero";
             this.rbDinero.UseVisualStyleBackColor = false;
-            this.rbDinero.CheckedChanged += new System.EventHandler(this.rbDinero_CheckedChanged);
             // 
             // FrmTopProductos
             // 

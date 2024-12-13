@@ -105,7 +105,7 @@
             this.Controls.Add(this.label2);
             this.Name = "FrmYearSelection";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FrmYearSelection";
+            this.Text = "Ventas mensuales por departamento";
             this.Load += new System.EventHandler(this.FrmYearSelection_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

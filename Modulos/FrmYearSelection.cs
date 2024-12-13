@@ -99,7 +99,7 @@ namespace Reportes.Modulos
 				string rangeVentas = $"B2:B{meses + 1}";
 				string rangeCosto = $"C2:C{meses + 1}";
 				chart.NSeries.Add(rangeVentas, true);
-				chart.NSeries.Add(rangeCosto, true); 
+				chart.NSeries.Add(rangeCosto, true);
 				chart.NSeries.CategoryData = $"A2:A{meses + 1}";
 
 				chart.Title.Text = "Ventas y Costos Mensuales - " + departamentos.Rows[i][1].ToString();
@@ -118,7 +118,6 @@ namespace Reportes.Modulos
 				double porcentaje = ((double)(i + 1) / (double)departamentos.Rows.Count) * 100.0;
 
 				Invoke(new Action(() => { label1.Text = $"{porcentaje:N2}%"; }));
-
 			}
 
 			Worksheet evalSheet = sheets["Evaluation Warning"];
@@ -127,8 +126,8 @@ namespace Reportes.Modulos
 				sheets.RemoveAt(evalSheet.Index);
 			}
 
-			excel.Save("prueba.xlsx");
-			Process.Start("prueba.xlsx");
+			excel.Save("ventas mensuales.xlsx");
+			Process.Start("ventas mensuales.xlsx");
 		}
 
 		private async void BtnGetExcel_Click(object sender, EventArgs e)

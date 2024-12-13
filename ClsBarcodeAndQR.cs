@@ -87,8 +87,10 @@ namespace Reportes
             };
             barra = bar.Write(codigo);
             barra.Save("qr.png");
-            Process.Start("barcode.png");
-            Process.Start("qr.png");
+
+
+            //Process.Start("barcode.png");
+            //Process.Start("qr.png");
         }
     }
 }

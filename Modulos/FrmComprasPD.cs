@@ -17,8 +17,8 @@ namespace Reportes
 		{
 			InitializeComponent();
 
-			FechaA.MaxDate = DateTime.Now.AddDays(-1);
-			FechaB.MaxDate = DateTime.Now.AddDays(-1);
+			FechaA.MaxDate = DateTime.Now;
+			FechaB.MaxDate = DateTime.Now;
 
 			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
 		}
@@ -34,10 +34,21 @@ namespace Reportes
 
 		private async void BtnCorrerQuery_Click(object sender, EventArgs e)
 		{
-			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString())
+			if (FechaA.Value.Date == DateTime.Now.Date && FechaB.Value.Date == DateTime.Now.Date)
 			{
-				sendReport = SetearQuery
-			};
+
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString())
+				{
+					sendReport = SetearQuery
+				};
+			}
+			else
+			{
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString())
+				{
+					sendReport = SetearQuery
+				};
+			}
 
 			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");
 			string parametroB = FechaB.Value.ToString("yyyy-MM-dd");
