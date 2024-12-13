@@ -77,7 +77,14 @@ namespace Reportes.Modulos
 
 		private void SetMensaje(string text)
 		{
-			Invoke(new Action(() => { lblMensaje.Text = text; }));
+			try
+			{
+				Invoke(new Action(() => { lblMensaje.Text = text; }));
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 
 		private async void BtnCopy_Click(object sender, EventArgs e)
