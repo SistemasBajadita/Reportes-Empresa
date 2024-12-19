@@ -984,8 +984,8 @@ namespace Reportes
 					writer.PageEvent = pageEventHelper;
 
 					doc.Open();
-					PdfPTable table = new PdfPTable(3) { WidthPercentage = 100 };
-					float[] columnWidths = new float[] { 4f, 7f, 3f };
+					PdfPTable table = new PdfPTable(4) { WidthPercentage = 100 };
+					float[] columnWidths = new float[] { 4f, 7f, 4.5f, 3f };
 					table.SetWidths(columnWidths);
 
 					iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
@@ -994,7 +994,9 @@ namespace Reportes
 					table.AddCell(headerCell);
 					headerCell = new PdfPCell(new Phrase("DESCRIPCION", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
 					table.AddCell(headerCell);
-					headerCell = new PdfPCell(new Phrase("EXISTENCIA", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					headerCell = new PdfPCell(new Phrase("CATEGORIA", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("EXISTENCIA", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
 					table.AddCell(headerCell);
 
 					iTextSharp.text.Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
@@ -1006,6 +1008,8 @@ namespace Reportes
 						dataCell = new PdfPCell(new Phrase(row[1].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 6f };
 						table.AddCell(dataCell);
 						dataCell = new PdfPCell(new Phrase(row[2].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 6f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(row[3].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 6f };
 						table.AddCell(dataCell);
 					}
 

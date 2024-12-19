@@ -35,7 +35,6 @@ namespace Reportes.Modulos
 				"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
 				"Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
 			};
-
 			return months[monthNumber - 1];
 		}
 
@@ -82,13 +81,13 @@ namespace Reportes.Modulos
 					// Asignar un valor numérico a la celda
 					cell.Value = double.Parse(resultado != null ? resultado[0] : "0.00");
 					Style style = cell.GetStyle();
-					style.Number = 1; // Formato de número general
+					style.Number = 5; // Formato de número general
 					cell.SetStyle(style);
 
 					cell = hojaActual.Cells[j, 2];
 					cell.Value = double.Parse(resultado != null ? resultado[1] : "0.00");
 					style = cell.GetStyle();
-					style.Number = 1; // Formato de número general
+					style.Number = 5; // Formato de número general
 					cell.SetStyle(style);
 
 				}

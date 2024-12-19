@@ -95,7 +95,12 @@ namespace Reportes
 		{
 			ClsConnection _con = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
 
-			_ = _con.GetQuery("select cod1_art, des1_art, exi_act from tblcatarticulos where EXI_ACT <0;");
+			_ = _con.GetQuery("select art.cod1_art, art.des1_art, agr.DES_AGR, art.exi_act " +
+				"from tblcatarticulos art " +
+				"inner join tblgpoarticulos gpo on gpo.cod1_art=art.cod1_art " +
+				"inner join tblcatagrupacionart agr on agr.COD_AGR=gpo.COD_AGR " +
+				"where art.EXI_ACT < 0 and gpo.COD_GPO=26 " +
+				"order by agr.des_agr asc; ");
 			DialogResult response = MessageBox.Show($"Hay {_con.GetScalar("select count(*) from tblcatarticulos where exi_act<0")} productos con existencia negativa\n" +
 				$"¿Deseas generar el archivo txt para hacer ajuste de negativos?", "La Bajadita - Existencias Negativas", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
@@ -163,7 +168,7 @@ namespace Reportes
 							  INNER JOIN tblprecios pr ON pr.COD1_ART = art.COD1_ART
 							  WHERE pr.COD_LISTA = 1 AND art.cod1_art = '{codigo.Value}';";
 
-				DataTable query =  bd.GetQuery(q);
+				DataTable query = bd.GetQuery(q);
 
 				if (query.Rows.Count > 0)
 				{
@@ -185,7 +190,7 @@ namespace Reportes
 							   FROM tblcatarticulos art 
 							   INNER JOIN tblprecios pr ON pr.COD1_ART = art.COD1_ART
 							   WHERE pr.COD_LISTA = 1 AND art.cod1_art = '{nuevoCodigo}';";
-						query =  bd.GetQuery(q);
+						query = bd.GetQuery(q);
 
 						if (query.Rows.Count == 0)
 						{
@@ -194,7 +199,7 @@ namespace Reportes
 								   FROM tblcatarticulos art 
 								   INNER JOIN tblprecios pr ON pr.COD1_ART = art.COD1_ART
 								   WHERE pr.COD_LISTA = 1 AND art.cod1_art = '{nuevoCodigo}';";
-							query =  bd.GetQuery(q);
+							query = bd.GetQuery(q);
 						}
 
 						if (query.Rows.Count > 0)
@@ -344,7 +349,6 @@ namespace Reportes
 								if (productos.Rows.Count > 0)
 								{
 									doc.Add(new Paragraph($"Proveedor: {p[1]}", headerFont) { Alignment = Element.ALIGN_CENTER });
-
 									table = new PdfPTable(4) { WidthPercentage = 100 };
 									columnWidths = new float[] { 2f, 2f, 1f, 1f };
 									table.SetWidths(columnWidths);
@@ -377,12 +381,10 @@ namespace Reportes
 									doc.Add(table);
 									doc.Add(new Paragraph("\n") { Alignment = Element.ALIGN_CENTER });
 								}
-
 							}
 							doc.Close();
 							writer.Close();
 						}
-
 						Process.Start("desp.pdf");
 					}
 				}
@@ -396,11 +398,13 @@ namespace Reportes
 
 		private void FrmPrincipal_Load(object sender, EventArgs e)
 		{
-			this.ControlBox = false;
+			ControlBox = false;
 
 			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
+
 			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings["log"].ToString());
 			List<Button> buttons = GetAllButtons(this);
+
 			foreach (Button b in buttons)
 			{
 				string result = con.GetScalar($"select {b.Name} from users_roles where userid={userid}");

@@ -37,7 +37,7 @@ namespace Reportes
 				return false;
 		}
 
-		public  void CambiarPassword(string userId, string password)
+		public void CambiarPassword(string userId, string password)
 		{
 			con.GetQuery($"update users set password='{ClsLoginVerification.Encriptar(password)}' where userid={userId};");
 		}

@@ -92,13 +92,13 @@ namespace Reportes.Modulos
 			if (codigo != null)
 			{
 				Clipboard.SetText(codigo);
-				SetMensaje("Codigo copiado!!");
+				SetMensaje("Código copiado!!");
 				await Task.Delay(3000);
 				SetMensaje("");
 			}
 			else
 			{
-				MessageBox.Show("Genera el codigo primero por favor",
+				MessageBox.Show("Genera el código primero por favor",
 					"La Bajadita - Venta de Frutas Y Verduras",
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Information);
@@ -109,7 +109,7 @@ namespace Reportes.Modulos
 		{
 			Image barcode = Image.FromFile("barcode.png");
 			Clipboard.SetImage(barcode);
-			SetMensaje("Codigo de barra copiado!!");
+			SetMensaje("Código de barra copiado!!");
 			await Task.Delay(3000);
 			SetMensaje("");
 		}

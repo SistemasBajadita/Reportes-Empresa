@@ -42,144 +42,172 @@ namespace Reportes
 
         private async void BtnPrintReport_Click(object sender, EventArgs e)
         {
-            DataTable tickets = new DataTable();
-            string cod = cmbVendedor.SelectedValue.ToString();
-            string fechaA = FechaA.Value.ToString("yyyy-MM-dd");
-            string fechaB = FechaB.Value.ToString("yyyy-MM-dd");
+			DataTable tickets = new DataTable();
+			string cod = cmbVendedor.SelectedValue.ToString();
+			string fechaA = FechaA.Value.ToString("yyyy-MM-dd");
+			string fechaB = FechaB.Value.ToString("yyyy-MM-dd");
 
-            await Task.Run( () => tickets =  conn.GetQuery($@"select DISTINCT ven.fec_doc, ven.ref_doc, cli.NOM_CLI, hora_reg, concat('$',round(tot_doc,2)), ven.COD_USU, ren.cod_ven
-												from tblgralventas ven
-												inner join tblcatclientes cli on cli.COD_Cli=ven.COD_CLI
-												inner join tblrenventas ren on ren.REF_DOC=ven.REF_DOC
-												where CAJA_DOC=9 
-												and (ven.FEC_DOC between '{fechaA}' and '{fechaB}')
-												and ren.cod_ven='{cod}';"));
+			await Task.Run(() => tickets = conn.GetQuery($@"select DISTINCT ven.fec_doc, ven.ref_doc, cli.NOM_CLI, hora_reg, round(tot_doc,2), ven.COD_USU, ren.cod_ven
+												                    from tblgralventas ven
+												                    inner join tblcatclientes cli on cli.COD_Cli=ven.COD_CLI
+												                    inner join tblrenventas ren on ren.REF_DOC=ven.REF_DOC
+												                    where CAJA_DOC=9 
+												                    and (ven.FEC_DOC between '{fechaA}' and '{fechaB}')
+												                    and ren.cod_ven='{cod}';"));
 
-            try
-            {
-                Document doc = new Document();
-                string pdfPath = "reporte.pdf";
+			try
+			{
+				Document doc = new Document();
+				string pdfPath = "reporte.pdf";
 
-                using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
-                {
-                    PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+				using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
+				{
+					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
 
-                    ClsPageEventHelper pageEventHelper = new ClsPageEventHelper("Imagenes/LOGO_EMPRESA-removebg-preview.png");
-                    writer.PageEvent = pageEventHelper;
+					ClsPageEventHelper pageEventHelper = new ClsPageEventHelper("Imagenes/LOGO_EMPRESA-removebg-preview.png");
+					writer.PageEvent = pageEventHelper;
 
-                    doc.Open();
+					doc.Open();
 
-                    // Título del documento
-                    Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+					// Título del documento
+					Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
 
-                    doc.Add(new Paragraph("                         CURLANGO RAMOS CHRISTIAN YARELY \n" +
-                        "                         R.F.C CURC890920PW1", titleFont)
-                    { Alignment = Element.ALIGN_LEFT });
-                    doc.Add(new Paragraph("                         CALLE AVENIDA DE LOS MAESTROS #42 LOCAL 10", titleFont) { Alignment = Element.ALIGN_LEFT });
-                    doc.Add(new Paragraph("                         COL. JARDINES DEL BOSQUE", titleFont) { Alignment = Element.ALIGN_LEFT });
-                    doc.Add(new Paragraph("                         C.P. 84063 H. NOGALES, SONORA", titleFont) { Alignment = Element.ALIGN_LEFT });
+					doc.Add(new Paragraph("                         CURLANGO RAMOS CHRISTIAN YARELY \n" +
+						"                         R.F.C CURC890920PW1", titleFont)
+					{ Alignment = Element.ALIGN_LEFT });
+					//Paragraph title = new Paragraph("                         LA BAJADITA - VENTA DE FRUTAS Y VERDURAS", titleFont);
+					//title.Alignment = Element.ALIGN_LEFT;
+					//doc.Add(title);
+					doc.Add(new Paragraph("                         CALLE AVENIDA DE LOS MAESTROS #42 LOCAL 10", titleFont) { Alignment = Element.ALIGN_LEFT });
+					doc.Add(new Paragraph("                         COL. JARDINES DEL BOSQUE", titleFont) { Alignment = Element.ALIGN_LEFT });
+					doc.Add(new Paragraph("                         C.P. 84063 H. NOGALES, SONORA", titleFont) { Alignment = Element.ALIGN_LEFT });
 
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph($"REPORTE DE TICKETS POR CHOFER\nCHOFER: {GetSelectedTextFromCombo()}\nPERIODO: {FechaA.Value.ToString("dd/MM/yyyy")} a {FechaB.Value.ToString("dd/MM/yyyy")}"));
-                    doc.Add(new Paragraph("\n"));
+					doc.Add(new Paragraph("\n"));
+					doc.Add(new Paragraph($"REPORTE DE TICKETS POR CHOFER\nCHOFER: {GetSelectedTextFromCombo()}\nPERIODO: {FechaA.Value.ToString("dd/MM/yyyy")} a {FechaB.Value.ToString("dd/MM/yyyy")}"));
+					doc.Add(new Paragraph("\n"));
 
-                    PdfPTable table = new PdfPTable(6)
-                    {
-                        WidthPercentage = 100
-                    };
+					PdfPTable table = new PdfPTable(6);
+					table.WidthPercentage = 100;
 
-                    float[] columnWidths = new float[] { 1f, 2f, 2f, 1f, 1f, 1f };
-                    table.SetWidths(columnWidths);
+					float[] columnWidths = new float[] { 1f, 2f, 2f, 1f, 1f, 1f };
+					table.SetWidths(columnWidths);
 
-                    Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
-                    PdfPCell headerCell;
+					Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
+					PdfPCell headerCell;
 
-                    headerCell = new PdfPCell(new Phrase("FECHA", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
-                    table.AddCell(headerCell);
-                    headerCell = new PdfPCell(new Phrase("FOLIO", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
-                    table.AddCell(headerCell);
-                    headerCell = new PdfPCell(new Phrase("CLIENTE", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
-                    table.AddCell(headerCell);
-                    headerCell = new PdfPCell(new Phrase("HORA", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
-                    table.AddCell(headerCell);
-                    headerCell = new PdfPCell(new Phrase("TOTAL", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
-                    table.AddCell(headerCell);
-                    headerCell = new PdfPCell(new Phrase("DEV", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
-                    table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("FECHA", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("FOLIO", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("CLIENTE", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("HORA", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("TOTAL", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("DEV", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
 
-                    PdfPCell dataCell;
-                    Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+					PdfPCell dataCell;
+					Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
 
-                    string query = "";
-                    double devTotal = 0;
+					string query = "";
+					double devTotal = 0;
 
-                    foreach (DataRow r in tickets.Rows)
-                    {
-                        query = $@" select round( SUM(tot_dev),2)
+					foreach (DataRow r in tickets.Rows)
+					{
+						query = $@" select round( SUM(tot_dev),2)
 									from tblencdevolucion dev
 									inner join tblgralventas ven on dev.REF_DOC=ven.REF_DOC
 									where dev.REF_DOC='{r[1]}' and cod_sts=5;";
 
-                        string ro = conn.GetRowQuery(query);
+						string ro = conn.GetRowQuery(query);
 
-                        if (ro == "")
-                        {
-                            dataCell = new PdfPCell(new Phrase($"{Convert.ToDateTime(r[0]):dd/MM/yyyy}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
-                            table.AddCell(dataCell);
-                            dataCell = new PdfPCell(new Phrase($"{r[1]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f };
-                            table.AddCell(dataCell);
-                            dataCell = new PdfPCell(new Phrase($"{r[2]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f };
-                            table.AddCell(dataCell);
-                            dataCell = new PdfPCell(new Phrase($"{r[3]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f };
-                            table.AddCell(dataCell);
-                            dataCell = new PdfPCell(new Phrase($"{r[4]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f };
-                            table.AddCell(dataCell);
-                            dataCell = new PdfPCell(new Phrase($"${0}.00", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f };
-                            table.AddCell(dataCell);
-                        }
-                        else
-                        {
-                            devTotal += Convert.ToDouble(ro);
+						bool creditFlag = false;
 
-                            dataCell = new PdfPCell(new Phrase($"{Convert.ToDateTime(r[0]):dd/MM/yyyy}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f, BackgroundColor = new BaseColor(230, 133, 138) };
-                            table.AddCell(dataCell);
-                            dataCell = new PdfPCell(new Phrase($"{r[1]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
-                            table.AddCell(dataCell);
-                            dataCell = new PdfPCell(new Phrase($"{r[2]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
-                            table.AddCell(dataCell);
-                            dataCell = new PdfPCell(new Phrase($"{r[3]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
-                            table.AddCell(dataCell);
-                            dataCell = new PdfPCell(new Phrase($"{r[4]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
-                            table.AddCell(dataCell);
-                            dataCell = new PdfPCell(new Phrase($"${Convert.ToDouble(ro):N2}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
-                            table.AddCell(dataCell);
-                        }
-                    }
-
-                    double subtotal = 0;
-
-                    doc.Add(table);
-
-                    foreach (DataRow r in tickets.Rows)
-                    {
-                        subtotal += double.Parse(r[4].ToString().Substring(1));
-                    }
+						if (conn.GetScalar($"select cod_frp from tblauxcaja where ref_doc = '{r[1]}'") == "5")
+						{
+							creditFlag = true;
+						}
 
 
-                    doc.Add(new Paragraph($"Subtotal: ${subtotal}", titleFont) { Alignment = Element.ALIGN_RIGHT });
-                    doc.Add(new Paragraph($"Devoluciones: ${devTotal}", titleFont) { Alignment = Element.ALIGN_RIGHT });
-                    doc.Add(new Paragraph($"Total: ${subtotal - devTotal}", titleFont) { Alignment = Element.ALIGN_RIGHT });
+						if (ro == "")
+						{
+							dataCell = new PdfPCell(new Phrase($"{Convert.ToDateTime(r[0]):dd/MM/yyyy}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f, BackgroundColor = creditFlag ? new BaseColor(255, 255, 0) : new BaseColor(255, 255, 255) };
+							table.AddCell(dataCell);
+							dataCell = new PdfPCell(new Phrase($"{r[1]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = creditFlag ? new BaseColor(255, 255, 0) : new BaseColor(255, 255, 255) };
+							table.AddCell(dataCell);
+							dataCell = new PdfPCell(new Phrase($"{r[2]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = creditFlag ? new BaseColor(255, 255, 0) : new BaseColor(255, 255, 255) };
+							table.AddCell(dataCell);
+							dataCell = new PdfPCell(new Phrase($"{r[3]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = creditFlag ? new BaseColor(255, 255, 0) : new BaseColor(255, 255, 255) };
+							table.AddCell(dataCell);
+							dataCell = new PdfPCell(new Phrase($"${Convert.ToDouble(r[4]):N2}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = creditFlag ? new BaseColor(255, 255, 0) : new BaseColor(255, 255, 255) };
+							table.AddCell(dataCell);
+							dataCell = new PdfPCell(new Phrase($"${0}.00", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = creditFlag ? new BaseColor(255, 255, 0) : new BaseColor(255, 255, 255) };
+							table.AddCell(dataCell);
+						}
+						else
+						{
+							devTotal += Convert.ToDouble(Convert.ToDouble(ro));
 
-                    doc.Close();
-                    writer.Close();
-                    Process.Start("reporte.pdf");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "La Bajadita - Venta de Frutas y Verduras");
-            }
-        }
+							dataCell = new PdfPCell(new Phrase($"{Convert.ToDateTime(r[0]):dd/MM/yyyy}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f, BackgroundColor = new BaseColor(230, 133, 138) };
+							table.AddCell(dataCell);
+							dataCell = new PdfPCell(new Phrase($"{r[1]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
+							table.AddCell(dataCell);
+							dataCell = new PdfPCell(new Phrase($"{r[2]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
+							table.AddCell(dataCell);
+							dataCell = new PdfPCell(new Phrase($"{r[3]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
+							table.AddCell(dataCell);
+							dataCell = new PdfPCell(new Phrase($"${Convert.ToDouble(r[4]):N2}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
+							table.AddCell(dataCell);
+							dataCell = new PdfPCell(new Phrase($"${Convert.ToDouble(ro):N2}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = new BaseColor(230, 133, 138) };
+							table.AddCell(dataCell);
+						}
+					}
+
+					double subtotal = 0;
+					double credito = 0;
+
+					doc.Add(table);
+
+					foreach (DataRow r in tickets.Rows)
+					{
+						query = $"select cod_frp from tblauxcaja where ref_doc = '{r[1]}'";
+						if (conn.GetScalar(query) == "5")
+						{
+							credito += double.Parse(r[4].ToString());
+						}
+						subtotal += double.Parse(r[4].ToString());
+					}
+
+					doc.Add(new Paragraph(Environment.NewLine));
+
+					PdfPTable colores = new PdfPTable(1)
+					{
+						WidthPercentage = 20,
+						HorizontalAlignment = Element.ALIGN_RIGHT
+					};
+					colores.AddCell(new PdfPCell(new Phrase("Devolucion")) { BackgroundColor = new BaseColor(230, 133, 138) });
+					colores.AddCell(new PdfPCell(new Phrase("Credito")) { BackgroundColor = new BaseColor(255, 255, 0) });
+					doc.Add(colores);
+
+					doc.Add(new Paragraph($"Subtotal: ${Convert.ToDouble(subtotal):N2}", titleFont) { Alignment = Element.ALIGN_RIGHT });
+					doc.Add(new Paragraph($"Credito: ${credito:N2}", titleFont) { Alignment = Element.ALIGN_RIGHT });
+					doc.Add(new Paragraph($"Devoluciones: ${Convert.ToDouble(devTotal):N2}", titleFont) { Alignment = Element.ALIGN_RIGHT });
+					doc.Add(new Paragraph($"Total a entregar: ${Convert.ToDouble(subtotal - devTotal - credito):N2}\n\n", titleFont) { Alignment = Element.ALIGN_RIGHT });
+
+
+
+					doc.Close();
+					writer.Close();
+					Process.Start("reporte.pdf");
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "La Bajadita - Venta de Frutas y Verduras");
+			}
+		}
 
         private async void FrmTickets_Load(object sender, EventArgs e)
         {
