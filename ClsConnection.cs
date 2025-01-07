@@ -62,6 +62,7 @@ namespace Reportes
 				{
 					resultadoFinal = new string[] { result.GetString(1), result.GetString(2) };
 				}
+				result.Close();
 			}
 			catch (Exception ex)
 			{
@@ -70,7 +71,6 @@ namespace Reportes
 			}
 			finally
 			{
-				result.Close();
 				_con.Close();
 			}
 
