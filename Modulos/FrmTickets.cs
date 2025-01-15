@@ -334,7 +334,7 @@ namespace Reportes
 								query = $@" select round( SUM(tot_dev),2)
 									from tblencdevolucion dev
 									inner join tblgralventas ven on dev.REF_DOC=ven.REF_DOC
-									where dev.REF_DOC='{r[1]}'";
+									where dev.REF_DOC='{r[1]}' and cod_sts=5";
 
 								string ro = conn.GetRowQuery(query);
 

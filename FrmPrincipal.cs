@@ -41,6 +41,7 @@ namespace Reportes
 		{
 			this.userid = userid;
 			InitializeComponent();
+			Text = $"Reportes - {(Program.Empresa==0 ? "Jardines del Bosque" : "Colinas del Yaqui")}";
 		}
 
 		private void BtnVentaCosto_Click(object sender, EventArgs e)
@@ -93,13 +94,21 @@ namespace Reportes
 
 		private void BtnNegativos_Click(object sender, EventArgs e)
 		{
-			ClsConnection _con = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+			ClsConnection _con = null;
+			if (Program.Empresa == 0)
+			{
+				_con = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+			}
+			else if (Program.Empresa == 1)
+			{
+				_con = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
+			}
 
 			_ = _con.GetQuery("select art.cod1_art, art.des1_art, agr.DES_AGR, art.exi_act " +
 				"from tblcatarticulos art " +
 				"inner join tblgpoarticulos gpo on gpo.cod1_art=art.cod1_art " +
 				"inner join tblcatagrupacionart agr on agr.COD_AGR=gpo.COD_AGR " +
-				"where art.EXI_ACT < 0 and gpo.COD_GPO=26 " +
+				$"where art.EXI_ACT < 0 and gpo.COD_GPO={(Program.Empresa == 0 ? "25" : "1")} " +
 				"order by agr.des_agr asc; ");
 			DialogResult response = MessageBox.Show($"Hay {_con.GetScalar("select count(*) from tblcatarticulos where exi_act<0")} productos con existencia negativa\n" +
 				$"¿Deseas generar el archivo txt para hacer ajuste de negativos?", "La Bajadita - Existencias Negativas", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
@@ -120,7 +129,7 @@ namespace Reportes
 				}
 			}
 
-			_con.PrintReportInPDFNegativos("Negativos en inventario");
+			_con.PrintReportInPDFNegativos($"Negativos en inventario\nSucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}");
 
 		}
 

@@ -147,7 +147,7 @@
 			this.Controls.Add(this.label2);
 			this.Name = "FrmTickets";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Tickets por chofer";
+			this.Text = "Tickets por chofer - Jardines del Bosque";
 			this.Load += new System.EventHandler(this.FrmTickets_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);

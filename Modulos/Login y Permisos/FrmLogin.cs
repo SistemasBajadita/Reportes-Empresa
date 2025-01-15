@@ -48,6 +48,7 @@ namespace Reportes
                 Application.Exit();
             }
 
+            cmbEmpresa.SelectedIndex = 0;
             cbUsers.Text = "";
         }
 
@@ -58,6 +59,7 @@ namespace Reportes
             {
                 FrmPrincipal principal = new FrmPrincipal(cbUsers.SelectedValue.ToString());
                 principal.Show();
+                Program.Empresa = cmbEmpresa.SelectedIndex;
                 Hide();
             }
             else

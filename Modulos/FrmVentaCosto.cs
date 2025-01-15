@@ -20,6 +20,11 @@ namespace Reportes
 			FechaA.MaxDate = DateTime.Now;
 			FechaB.MaxDate = DateTime.Now;
 			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
+
+			if (Program.Empresa == 1)
+			{
+				BtnExcel.Enabled = false;
+			}
 		}
 
 		private void SetearQuery(DataSet quer)
@@ -69,25 +74,25 @@ namespace Reportes
 		private async void BtnCorrerQuery_Click(object sender, EventArgs e)
 		{
 			lblTotal.Visible = false;
-			if (FechaA.Value.Date == DateTime.Now.Date && FechaB.Value.Date == DateTime.Now.Date)
-			{
-				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString())
-				{
-					sendTables = SetearQuery
-				};
-			}
-			else
-			{
-				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString())
-				{
-					sendTables = SetearQuery
-				};
-			}
+
+			string query = "";
 
 			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");
 			string parametroB = FechaB.Value.ToString("yyyy-MM-dd");
 
-			string query = "select caa.DES_AGR as Departamento, round(sum(rv.CAN_ART * rv.PCIO_VEN),2) as 'Venta Total', round(sum(rv.CAN_ART * rv.COS_VEN),2) as Costo, round((1 - (sum(rv.CAN_ART * rv.COS_VEN) / sum(rv.CAN_ART * rv.PCIO_VEN))) * 100, 2) as Porc from tblgralventas gv " +
+			if (Program.Empresa == 0)
+			{
+
+				if (FechaA.Value.Date == DateTime.Now.Date && FechaB.Value.Date == DateTime.Now.Date)
+				{
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+				}
+				else
+				{
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+				}
+
+				query = "select caa.DES_AGR as Departamento, round(sum(rv.CAN_ART * rv.PCIO_VEN),2) as 'Venta Total', round(sum(rv.CAN_ART * rv.COS_VEN),2) as Costo, round((1 - (sum(rv.CAN_ART * rv.COS_VEN) / sum(rv.CAN_ART * rv.PCIO_VEN))) * 100, 2) as Porc from tblgralventas gv " +
 					"inner join tblrenventas rv on gv.REF_DOC = rv.REF_DOC " +
 					"inner join tblgpoarticulos ga on rv.COD1_ART = ga.COD1_ART " +
 					"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
@@ -101,6 +106,28 @@ namespace Reportes
 					$"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
 					$"where (enc_alm.FEC_MOV between'{parametroA}' and '{parametroB}') and enc_alm.cod_con='SMER' and caa.COD_GPO=25 " +
 					$"group by caa.des_agr;";
+			}
+			if (Program.Empresa == 1)
+			{
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
+
+				query = "select caa.DES_AGR as Departamento, round(sum(rv.CAN_ART * rv.PCIO_VEN),2) as 'Venta Total', round(sum(rv.CAN_ART * rv.COS_VEN),2) as Costo, round((1 - (sum(rv.CAN_ART * rv.COS_VEN) / sum(rv.CAN_ART * rv.PCIO_VEN))) * 100, 2) as Porc from tblgralventas gv " +
+					"inner join tblrenventas rv on gv.REF_DOC = rv.REF_DOC " +
+					"inner join tblgpoarticulos ga on rv.COD1_ART = ga.COD1_ART " +
+					"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
+					$"where  (gv.FEC_DOC between '{parametroA}' and '{parametroB}') and ga.COD_GPO = 1 " +
+					$"GROUP BY caa.DES_AGR " +
+					$"ORDER BY Departamento ASC; " +
+					$"select caa.DES_AGR as Departamento, round(sum(cos_uni*can_ren),2) as Merma " +
+					$"from tblrenalmacen ren_alm " +
+					$"inner join tblgralalmacen enc_alm on ren_alm.REF_MOV=enc_alm.REF_MOV " +
+					$"inner join tblgpoarticulos ga on ren_alm.COD1_ART = ga.COD1_ART " +
+					$"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
+					$"where (enc_alm.FEC_MOV between'{parametroA}' and '{parametroB}') and enc_alm.cod_con='SMER' and caa.COD_GPO=1 " +
+					$"group by caa.des_agr;";
+			}
+
+			metodos.sendTables = SetearQuery;
 
 			BtnCorrerQuery.Enabled = false;
 			label4.Visible = true;

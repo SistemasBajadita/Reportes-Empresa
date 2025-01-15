@@ -36,6 +36,8 @@
 			this.lbMessage = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.chkShowPassword = new System.Windows.Forms.CheckBox();
+			this.cmbEmpresa = new System.Windows.Forms.ComboBox();
+			this.label4 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -43,7 +45,7 @@
 			this.label1.AutoSize = true;
 			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Font = new System.Drawing.Font("Lucida Sans", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(98, 77);
+			this.label1.Location = new System.Drawing.Point(40, 108);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(75, 19);
 			this.label1.TabIndex = 0;
@@ -54,7 +56,7 @@
 			this.label2.AutoSize = true;
 			this.label2.BackColor = System.Drawing.Color.Transparent;
 			this.label2.Font = new System.Drawing.Font("Lucida Sans", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(82, 117);
+			this.label2.Location = new System.Drawing.Point(24, 140);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(103, 19);
 			this.label2.TabIndex = 2;
@@ -63,9 +65,9 @@
 			// TxtPassword
 			// 
 			this.TxtPassword.Font = new System.Drawing.Font("Lucida Sans", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.TxtPassword.Location = new System.Drawing.Point(211, 114);
+			this.TxtPassword.Location = new System.Drawing.Point(153, 137);
 			this.TxtPassword.Name = "TxtPassword";
-			this.TxtPassword.Size = new System.Drawing.Size(197, 28);
+			this.TxtPassword.Size = new System.Drawing.Size(254, 28);
 			this.TxtPassword.TabIndex = 2;
 			this.TxtPassword.UseSystemPasswordChar = true;
 			this.TxtPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtPassword_KeyDown);
@@ -76,15 +78,15 @@
 			this.cbUsers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbUsers.Font = new System.Drawing.Font("Lucida Sans", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cbUsers.FormattingEnabled = true;
-			this.cbUsers.Location = new System.Drawing.Point(211, 74);
+			this.cbUsers.Location = new System.Drawing.Point(153, 105);
 			this.cbUsers.Name = "cbUsers";
-			this.cbUsers.Size = new System.Drawing.Size(197, 27);
+			this.cbUsers.Size = new System.Drawing.Size(254, 27);
 			this.cbUsers.TabIndex = 1;
 			// 
 			// BtnLog
 			// 
 			this.BtnLog.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.BtnLog.Location = new System.Drawing.Point(173, 204);
+			this.BtnLog.Location = new System.Drawing.Point(188, 231);
 			this.BtnLog.Name = "BtnLog";
 			this.BtnLog.Size = new System.Drawing.Size(179, 49);
 			this.BtnLog.TabIndex = 5;
@@ -98,7 +100,7 @@
 			this.lbMessage.BackColor = System.Drawing.Color.LightCoral;
 			this.lbMessage.Font = new System.Drawing.Font("Lucida Sans", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lbMessage.ForeColor = System.Drawing.Color.Maroon;
-			this.lbMessage.Location = new System.Drawing.Point(189, 160);
+			this.lbMessage.Location = new System.Drawing.Point(188, 191);
 			this.lbMessage.Name = "lbMessage";
 			this.lbMessage.Size = new System.Drawing.Size(192, 19);
 			this.lbMessage.TabIndex = 6;
@@ -110,7 +112,7 @@
 			this.label3.AutoSize = true;
 			this.label3.BackColor = System.Drawing.Color.Transparent;
 			this.label3.Font = new System.Drawing.Font("Lucida Fax", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label3.Location = new System.Drawing.Point(50, 24);
+			this.label3.Location = new System.Drawing.Point(79, 24);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(406, 26);
 			this.label3.TabIndex = 7;
@@ -121,7 +123,7 @@
 			this.chkShowPassword.AutoSize = true;
 			this.chkShowPassword.BackColor = System.Drawing.Color.Transparent;
 			this.chkShowPassword.Font = new System.Drawing.Font("Lucida Sans Typewriter", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.chkShowPassword.Location = new System.Drawing.Point(414, 119);
+			this.chkShowPassword.Location = new System.Drawing.Point(416, 142);
 			this.chkShowPassword.Name = "chkShowPassword";
 			this.chkShowPassword.Size = new System.Drawing.Size(93, 19);
 			this.chkShowPassword.TabIndex = 8;
@@ -129,12 +131,38 @@
 			this.chkShowPassword.UseVisualStyleBackColor = false;
 			this.chkShowPassword.CheckedChanged += new System.EventHandler(this.chkShowPassword_CheckedChanged);
 			// 
+			// cmbEmpresa
+			// 
+			this.cmbEmpresa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbEmpresa.Font = new System.Drawing.Font("Lucida Sans", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cmbEmpresa.FormattingEnabled = true;
+			this.cmbEmpresa.Items.AddRange(new object[] {
+            "Jardines del Bosque",
+            "Colinas del Yaqui"});
+			this.cmbEmpresa.Location = new System.Drawing.Point(153, 72);
+			this.cmbEmpresa.Name = "cmbEmpresa";
+			this.cmbEmpresa.Size = new System.Drawing.Size(254, 27);
+			this.cmbEmpresa.TabIndex = 10;
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.BackColor = System.Drawing.Color.Transparent;
+			this.label4.Font = new System.Drawing.Font("Lucida Sans", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label4.Location = new System.Drawing.Point(40, 75);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(79, 19);
+			this.label4.TabIndex = 9;
+			this.label4.Text = "Empresa";
+			// 
 			// FrmLogin
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(147)))), ((int)(((byte)(60)))));
 			this.ClientSize = new System.Drawing.Size(539, 296);
+			this.Controls.Add(this.cmbEmpresa);
+			this.Controls.Add(this.label4);
 			this.Controls.Add(this.chkShowPassword);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.lbMessage);
@@ -162,5 +190,7 @@
 		private System.Windows.Forms.Label lbMessage;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.CheckBox chkShowPassword;
+		private System.Windows.Forms.ComboBox cmbEmpresa;
+		private System.Windows.Forms.Label label4;
 	}
 }

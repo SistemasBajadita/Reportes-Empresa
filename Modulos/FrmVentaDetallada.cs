@@ -18,7 +18,6 @@ namespace Reportes
 
         private void SetearQuery(DataTable quer)
         {
-
             DataGridView cell = new DataGridView();
             try
             {

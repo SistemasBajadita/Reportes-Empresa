@@ -57,25 +57,30 @@ namespace Reportes
 
 		private async void BtnCorrerQuery_Click(object sender, EventArgs e)
 		{
-			if (FechaA.Value.Date == DateTime.Now.Date && FechaB.Value.Date == DateTime.Now.Date)
-			{
-				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString())
-				{
-					sendReport = SetearQuery
-				};
-			}
-			else
-			{
-				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString())
-				{
-					sendReport = SetearQuery
-				};
-			}
 
 			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");
 			string parametroB = FechaB.Value.ToString("yyyy-MM-dd");
 
 			string query = "";
+			if (Program.Empresa == 0)
+			{
+				if (FechaA.Value.Date == DateTime.Now.Date && FechaB.Value.Date == DateTime.Now.Date)
+				{
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+				}
+				else
+				{
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+				}
+			}
+			else if (Program.Empresa == 1)
+			{
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
+			}
+
+
+			metodos.sendReport = SetearQuery;
+
 
 			if (rbDesplazamiento.Checked)
 			{
@@ -83,7 +88,7 @@ namespace Reportes
 					$"FROM (((tblgralventas INNER JOIN tblrenventas ON tblgralventas.REF_DOC = tblrenventas.REF_DOC) " +
 					$"INNER JOIN tblcatarticulos ON tblrenventas.COD1_ART = tblcatarticulos.COD1_ART) " +
 					$"INNER JOIN tblgpoarticulos ON tblcatarticulos.COD1_ART = tblgpoarticulos.COD1_ART) " +
-					$"Where (tblgralventas.FEC_DOC >= '{parametroA}' and tblgralventas.FEC_DOC <= '{parametroB}' And tblgpoarticulos.COD_GPO = 25 and tblgpoarticulos.COD_AGR={cbDepartamentos.SelectedValue}) " +
+					$"Where (tblgralventas.FEC_DOC >= '{parametroA}' and tblgralventas.FEC_DOC <= '{parametroB}' And tblgpoarticulos.COD_GPO = {(Program.Empresa == 0 ? "25" : "1")} and tblgpoarticulos.COD_AGR={cbDepartamentos.SelectedValue}) " +
 					$"GROUP BY tblcatarticulos.COD1_ART " +
 					$"ORDER BY Desp desc limit 30;";
 
@@ -96,7 +101,7 @@ namespace Reportes
 					$"FROM (((tblgralventas INNER JOIN tblrenventas ON tblgralventas.REF_DOC = tblrenventas.REF_DOC) " +
 					$"INNER JOIN tblcatarticulos ON tblrenventas.COD1_ART = tblcatarticulos.COD1_ART) " +
 					$"INNER JOIN tblgpoarticulos ON tblcatarticulos.COD1_ART = tblgpoarticulos.COD1_ART) " +
-					$"Where (tblgralventas.FEC_DOC >= '{parametroA}' and tblgralventas.FEC_DOC <= '{parametroB}' And tblgpoarticulos.COD_GPO = 25 and tblgpoarticulos.COD_AGR={cbDepartamentos.SelectedValue}) " +
+					$"Where (tblgralventas.FEC_DOC >= '{parametroA}' and tblgralventas.FEC_DOC <= '{parametroB}' And tblgpoarticulos.COD_GPO = {(Program.Empresa == 0 ? "25" : "1")} and tblgpoarticulos.COD_AGR={cbDepartamentos.SelectedValue}) " +
 					$"GROUP BY tblcatarticulos.cod1_art " +
 					$"order by Dinero desc limit 30;";
 				tupe = "dinero";
@@ -127,12 +132,16 @@ namespace Reportes
 		private async void FrmTopProductos_Load(object sender, EventArgs e)
 		{
 			cbDepartamentos.Enabled = false;
-			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			if (Program.Empresa == 0)
+
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			else if (Program.Empresa == 1)
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
 			await Task.Run(() =>
 			{
 				DataTable departamentos = metodos.GetQuery("select cod_agr as Codigo, des_agr as Agrupacion " +
 					"from tblcatagrupacionart agr inner join tblagrupacionart gpo on gpo.cod_gpo=agr.COD_GPO " +
-					"where agr.cod_gpo=25 order by Agrupacion asc");
+					$"where agr.cod_gpo={(Program.Empresa == 0 ? "25" : "1")} order by Agrupacion asc");
 
 				try
 				{
@@ -169,14 +178,10 @@ namespace Reportes
 
 			string parametroA = fechaA.ToString("yyyy/MM/dd");
 			string parametroB = fechaB.ToString("yyyy/MM/dd");
-			guardarArchivo.Filter = "Archivos PDF|*.pdf|Todos los archivos|*.*";
-			guardarArchivo.FileName = $"topProductos_{DateTime.Now:dd-MM-yy}";
 
-			if (guardarArchivo.ShowDialog() == DialogResult.OK)
-			{
-				metodos.PrintReportInPDFTOP(parametroA, parametroB, guardarArchivo.FileName, tupe, departamento);
-				Process.Start(guardarArchivo.FileName);
-			}
+			metodos.PrintReportInPDFTOP(parametroA, parametroB, "productos.pdf", tupe, departamento);
+			Process.Start("productos.pdf");
+
 		}
 	}
 }

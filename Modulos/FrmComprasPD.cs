@@ -34,31 +34,43 @@ namespace Reportes
 
 		private async void BtnCorrerQuery_Click(object sender, EventArgs e)
 		{
-			if (FechaA.Value.Date == DateTime.Now.Date && FechaB.Value.Date == DateTime.Now.Date)
-			{
-
-				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString())
-				{
-					sendReport = SetearQuery
-				};
-			}
-			else
-			{
-				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString())
-				{
-					sendReport = SetearQuery
-				};
-			}
+			string query = "";
 
 			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");
 			string parametroB = FechaB.Value.ToString("yyyy-MM-dd");
 
-			string query = "SELECT tblcatagrupacionart.DES_AGR as Departamento, round(Sum(tblcomprasren.COS_com*tblcomprasren.can_art*tblcomprasenc.tip_cam),2) AS Total, round(Sum(tblcomprasren.COS_com*tblcomprasren.can_art*tblcomprasenc.tip_cam*tblcomprasren.imp1_art)/100,2) AS Iva " +
+			if (Program.Empresa == 0)
+			{
+				if (FechaA.Value.Date == DateTime.Now.Date && FechaB.Value.Date == DateTime.Now.Date)
+				{
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+				}
+				else
+				{
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+				}
+
+				query = "SELECT tblcatagrupacionart.DES_AGR as Departamento, round(Sum(tblcomprasren.COS_com*tblcomprasren.can_art*tblcomprasenc.tip_cam),2) AS Total, round(Sum(tblcomprasren.COS_com*tblcomprasren.can_art*tblcomprasenc.tip_cam*tblcomprasren.imp1_art)/100,2) AS Iva " +
 				"FROM (tblcomprasenc INNER JOIN tblcomprasren ON tblcomprasenc.FOL_DOC = tblcomprasren.FOL_DOC) " +
 				"INNER JOIN ((tblCatArticulos INNER JOIN tblGpoArticulos ON tblCatArticulos.COD1_ART = tblGpoArticulos.COD1_ART) " +
 				"INNER JOIN tblcatagrupacionart ON tblGpoArticulos.COD_AGR = tblcatagrupacionart.COD_AGR) ON tblcomprasren.COD1_ART = tblCatArticulos.COD1_ART " +
 				$"WHERE (((tblcomprasenc.COD_ESTATUS)=1) AND ((tblGpoArticulos.COD_GPO)=25)) and (tblcomprasenc.FEC_DOC)>= '{parametroA}' and (tblcomprasenc.FEC_DOC)<= '{parametroB}' GROUP BY tblcatagrupacionart.DES_AGR " +
 				$"ORDER BY Departamento ASC;";
+			}
+			else if (Program.Empresa == 1)
+			{
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
+				query = "SELECT tblcatagrupacionart.DES_AGR as Departamento, round(Sum(tblcomprasren.COS_com*tblcomprasren.can_art*tblcomprasenc.tip_cam),2) AS Total, round(Sum(tblcomprasren.COS_com*tblcomprasren.can_art*tblcomprasenc.tip_cam*tblcomprasren.imp1_art)/100,2) AS Iva " +
+				"FROM (tblcomprasenc INNER JOIN tblcomprasren ON tblcomprasenc.FOL_DOC = tblcomprasren.FOL_DOC) " +
+				"INNER JOIN ((tblCatArticulos INNER JOIN tblGpoArticulos ON tblCatArticulos.COD1_ART = tblGpoArticulos.COD1_ART) " +
+				"INNER JOIN tblcatagrupacionart ON tblGpoArticulos.COD_AGR = tblcatagrupacionart.COD_AGR) ON tblcomprasren.COD1_ART = tblCatArticulos.COD1_ART " +
+				$"WHERE (((tblcomprasenc.COD_ESTATUS)=1) AND ((tblGpoArticulos.COD_GPO)=1)) and (tblcomprasenc.FEC_DOC)>= '{parametroA}' and (tblcomprasenc.FEC_DOC)<= '{parametroB}' GROUP BY tblcatagrupacionart.DES_AGR " +
+				$"ORDER BY Departamento ASC;";
+			}
+
+
+
+			metodos.sendReport = SetearQuery;
 
 			BtnCorrerQuery.Enabled = false;
 			label4.Visible = true;
@@ -89,11 +101,9 @@ namespace Reportes
 			guardarArchivo.Filter = "Archivos PDF|*.pdf|Todos los archivos|*.*";
 			guardarArchivo.FileName = $"compras_{DateTime.Now:dd-MM-yy}.pdf";
 
-			if (guardarArchivo.ShowDialog() == DialogResult.OK)
-			{
-				metodos.PrintReportInPDFCompras(parametroA, parametroB, guardarArchivo.FileName);
-				Process.Start(guardarArchivo.FileName);
-			}
+			metodos.PrintReportInPDFCompras(parametroA, parametroB, "compras.pdf");
+			Process.Start("compras.pdf");
+
 		}
 
 		private void BtnExcel_Click(object sender, EventArgs e)
@@ -104,6 +114,6 @@ namespace Reportes
 		private void FrmComprasPD_Paint(object sender, PaintEventArgs e)
 		{
 
-        }
-    }
+		}
+	}
 }

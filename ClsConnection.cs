@@ -295,7 +295,7 @@ namespace Reportes
 
 					// Título del documento
 					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 24);
-					Paragraph title = new Paragraph("Reporte de Compras", titleFont)
+					Paragraph title = new Paragraph($"Reporte de Compras\nSucursal: {(Program.Empresa==0 ? "Jardines del Bosque" : "Colinas Del Yaqui")}", titleFont)
 					{
 						Alignment = Element.ALIGN_CENTER
 					};
@@ -386,7 +386,6 @@ namespace Reportes
 					doc.Close();
 					writer.Close();
 				}
-				MessageBox.Show("Reporte PDF generado exitosamente, por favor espera y se abrirá el archivo automáticamente después de que cierres este mensaje.", "La Bajadita - Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			catch (Exception ex)
 			{
@@ -413,7 +412,7 @@ namespace Reportes
 
 					// Título del documento
 					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
-					Paragraph title = new Paragraph($"Reporte de productos mas vendidos por {tipo}", titleFont);
+					Paragraph title = new Paragraph($"Reporte de productos mas vendidos por {tipo}\nSucursal: {(Program.Empresa==0 ? "Jardines del Bosque" : "Colinas del Yaqui")}", titleFont);
 					title.Alignment = Element.ALIGN_CENTER;
 					doc.Add(title);
 
@@ -510,7 +509,7 @@ namespace Reportes
 
 					// Título del documento
 					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 24);
-					Paragraph title = new Paragraph("Reporte de Ventas y Costos", titleFont);
+					Paragraph title = new Paragraph($"Reporte de Ventas y Costos\nSucursal: {(Program.Empresa==0? "Jardines del Bosque" : "Colinas del Yaqui")}", titleFont);
 					title.Alignment = Element.ALIGN_CENTER;
 					doc.Add(title);
 
