@@ -55,7 +55,7 @@
 			// 
 			this.FechaB.Font = new System.Drawing.Font("Century", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.FechaB.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.FechaB.Location = new System.Drawing.Point(625, 135);
+			this.FechaB.Location = new System.Drawing.Point(664, 135);
 			this.FechaB.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
 			this.FechaB.Name = "FechaB";
 			this.FechaB.Size = new System.Drawing.Size(123, 28);
@@ -65,7 +65,7 @@
 			// 
 			this.label4.AutoSize = true;
 			this.label4.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label4.Location = new System.Drawing.Point(598, 136);
+			this.label4.Location = new System.Drawing.Point(637, 136);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(21, 23);
 			this.label4.TabIndex = 11;
@@ -75,7 +75,7 @@
 			// 
 			this.FechaA.Font = new System.Drawing.Font("Century", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.FechaA.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.FechaA.Location = new System.Drawing.Point(469, 135);
+			this.FechaA.Location = new System.Drawing.Point(508, 135);
 			this.FechaA.MinDate = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
 			this.FechaA.Name = "FechaA";
 			this.FechaA.Size = new System.Drawing.Size(123, 28);
@@ -85,7 +85,7 @@
 			// 
 			this.label3.AutoSize = true;
 			this.label3.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label3.Location = new System.Drawing.Point(398, 136);
+			this.label3.Location = new System.Drawing.Point(437, 136);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(65, 23);
 			this.label3.TabIndex = 9;
@@ -95,16 +95,16 @@
 			// 
 			this.cmbVendedor.Font = new System.Drawing.Font("Century", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cmbVendedor.FormattingEnabled = true;
-			this.cmbVendedor.Location = new System.Drawing.Point(130, 135);
+			this.cmbVendedor.Location = new System.Drawing.Point(105, 135);
 			this.cmbVendedor.Name = "cmbVendedor";
-			this.cmbVendedor.Size = new System.Drawing.Size(251, 29);
+			this.cmbVendedor.Size = new System.Drawing.Size(326, 29);
 			this.cmbVendedor.TabIndex = 8;
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
 			this.label2.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(27, 136);
+			this.label2.Location = new System.Drawing.Point(10, 136);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(97, 23);
 			this.label2.TabIndex = 7;
@@ -136,6 +136,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Linen;
 			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.BtnAllTickets);
 			this.Controls.Add(this.BtnPrintReport);
 			this.Controls.Add(this.FechaB);
@@ -144,7 +145,6 @@
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.cmbVendedor);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.pictureBox1);
 			this.Name = "FrmTickets";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Tickets por chofer";
