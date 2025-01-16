@@ -41,7 +41,9 @@ namespace Reportes
 		{
 			this.userid = userid;
 			InitializeComponent();
-			Text = $"Reportes - {(Program.Empresa==0 ? "Jardines del Bosque" : "Colinas del Yaqui")}";
+			Text = $"Reportes - {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}";
+
+
 		}
 
 		private void BtnVentaCosto_Click(object sender, EventArgs e)
@@ -264,14 +266,20 @@ namespace Reportes
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			frm = new FrmDespProv(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			frm = new FrmDespProv(ConfigurationManager.ConnectionStrings[Program.Empresa == 0 ? "empresa" : "marcos"].ToString());
 			frm.MandarDataTable += RecibirDataTable;
 			frm.ShowDialog();
 		}
 
 		private async void RecibirDataTable(string prov, DataTable datos, DateTime FechaA, DateTime FechaB)
 		{
-			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			ClsConnection con=null;
+
+			if (Program.Empresa == 0)
+				con = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			else if (Program.Empresa == 1)
+				con = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
+
 			frm.ActiveReport(true);
 			await Task.Run(() =>
 			{
@@ -286,7 +294,7 @@ namespace Reportes
 					{
 						PdfWriter writer = PdfWriter.GetInstance(doc, fs);
 
-						ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", name != "" ? $"Proveedor: {name}\nPeriodo: {FechaA:dd/MM/yy} a {FechaB:dd/MM/yy} " : $"Todos los proveedores\nPeriodo: {FechaA:dd/MM/yy} a {FechaB:dd/MM/yy}", "Desplazamiento de proveedor");
+						ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", name != "" ? $"Proveedor: {name}\nPeriodo: {FechaA:dd/MM/yy} a {FechaB:dd/MM/yy} " : $"Todos los proveedores\nPeriodo: {FechaA:dd/MM/yy} a {FechaB:dd/MM/yy}", $"Desplazamiento de proveedor\nSucursal: {(Program.Empresa==0 ? "Jardines del Bosque" : "Colinas del Yaqui")}");
 						writer.PageEvent = pageEventHelper;
 
 						doc.Open();
@@ -425,6 +433,12 @@ namespace Reportes
 
 			modificarRolesToolStripMenuItem.Visible = super == "True";
 			verMovimientosToolStripMenuItem.Visible = super == "True";
+
+			if (Program.Empresa == 1)
+			{
+				toolTip1.SetToolTip(Tickets, "Esta opcion no esta disponible en la sucursal de Colinas del Yaqui");
+				Tickets.Click -= BtnTicketChofer_Click;
+			}
 		}
 
 		private void modificarRolesToolStripMenuItem_Click(object sender, EventArgs e)

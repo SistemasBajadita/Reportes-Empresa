@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.Ventas = new System.Windows.Forms.Button();
 			this.Compras = new System.Windows.Forms.Button();
 			this.TopProductos = new System.Windows.Forms.Button();
@@ -45,6 +46,7 @@
 			this.cerrarSesiónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.Tortillas = new System.Windows.Forms.Button();
 			this.Codigos = new System.Windows.Forms.Button();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.ModificarAccesos.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -277,6 +279,7 @@
 		private System.Windows.Forms.ToolStripMenuItem verMovimientosToolStripMenuItem;
 		private System.Windows.Forms.Button Tortillas;
         private System.Windows.Forms.Button Codigos;
-    }
+		private System.Windows.Forms.ToolTip toolTip1;
+	}
 }
 

@@ -697,7 +697,7 @@ namespace Reportes
 				{
 					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
 
-					ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", encabezado, "Hojas de conteo");
+					ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", encabezado, $"Hojas de conteo\nSucursal: {(Program.Empresa==0 ? "Jardines del Bosque" : "Colinas del Yaqui")}");
 					writer.PageEvent = pageEventHelper;
 
 					doc.Open();
@@ -1026,6 +1026,8 @@ namespace Reportes
 		}
 	}
 }
+
+
 //Programado por Bryan Valdez Muñoz
 //6312988689
 //alan272_@hotmail.com

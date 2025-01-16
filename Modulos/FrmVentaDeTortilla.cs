@@ -12,6 +12,8 @@ namespace Reportes
 {
 	public partial class FrmVentaDeTortilla : Form
 	{
+		ClsConnection con;
+
 		public FrmVentaDeTortilla()
 		{
 			InitializeComponent();
@@ -21,9 +23,9 @@ namespace Reportes
 		private void FrmVentaDeTortilla_Paint(object sender, PaintEventArgs e)
 		{
 
-        }
+		}
 
-        private void FrmVentaDeTortilla_Load(object sender, System.EventArgs e)
+		private void FrmVentaDeTortilla_Load(object sender, System.EventArgs e)
 		{
 			for (int i = 2024; i <= DateTime.Now.Year; i++)
 			{
@@ -33,7 +35,10 @@ namespace Reportes
 
 		private async void BtnReport_Click(object sender, EventArgs e)
 		{
-			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ConnectionString);
+			if (Program.Empresa == 0)
+				con = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ConnectionString);
+			else if (Program.Empresa == 1)
+				con = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ConnectionString);
 			if (cmbMes.Text != "" && cmbAnio.Text != "")
 			{
 				string numTicketsGeneralStr = "", numTicketsSinTortillaStr = "";
@@ -107,7 +112,7 @@ namespace Reportes
 
 				// Añadir un título al gráfico
 				Title title = new Title();
-				title.Text = "Reporte tickets sin tortilla"; // Texto del título
+				title.Text = $"Reporte tickets sin tortilla -  Sucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")} "; // Texto del título
 				title.Font = new Font("Arial", 16, FontStyle.Bold); // Puedes cambiar el estilo de la fuente si quieres
 				graphic.Titles.Add(title);
 

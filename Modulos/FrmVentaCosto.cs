@@ -167,7 +167,8 @@ namespace Reportes
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				if (!ex.Message.ToLower().Contains("invoke"))
+					MessageBox.Show(ex.Message);
 			}
 		}
 

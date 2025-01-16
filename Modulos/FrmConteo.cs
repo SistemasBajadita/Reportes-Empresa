@@ -22,7 +22,10 @@ namespace Reportes
 			cbOP.DataSource = null;
 			cbOP.Items.Clear();
 
-			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+			if (Program.Empresa == 0)
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+			else if (Program.Empresa == 1)
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
 
 			DataTable opciones = null;
 
@@ -30,11 +33,11 @@ namespace Reportes
 
 			if (rbCategoria.Checked)
 			{
-				await Task.Run(() => opciones = metodos.GetQuery("select cod_agr, des_agr from tblcatagrupacionart where cod_gpo=26 order by des_agr asc"));
+				await Task.Run(() => opciones = metodos.GetQuery($"select cod_agr, des_agr from tblcatagrupacionart where cod_gpo={(Program.Empresa == 0 ? 26 : 2)} order by des_agr asc"));
 			}
 			else
 			{
-				await Task.Run(() => opciones = metodos.GetQuery("select cod_agr, des_agr from tblcatagrupacionart where cod_gpo=25 order by des_agr asc"));
+				await Task.Run(() => opciones = metodos.GetQuery($"select cod_agr, des_agr from tblcatagrupacionart where cod_gpo={(Program.Empresa == 0 ? 25 : 1)} order by des_agr asc"));
 			}
 
 			cbOP.DataSource = opciones;
@@ -79,7 +82,11 @@ namespace Reportes
 
 		private async void BtnPDF_Click(object sender, EventArgs e)
 		{
-			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+			if (Program.Empresa == 0)
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+			else if (Program.Empresa == 1)
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
+
 			metodos.sendReport = GetReport;
 
 			string query = $"select art.cod1_art as Codigo, des1_art as Descripcion, c.Cos_Pro as Costo, EXI_ACT as Existencia " +
@@ -96,8 +103,7 @@ namespace Reportes
 				return;
 			}
 
-			guardarArchivo.Filter = "Archivos PDF|*.pdf|Todos los archivos|*.*";
-			guardarArchivo.FileName = $"conteo {GetSelectedTextFromCombo()}_{DateTime.Now:dd-MM-yy}";
+			guardarArchivo.FileName = $"conteo {GetSelectedTextFromCombo()}_{DateTime.Now:dd-MM-yy}.pdf";
 
 			string Encabezado = "";
 
@@ -107,11 +113,9 @@ namespace Reportes
 				Encabezado = $"Categoria : {GetSelectedTextFromCombo()}";
 
 
-			if (guardarArchivo.ShowDialog() == DialogResult.OK)
-			{
-				metodos.PrintReportInPDFExistencia(guardarArchivo.FileName, Encabezado);
-				Process.Start(guardarArchivo.FileName);
-			}
+			metodos.PrintReportInPDFExistencia(guardarArchivo.FileName, Encabezado);
+			Process.Start(guardarArchivo.FileName);
+
 		}
 
 		private async void FrmConteo_Load(object sender, EventArgs e)
@@ -119,13 +123,16 @@ namespace Reportes
 			cbOP.DataSource = null;
 			cbOP.Items.Clear();
 
-			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+			if (Program.Empresa == 0)
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+			else if (Program.Empresa == 1)
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
 
 			DataTable opciones = null;
 
 			label2.Visible = true;
 
-			await Task.Run(() => opciones = metodos.GetQuery("select cod_agr, des_agr from tblcatagrupacionart where cod_gpo=25 order by des_agr asc"));
+			await Task.Run(() => opciones = metodos.GetQuery($"select cod_agr, des_agr from tblcatagrupacionart where cod_gpo={(Program.Empresa==0 ? 25 : 1)} order by des_agr asc"));
 
 			cbOP.DataSource = opciones;
 			cbOP.DisplayMember = "des_agr";
