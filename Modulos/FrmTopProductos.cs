@@ -90,7 +90,7 @@ namespace Reportes
 					$"INNER JOIN tblgpoarticulos ON tblcatarticulos.COD1_ART = tblgpoarticulos.COD1_ART) " +
 					$"Where (tblgralventas.FEC_DOC >= '{parametroA}' and tblgralventas.FEC_DOC <= '{parametroB}' And tblgpoarticulos.COD_GPO = {(Program.Empresa == 0 ? "25" : "1")} and tblgpoarticulos.COD_AGR={cbDepartamentos.SelectedValue}) " +
 					$"GROUP BY tblcatarticulos.COD1_ART " +
-					$"ORDER BY Desp desc limit 30;";
+					$"ORDER BY Desp desc;";
 
 				tupe = "desplazamiento";
 
@@ -103,7 +103,7 @@ namespace Reportes
 					$"INNER JOIN tblgpoarticulos ON tblcatarticulos.COD1_ART = tblgpoarticulos.COD1_ART) " +
 					$"Where (tblgralventas.FEC_DOC >= '{parametroA}' and tblgralventas.FEC_DOC <= '{parametroB}' And tblgpoarticulos.COD_GPO = {(Program.Empresa == 0 ? "25" : "1")} and tblgpoarticulos.COD_AGR={cbDepartamentos.SelectedValue}) " +
 					$"GROUP BY tblcatarticulos.cod1_art " +
-					$"order by Dinero desc limit 30;";
+					$"order by Dinero desc;";
 				tupe = "dinero";
 			}
 			if (!rbDesplazamiento.Checked && !rbDinero.Checked)

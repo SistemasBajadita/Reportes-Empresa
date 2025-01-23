@@ -80,7 +80,7 @@
 			this.TopProductos.Name = "TopProductos";
 			this.TopProductos.Size = new System.Drawing.Size(516, 58);
 			this.TopProductos.TabIndex = 2;
-			this.TopProductos.Text = "Productos mas vendidos";
+			this.TopProductos.Text = "Desplazamiento de productos";
 			this.TopProductos.UseVisualStyleBackColor = true;
 			this.TopProductos.Click += new System.EventHandler(this.BtnTopProductos_Click);
 			// 
@@ -182,27 +182,27 @@
             this.cerrarSesiónToolStripMenuItem});
 			this.ModificarAccesos.Location = new System.Drawing.Point(0, 0);
 			this.ModificarAccesos.Name = "ModificarAccesos";
-			this.ModificarAccesos.Size = new System.Drawing.Size(1083, 28);
+			this.ModificarAccesos.Size = new System.Drawing.Size(1083, 30);
 			this.ModificarAccesos.TabIndex = 12;
 			this.ModificarAccesos.Text = "menuStrip1";
 			// 
 			// modificarRolesToolStripMenuItem
 			// 
 			this.modificarRolesToolStripMenuItem.Name = "modificarRolesToolStripMenuItem";
-			this.modificarRolesToolStripMenuItem.Size = new System.Drawing.Size(202, 24);
+			this.modificarRolesToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
 			this.modificarRolesToolStripMenuItem.Text = "Modificar roles por usuario";
 			this.modificarRolesToolStripMenuItem.Click += new System.EventHandler(this.modificarRolesToolStripMenuItem_Click);
 			// 
 			// verMovimientosToolStripMenuItem
 			// 
 			this.verMovimientosToolStripMenuItem.Name = "verMovimientosToolStripMenuItem";
-			this.verMovimientosToolStripMenuItem.Size = new System.Drawing.Size(134, 24);
+			this.verMovimientosToolStripMenuItem.Size = new System.Drawing.Size(134, 26);
 			this.verMovimientosToolStripMenuItem.Text = "Ver movimientos";
 			// 
 			// cerrarSesiónToolStripMenuItem
 			// 
 			this.cerrarSesiónToolStripMenuItem.Name = "cerrarSesiónToolStripMenuItem";
-			this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(108, 24);
+			this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(108, 26);
 			this.cerrarSesiónToolStripMenuItem.Text = "Cerrar sesión";
 			this.cerrarSesiónToolStripMenuItem.Click += new System.EventHandler(this.cerrarSesiónToolStripMenuItem_Click);
 			// 

@@ -42,8 +42,6 @@ namespace Reportes
 			this.userid = userid;
 			InitializeComponent();
 			Text = $"Reportes - {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}";
-
-
 		}
 
 		private void BtnVentaCosto_Click(object sender, EventArgs e)
@@ -66,7 +64,7 @@ namespace Reportes
 
 		private void BtnActiveReport_Click(object sender, EventArgs e)
 		{
-			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings[$"{(Program.Empresa == 0 ? "servidor" : "marcos")}"].ToString());
 			con.SetOnReportsCortes();
 		}
 
@@ -132,7 +130,6 @@ namespace Reportes
 			}
 
 			_con.PrintReportInPDFNegativos($"Negativos en inventario\nSucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}");
-
 		}
 
 		private async void BtnCocinaPrecios_Click(object sender, EventArgs e)
@@ -273,7 +270,7 @@ namespace Reportes
 
 		private async void RecibirDataTable(string prov, DataTable datos, DateTime FechaA, DateTime FechaB)
 		{
-			ClsConnection con=null;
+			ClsConnection con = null;
 
 			if (Program.Empresa == 0)
 				con = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
@@ -294,7 +291,7 @@ namespace Reportes
 					{
 						PdfWriter writer = PdfWriter.GetInstance(doc, fs);
 
-						ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", name != "" ? $"Proveedor: {name}\nPeriodo: {FechaA:dd/MM/yy} a {FechaB:dd/MM/yy} " : $"Todos los proveedores\nPeriodo: {FechaA:dd/MM/yy} a {FechaB:dd/MM/yy}", $"Desplazamiento de proveedor\nSucursal: {(Program.Empresa==0 ? "Jardines del Bosque" : "Colinas del Yaqui")}");
+						ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", name != "" ? $"Proveedor: {name}\nPeriodo: {FechaA:dd/MM/yy} a {FechaB:dd/MM/yy} " : $"Todos los proveedores\nPeriodo: {FechaA:dd/MM/yy} a {FechaB:dd/MM/yy}", $"Desplazamiento de proveedor\nSucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}");
 						writer.PageEvent = pageEventHelper;
 
 						doc.Open();
@@ -468,11 +465,6 @@ namespace Reportes
 		private void cerrarSesiónToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Cerrar();
-		}
-
-		private void FrmPrincipal_Paint(object sender, PaintEventArgs e)
-		{
-
 		}
 
 		private void Tortillas_Click(object sender, EventArgs e)

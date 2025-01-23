@@ -68,8 +68,6 @@ namespace Reportes
 				$"ORDER BY Departamento ASC;";
 			}
 
-
-
 			metodos.sendReport = SetearQuery;
 
 			BtnCorrerQuery.Enabled = false;

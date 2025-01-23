@@ -295,7 +295,7 @@ namespace Reportes
 
 					// Título del documento
 					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 24);
-					Paragraph title = new Paragraph($"Reporte de Compras\nSucursal: {(Program.Empresa==0 ? "Jardines del Bosque" : "Colinas Del Yaqui")}", titleFont)
+					Paragraph title = new Paragraph($"Reporte de Compras\nSucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas Del Yaqui")}", titleFont)
 					{
 						Alignment = Element.ALIGN_CENTER
 					};
@@ -412,7 +412,7 @@ namespace Reportes
 
 					// Título del documento
 					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
-					Paragraph title = new Paragraph($"Reporte de productos mas vendidos por {tipo}\nSucursal: {(Program.Empresa==0 ? "Jardines del Bosque" : "Colinas del Yaqui")}", titleFont);
+					Paragraph title = new Paragraph($"Reporte de desplazamiento por {tipo}\nSucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}", titleFont);
 					title.Alignment = Element.ALIGN_CENTER;
 					doc.Add(title);
 
@@ -509,7 +509,7 @@ namespace Reportes
 
 					// Título del documento
 					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 24);
-					Paragraph title = new Paragraph($"Reporte de Ventas y Costos\nSucursal: {(Program.Empresa==0? "Jardines del Bosque" : "Colinas del Yaqui")}", titleFont);
+					Paragraph title = new Paragraph($"Reporte de Ventas y Costos\nSucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}", titleFont);
 					title.Alignment = Element.ALIGN_CENTER;
 					doc.Add(title);
 
@@ -697,7 +697,7 @@ namespace Reportes
 				{
 					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
 
-					ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", encabezado, $"Hojas de conteo\nSucursal: {(Program.Empresa==0 ? "Jardines del Bosque" : "Colinas del Yaqui")}");
+					ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", encabezado, $"Hojas de conteo\nSucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}");
 					writer.PageEvent = pageEventHelper;
 
 					doc.Open();
