@@ -43,19 +43,29 @@ namespace Reportes
 
 		}
 
-		private void SetearQuery(DataTable quer)
+		private void SetearQueryEnDepartamentos(DataTable quer)
 		{
 			Invoke(new Action(() => { reporte.DataSource = quer; }));
+		}
+
+		private void SetearQueryEnArticulos(DataTable quer)
+		{
+			Invoke(new Action(() => { reporte2.DataSource = quer; }));
 		}
 
 		private async void BtnCorrerQuery_Click(object sender, EventArgs e)
 		{
 			if (Program.Empresa == 0)
-				movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			{
+				if (!(FechaA.Value.Date < new DateTime(2025, 02, 01) || FechaA.Value.Date < new DateTime(2025, 02, 01)))
+					movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+				else
+					movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["antes"].ToString());
+			}
 			if (Program.Empresa == 1)
 				movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
 
-			movimientos.sendReport = SetearQuery;
+			movimientos.sendReport = SetearQueryEnDepartamentos;
 
 			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");
 			string parametroB = FechaB.Value.ToString("yyyy-MM-dd");
@@ -199,9 +209,16 @@ namespace Reportes
 		private async void BtnCorrerQueryArticulos_Click(object sender, EventArgs e)
 		{
 			if (Program.Empresa == 0)
-				movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			{
+				if (!(FechaA2.Value.Date < new DateTime(2025, 02, 01) || FechaB2.Value.Date < new DateTime(2025, 02, 01)))
+					movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+				else
+					movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["antes"].ToString());
+			}
 			else if (Program.Empresa == 1)
 				movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
+
+			movimientos.sendReport = SetearQueryEnArticulos;
 
 			string parametroA = FechaA2.Value.ToString("yyyy-MM-dd");
 			string parametroB = FechaB2.Value.ToString("yyyy-MM-dd");
@@ -218,7 +235,10 @@ namespace Reportes
 			FechaA2.Enabled = false;
 			FechaB2.Enabled = false;
 
-			await Task.Run(() => movimientos.SetQuery(query));
+			await Task.Run(() =>
+			{
+				movimientos.SetQuery(query);
+			});
 
 			BtnCorrerQueryArticulos.Enabled = true;
 			label5.Visible = false;

@@ -64,13 +64,13 @@ namespace Reportes
 			string query = "";
 			if (Program.Empresa == 0)
 			{
-				if (FechaA.Value.Date == DateTime.Now.Date && FechaB.Value.Date == DateTime.Now.Date)
+				if (FechaA.Value.Date < new DateTime(2025, 02, 01) && FechaB.Value.Date < new DateTime(2025, 02, 01))
 				{
-					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["antes"].ToString());
 				}
 				else
 				{
-					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
 				}
 			}
 			else if (Program.Empresa == 1)
@@ -133,8 +133,12 @@ namespace Reportes
 		{
 			cbDepartamentos.Enabled = false;
 			if (Program.Empresa == 0)
-
-				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			{
+				if (FechaA.Value.Date < new DateTime(2025, 02, 01) && FechaB.Value.Date < new DateTime(2025, 02, 01))
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["antes"].ToString());
+				else
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+			}
 			else if (Program.Empresa == 1)
 				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
 			await Task.Run(() =>

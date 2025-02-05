@@ -8,6 +8,7 @@ using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -891,6 +892,10 @@ namespace Reportes
 
 					doc.Add(table);
 
+					decimal total = ReporteActivo.AsEnumerable().Sum(row => row.Field<decimal>("Costo"));
+
+					doc.Add(new Paragraph($"Costo total de la merma: ${total:N2}") { Alignment = Element.ALIGN_RIGHT });
+
 					doc.Close();
 					writer.Close();
 				}
@@ -986,6 +991,8 @@ namespace Reportes
 					PdfPTable table = new PdfPTable(4) { WidthPercentage = 100 };
 					float[] columnWidths = new float[] { 4f, 7f, 4.5f, 3f };
 					table.SetWidths(columnWidths);
+
+					doc.Add(new Paragraph($"Total de negativos: {ReporteActivo.Rows.Count} \n") { Alignment = Element.ALIGN_CENTER });
 
 					iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
 					PdfPCell headerCell;

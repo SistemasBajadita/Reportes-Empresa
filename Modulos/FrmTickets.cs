@@ -47,13 +47,18 @@ namespace Reportes
 			string fechaA = FechaA.Value.ToString("yyyy-MM-dd");
 			string fechaB = FechaB.Value.ToString("yyyy-MM-dd");
 
+			if (FechaA.Value.Date < new DateTime(2025, 02, 01) || FechaB.Value.Date < new DateTime(2025, 02, 01))
+			{
+				conn = new ClsConnection(ConfigurationManager.ConnectionStrings["antes"].ToString());
+			}
+
 			await Task.Run(() => tickets = conn.GetQuery($@"select DISTINCT ven.fec_doc, ven.ref_doc, cli.NOM_CLI, hora_reg, round(tot_doc,2), ven.COD_USU, ren.cod_ven
-												                    from tblgralventas ven
-												                    inner join tblcatclientes cli on cli.COD_Cli=ven.COD_CLI
-												                    inner join tblrenventas ren on ren.REF_DOC=ven.REF_DOC
-												                    where CAJA_DOC=9 
-												                    and (ven.FEC_DOC between '{fechaA}' and '{fechaB}')
-												                    and ren.cod_ven='{cod}';"));
+												            from tblgralventas ven
+												            inner join tblcatclientes cli on cli.COD_Cli=ven.COD_CLI
+												            inner join tblrenventas ren on ren.REF_DOC=ven.REF_DOC
+												            where CAJA_DOC=9 
+												            and (ven.FEC_DOC between '{fechaA}' and '{fechaB}')
+												            and ren.cod_ven='{cod}';"));
 
 			try
 			{

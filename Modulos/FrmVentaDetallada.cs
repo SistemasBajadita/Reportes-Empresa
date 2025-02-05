@@ -102,7 +102,7 @@ namespace Reportes
 
 		private void BtnPDF_Click(object sender, EventArgs e)
 		{
-			metodos?.PrintReportPDFMargen("Departamento: " + GetSelectedTextFromCombo(), $"Reporte de margenes de articulos\nSucursal: {(Program.Empresa==0 ? "Jardines del Bosque" : "Colinas del Yaqui")}");
+			metodos?.PrintReportPDFMargen("Departamento: " + GetSelectedTextFromCombo(), $"Reporte de margenes de articulos\nSucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}");
 		}
 
 		private void FrmVentaDetallada_Paint(object sender, PaintEventArgs e)
@@ -127,7 +127,7 @@ namespace Reportes
 			{
 				DataTable departamentos = metodos.GetQuery("select cod_agr as Codigo, des_agr as Agrupacion " +
 					"from tblcatagrupacionart agr inner join tblagrupacionart gpo on gpo.cod_gpo=agr.COD_GPO " +
-					"where agr.cod_gpo=25");
+					$"where agr.cod_gpo={(Program.Empresa == 0 ? "25" : "1")}");
 				Invoke(new Action(() =>
 				{
 					cbDepartamentos.DataSource = departamentos;

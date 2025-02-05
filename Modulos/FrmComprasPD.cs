@@ -39,15 +39,23 @@ namespace Reportes
 			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");
 			string parametroB = FechaB.Value.ToString("yyyy-MM-dd");
 
+
 			if (Program.Empresa == 0)
 			{
-				if (FechaA.Value.Date == DateTime.Now.Date && FechaB.Value.Date == DateTime.Now.Date)
+				if (!(FechaA.Value.Date < new DateTime(2025, 02, 01) || FechaA.Value.Date < new DateTime(2025, 02, 01)))
 				{
-					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+					if (FechaA.Value.Date == DateTime.Now.Date && FechaB.Value.Date == DateTime.Now.Date)
+					{
+						metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+					}
+					else
+					{
+						metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+					}
 				}
 				else
 				{
-					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["antes"].ToString());
 				}
 
 				query = "SELECT tblcatagrupacionart.DES_AGR as Departamento, round(Sum(tblcomprasren.COS_com*tblcomprasren.can_art*tblcomprasenc.tip_cam),2) AS Total, round(Sum(tblcomprasren.COS_com*tblcomprasren.can_art*tblcomprasenc.tip_cam*tblcomprasren.imp1_art)/100,2) AS Iva " +

@@ -83,13 +83,13 @@ namespace Reportes
 			if (Program.Empresa == 0)
 			{
 
-				if (FechaA.Value.Date == DateTime.Now.Date && FechaB.Value.Date == DateTime.Now.Date)
+				if (FechaA.Value.Date < new DateTime(2025, 02, 01) && FechaB.Value.Date < new DateTime(2025, 02, 01))
 				{
-					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["antes"].ToString());
 				}
 				else
 				{
-					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
 				}
 
 				query = "select caa.DES_AGR as Departamento, round(sum(rv.CAN_ART * rv.PCIO_VEN),2) as 'Venta Total', round(sum(rv.CAN_ART * rv.COS_VEN),2) as Costo, round((1 - (sum(rv.CAN_ART * rv.COS_VEN) / sum(rv.CAN_ART * rv.PCIO_VEN))) * 100, 2) as Porc from tblgralventas gv " +
