@@ -33,7 +33,7 @@ namespace Reportes
 
 			for (int i = 0; i < ReporteActivo.Rows.Count; i++)
 			{
-				archivo.WriteLine($"{ReporteActivo.Rows[i][0]},{ReporteActivo.Rows[i][2].ToString().Substring(1)}");
+				archivo.WriteLine($"{ReporteActivo.Rows[i][0]},{double.Parse( ReporteActivo.Rows[i][3].ToString())*-1}");
 			}
 
 			archivo.Close();
@@ -81,7 +81,7 @@ namespace Reportes
 		//metodo asincrono
 		public static async Task<bool> VerificarCodigoGenerado(string codigoGenerado)
 		{
-			MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+			MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings[Program.Empresa==0 ? "servidor" : "marcos"].ToString());
 			try
 			{
 				await con.OpenAsync();
@@ -367,7 +367,7 @@ namespace Reportes
 					table.AddCell(totalCell);
 					totalCell = new PdfPCell(new Phrase("$" + totalImpuesto.ToString("N2"), headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
-					totalCell = new PdfPCell(new Phrase("", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
+					totalCell = new PdfPCell(new Phrase("$" + (totalCompra+totalImpuesto).ToString("N2"), headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
 
 					Paragraph date = new Paragraph($"Fecha: {DateTime.Now}")
@@ -1033,7 +1033,6 @@ namespace Reportes
 		}
 	}
 }
-
 
 //Programado por Bryan Valdez Muñoz
 //6312988689

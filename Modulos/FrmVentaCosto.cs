@@ -104,7 +104,7 @@ namespace Reportes
 					$"inner join tblgralalmacen enc_alm on ren_alm.REF_MOV=enc_alm.REF_MOV " +
 					$"inner join tblgpoarticulos ga on ren_alm.COD1_ART = ga.COD1_ART " +
 					$"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
-					$"where (enc_alm.FEC_MOV between'{parametroA}' and '{parametroB}') and enc_alm.cod_con='SMER' and caa.COD_GPO=25 " +
+					$"where (enc_alm.FEC_MOV between'{parametroA}' and '{parametroB}') and enc_alm.cod_con='SMER' and caa.COD_GPO=25 AND COD_STS=1 " +
 					$"group by caa.des_agr;";
 			}
 			if (Program.Empresa == 1)
@@ -123,7 +123,7 @@ namespace Reportes
 					$"inner join tblgralalmacen enc_alm on ren_alm.REF_MOV=enc_alm.REF_MOV " +
 					$"inner join tblgpoarticulos ga on ren_alm.COD1_ART = ga.COD1_ART " +
 					$"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
-					$"where (enc_alm.FEC_MOV between'{parametroA}' and '{parametroB}') and enc_alm.cod_con='SMER' and caa.COD_GPO=1 " +
+					$"where (enc_alm.FEC_MOV between'{parametroA}' and '{parametroB}') and enc_alm.cod_con='SMER' and caa.COD_GPO=1 and cod_sts=1 " +
 					$"group by caa.des_agr;";
 			}
 

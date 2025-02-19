@@ -16,7 +16,6 @@ namespace Reportes
 			Application.Run(new FrmLogin());
 		}
 
-
 		//Parametro para saber que empresa se escogio. Como es global, se usara en todas las formas
 		public static int Empresa;
 	}

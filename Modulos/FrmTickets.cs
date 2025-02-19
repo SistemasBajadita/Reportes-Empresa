@@ -20,7 +20,6 @@ namespace Reportes
 			pictureBox1.Image = System.Drawing.Image.FromFile("Imagenes/load.gif");
 			pictureBox1.Visible = false;
 
-
 			FechaA.MaxDate = DateTime.Now;
 			FechaB.MaxDate = DateTime.Now;
 		}

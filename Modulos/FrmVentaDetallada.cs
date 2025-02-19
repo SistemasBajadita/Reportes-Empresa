@@ -64,7 +64,7 @@ namespace Reportes
 		private async void BtnCorrerQuery_Click(object sender, EventArgs e)
 		{
 			if (Program.Empresa == 0)
-				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
 			else if (Program.Empresa == 1)
 				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
 
@@ -76,15 +76,16 @@ namespace Reportes
 
 			string query = $@"SELECT rv.cod1_art as Codigo, 
 							   art.DES1_ART as Descripcion, 
-							   round(AVG(rv.cos_ven),2) AS CostoPromedio, 
+							   round(und.cos_pro,2) as CostoPromedio, 
 							   round(lc.last_cos_uni,2) as UltimaCompra, 
 							   round(tp.pre_iva,2) as PrecioActual, 
-							   round((1 - (COALESCE(lc.last_cos_uni, AVG(rv.cos_ven)) / tp.pre_iva)) * 100,2) AS MargenActual
+							   round((1 - (COALESCE(lc.last_cos_uni, und.cos_pro) / tp.pre_iva)) * 100,2) AS MargenActual
 								FROM tblrenventas rv
 								LEFT JOIN temp_last_compras lc ON rv.cod1_art = lc.cod1_art
 								LEFT JOIN temp_precios tp ON rv.cod1_art = tp.cod1_art
 								INNER JOIN tblgpoarticulos gpo on gpo.COD1_ART = rv.cod1_art
 								INNER JOIN tblcatarticulos art on art.COD1_ART = rv.cod1_art
+								INNER JOIN tblundcospreart und on und.cod1_art=rv.cod1_art
 								WHERE gpo.COD_AGR = {cbDepartamentos.SelectedValue}
 								GROUP BY rv.cod1_art, lc.last_cos_uni, tp.pre_iva;";
 
@@ -118,7 +119,7 @@ namespace Reportes
 			BtnPDF.Enabled = false;
 
 			if (Program.Empresa == 0)
-				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
 			else if (Program.Empresa == 1)
 				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
 

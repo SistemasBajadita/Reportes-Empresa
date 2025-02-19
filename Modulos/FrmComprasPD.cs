@@ -4,6 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -27,13 +28,19 @@ namespace Reportes
 		{
 			try
 			{
-				Invoke(new Action(() => { reporte.DataSource = quer; }));
+				Invoke(new Action(() =>
+				{
+					reporte.DataSource = quer;
+					decimal total = quer.AsEnumerable().Sum(row => row.Field<decimal>("Total")) + quer.AsEnumerable().Sum(row => row.Field<decimal>("IVA"));
+					lblTotal.Text = "Total: $"+total.ToString("N2");
+				}));
 			}
 			catch (Exception) { }
 		}
 
 		private async void BtnCorrerQuery_Click(object sender, EventArgs e)
 		{
+			lblTotal.Text = "";
 			string query = "";
 
 			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");

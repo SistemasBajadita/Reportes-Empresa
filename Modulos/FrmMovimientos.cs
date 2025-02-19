@@ -188,7 +188,7 @@ namespace Reportes
 			{
 				DataTable departamentos = movimientos.GetQuery("select cod_agr as Codigo, des_agr as Agrupacion " +
 					"from tblcatagrupacionart agr inner join tblagrupacionart gpo on gpo.cod_gpo=agr.COD_GPO " +
-					$"where agr.cod_gpo={(Program.Empresa == 0 ? "25" : "1")}");
+					$"where agr.cod_gpo={(Program.Empresa == 0 ? "25" : "1")} order by des_agr asc;");
 				try
 				{
 					Invoke(new Action(() =>

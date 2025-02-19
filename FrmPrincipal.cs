@@ -18,6 +18,7 @@ namespace Reportes
 	public partial class FrmPrincipal : Form
 	{
 		private readonly string userid;
+		private Action<string> sendText;
 
 		public List<Button> GetAllButtons(Control parent)
 		{
@@ -156,8 +157,6 @@ namespace Reportes
 				MessageBox.Show("Proceso completado y archivo Excel actualizado.", "La Bajadita -  Venta de Frutas y Verduras", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
-
-		Action<string> sendText;
 
 		private void ProcessExcel(string filePath, ClsConnection bd, IProgress<int> progress)
 		{
