@@ -107,7 +107,7 @@ namespace Reportes
 
 			_ = _con.GetQuery("select art.cod1_art, art.des1_art, agr.DES_AGR, art.exi_act " +
 				"from tblcatarticulos art " +
-				"inner join tblgpoarticulos gpo on gpo.cod1_art=art.cod1_art " +
+				"left join tblgpoarticulos gpo on gpo.cod1_art=art.cod1_art " +
 				"inner join tblcatagrupacionart agr on agr.COD_AGR=gpo.COD_AGR " +
 				$"where art.EXI_ACT < 0 and gpo.COD_GPO={(Program.Empresa == 0 ? "25" : "1")} " +
 				"order by agr.des_agr asc; ");

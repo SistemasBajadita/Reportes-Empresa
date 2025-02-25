@@ -38,7 +38,7 @@ namespace Reportes
 			if (Program.Empresa == 0)
 				con = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ConnectionString);
 			else if (Program.Empresa == 1)
-				con = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ConnectionString);
+				con = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ConnectionString);
 			if (cmbMes.Text != "" && cmbAnio.Text != "")
 			{
 				string numTicketsGeneralStr = "", numTicketsSinTortillaStr = "";

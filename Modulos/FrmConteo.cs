@@ -103,7 +103,7 @@ namespace Reportes
 				return;
 			}
 
-			guardarArchivo.FileName = $"conteo {GetSelectedTextFromCombo()}_{DateTime.Now:dd-MM-yy}.pdf";
+			guardarArchivo.FileName = $"conteo {GetSelectedTextFromCombo().Replace("/", " ")}_{DateTime.Now:dd-MM-yy}.pdf";
 
 			string Encabezado = "";
 

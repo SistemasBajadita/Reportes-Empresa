@@ -44,7 +44,7 @@ namespace Reportes
 		{
 			MySqlConnection _con = new MySqlConnection(con);
 			string[] resultadoFinal = null;
-			MySqlDataReader result = null;
+			MySqlDataReader result;
 
 			try
 			{

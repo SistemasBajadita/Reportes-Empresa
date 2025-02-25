@@ -136,6 +136,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Linen;
 			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.BtnAllTickets);
 			this.Controls.Add(this.BtnPrintReport);
 			this.Controls.Add(this.FechaB);
@@ -144,7 +145,6 @@
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.cmbVendedor);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.pictureBox1);
 			this.Name = "FrmTickets";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Tickets por chofer - Jardines del Bosque";
