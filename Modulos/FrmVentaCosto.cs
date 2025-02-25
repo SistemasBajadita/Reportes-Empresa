@@ -207,29 +207,16 @@ namespace Reportes
 
 			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
 
-			DataTable ventaTienda = metodos.GetQuery($@"SELECT 
-														REPLACE(aux.fec_doc, '-', '/') AS Fecha, 
-														FORMAT(
-															SUM(aux.imp_mba) - SUM(CASE WHEN aux.COD_CON = 'RCAJ' THEN aux.imp_mba ELSE 0 END), 
-															2
-														) AS Total, 
-														CASE 
-															WHEN frp.DES_FRP = 'EFECTIVO' THEN 'EFECTIVO' 
-															ELSE 'TERMINAL' 
-														END AS FormaDePago
-													FROM tblauxcaja aux
-													INNER JOIN tblformaspago frp ON frp.COD_FRP = aux.COD_FRP
-													WHERE aux.fec_doc BETWEEN '{parametroA}' AND '{parametroB}' 
-													AND aux.COD_CAJ != 9
-													GROUP BY aux.fec_doc, 
-														CASE 
-															WHEN frp.DES_FRP = 'EFECTIVO' THEN 'EFECTIVO' 
-															ELSE 'TERMINAL' 
-														END
-													ORDER BY  FormaDePago ASC, aux.fec_doc ASC;");
-			DataTable ventaMayoreo = metodos.GetQuery($"SELECT \r\n    REPLACE(FEC_DOC, '-', '/') AS Fecha, \r\n    SUM(AUX.IMP_MBA) - SUM(CASE WHEN AUX.COD_CON = 'RCAJ' THEN AUX.IMP_MBA ELSE 0 END) AS Total\r\nFROM TBLAUXCAJA AUX\r\nWHERE FEC_DOC BETWEEN '{parametroA}' AND '{parametroB}' \r\nAND AUX.COD_CAJ = 9\r\nGROUP BY FEC_DOC\r\nORDER BY FEC_DOC ASC;");
+			DataTable ventaGeneral = metodos.GetQuery($@"select fec_doc as Fecha,
+														sum(case when aux.COD_CAJ!=9 and aux.COD_FRP=1 then aux.IMP_MBA else 0 end) - SUM(CASE WHEN AUX.COD_CON = 'RCAJ' and aux.COD_CAJ!=9 THEN AUX.IMP_MBA ELSE 0 END) as Efectivo,
+														sum(case when aux.COD_CAJ!=9 and aux.COD_FRP!=1 then aux.IMP_MBA else 0 end) as Terminal,
+														sum(case when aux.COD_CAJ=9 then aux.IMP_MBA else 0 end) - SUM(CASE WHEN AUX.COD_CON = 'RCAJ' and aux.COD_CAJ=9 THEN AUX.IMP_MBA ELSE 0 END)  as Mayoreo
+														from tblauxcaja aux
+														where fec_doc between '{parametroA}' AND '{parametroB}'
+														group by fec_doc
+														order by fec_doc asc;");
 
-			ClsGenerarExcel excel = new ClsGenerarExcel(ventaTienda, ventaMayoreo);
+			ClsGenerarExcel excel = new ClsGenerarExcel(ventaGeneral);
 
 			excel.GenerarReporte();
 		}

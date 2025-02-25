@@ -1,4 +1,5 @@
 ﻿using Aspose.Cells;
+using Aspose.Cells.Charts;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,13 +10,12 @@ namespace Reportes
 {
 	public class ClsGenerarExcel
 	{
-		public DataTable ventaTienda;
+		public DataTable ventaGeneral;
 		public DataTable ventaMayoreo;
 
-		public ClsGenerarExcel(DataTable ventaTienda, DataTable ventaMayoreo)
+		public ClsGenerarExcel(DataTable ventaGeneral)
 		{
-			this.ventaMayoreo = ventaMayoreo;
-			this.ventaTienda = ventaTienda;
+			this.ventaGeneral = ventaGeneral;
 		}
 
 		public void GenerarReporte()
@@ -31,37 +31,57 @@ namespace Reportes
 				hoja.Cells[2, 0].Value = "TERMINAL";
 				hoja.Cells[3, 0].Value = "MAYOREO";
 
-				List<DateTime> rango = new List<DateTime>(); 
-
-				for (int i = 0; i < ventaTienda.Rows.Count / 2; i++)
-				{
-					Cell valor = hoja.Cells[0, i + 1];
-					hoja.Cells[0, i + 1].Value = ventaTienda.Rows[i][0].ToString();
-				}
-
 				//Creamos el formato para que se pueda visualizar numericamente en excel los valores, y poder hacer calculos con ellos
 				CellsFactory f = new CellsFactory();
 				Style estilo = f.CreateStyle();
 				estilo.Number = 4;
 
-				//Ahora inserto los registros donde corresponden
-				//efectivo
-				for (int i = 0; i < ventaTienda.Rows.Count / 2; i++)
+				Cell valor;
+
+				for (int i = 0; i < ventaGeneral.Rows.Count; i++)
 				{
-					Cell valor = hoja.Cells[1, i + 1];
-					valor.PutValue(double.Parse(ventaTienda.Rows[i][1].ToString()));
+					//Fecha
+					hoja.Cells[0, i + 1].Value = ventaGeneral.Rows[i]["Fecha"].ToString().Split(' ')[0];
+
+					//Efectivo
+					valor = hoja.Cells[1, i + 1];
+					valor.PutValue(double.Parse(ventaGeneral.Rows[i]["Efectivo"].ToString()));
 					valor.SetStyle(estilo);
-				}
-				//terminal
-				for (int i = ventaTienda.Rows.Count / 2; i < ventaTienda.Rows.Count; i++)
-				{
-					Cell valor = hoja.Cells[2, i + 1 - ventaTienda.Rows.Count / 2];
-					valor.PutValue(double.Parse(ventaTienda.Rows[i][1].ToString()));
+
+					//Terminal
+					valor = hoja.Cells[2, i + 1];
+					valor.PutValue(double.Parse(ventaGeneral.Rows[i]["Terminal"].ToString()));
+					valor.SetStyle(estilo);
+
+					//Mayoreo
+					valor = hoja.Cells[3, i + 1];
+					valor.PutValue(double.Parse(ventaGeneral.Rows[i]["Mayoreo"].ToString()));
 					valor.SetStyle(estilo);
 				}
 
-				//Ahora, insertamos los registros de la venta de mayoreo
+				// Crear gráfico de líneas
+				int chartIndex = hoja.Charts.Add(ChartType.Line, 5, 0, 25, 10);
+				Chart grafico = hoja.Charts[chartIndex];
 
+				// Configurar series de datos por FILAS en lugar de COLUMNAS
+				grafico.NSeries.Add("B2:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "2", false); // Efectivo
+				grafico.NSeries.Add("B3:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "3", false); // Terminal
+				grafico.NSeries.Add("B4:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "4", false); // Mayoreo
+
+				// Configurar etiquetas del eje X (Fechas)
+				grafico.NSeries.CategoryData = "B1:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "1";
+
+				// Nombres de las series
+				grafico.NSeries[0].Name = "Efectivo";
+				grafico.NSeries[1].Name = "Terminal";
+				grafico.NSeries[2].Name = "Mayoreo";
+
+				// Configurar título y otros aspectos del gráfico
+				grafico.Title.Text = "Ventas por Día";
+				grafico.ValueAxis.Title.Text = "Monto en Pesos";
+				grafico.CategoryAxis.Title.Text = "Fechas";
+
+				// Ajustar tamaño de columnas automáticamente
 				hoja.AutoFitColumns();
 				excel.Save("venta.xlsx", SaveFormat.Xlsx);
 				Process.Start("venta.xlsx");
