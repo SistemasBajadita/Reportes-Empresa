@@ -205,20 +205,34 @@ namespace Reportes
 			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");
 			string parametroB = FechaB.Value.ToString("yyyy-MM-dd");
 
-			metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+			if (Program.Empresa == 0)
+			{
+				if (FechaA.Value < new DateTime(2025, 02, 01))
+				{
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["antes"].ToString());
+				}
+				else
+				{
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+				}
+			}
+			else
+			{
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
+			}
 
 			DataTable ventaGeneral = metodos.GetQuery($@"select fec_doc as Fecha,
-														sum(case when aux.COD_CAJ!=9 and aux.COD_FRP=1 then aux.IMP_MBA else 0 end) - SUM(CASE WHEN AUX.COD_CON = 'RCAJ' and aux.COD_CAJ!=9 THEN AUX.IMP_MBA ELSE 0 END) as Efectivo,
-														sum(case when aux.COD_CAJ!=9 and aux.COD_FRP!=1 then aux.IMP_MBA else 0 end) as Terminal,
-														sum(case when aux.COD_CAJ=9 then aux.IMP_MBA else 0 end) - SUM(CASE WHEN AUX.COD_CON = 'RCAJ' and aux.COD_CAJ=9 THEN AUX.IMP_MBA ELSE 0 END)  as Mayoreo
-														from tblauxcaja aux
-														where fec_doc between '{parametroA}' AND '{parametroB}'
-														group by fec_doc
-														order by fec_doc asc;");
+														 sum(case when aux.COD_CAJ!=9 and aux.COD_FRP=1 then aux.IMP_MBA else 0 end) - SUM(CASE WHEN AUX.COD_CON = 'RCAJ' and aux.COD_CAJ!=9 THEN AUX.IMP_MBA ELSE 0 END) as Efectivo,
+														 sum(case when aux.COD_CAJ!=9 and aux.COD_FRP!=1 then aux.IMP_MBA else 0 end) as Terminal,
+														 sum(case when aux.COD_CAJ=9 then aux.IMP_MBA else 0 end) - SUM(CASE WHEN AUX.COD_CON = 'RCAJ' and aux.COD_CAJ=9 THEN AUX.IMP_MBA ELSE 0 END)  as Mayoreo
+														 from tblauxcaja aux
+														 where fec_doc between '{parametroA}' AND '{parametroB}'
+														 group by fec_doc
+														 order by fec_doc asc;");
 
 			ClsGenerarExcel excel = new ClsGenerarExcel(ventaGeneral);
 
-			excel.GenerarReporte();
+			excel.GenerarReporte(chkGrafica.Checked);
 		}
 	}
 }

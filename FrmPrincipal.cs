@@ -262,7 +262,7 @@ namespace Reportes
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			frm = new FrmDespProv(ConfigurationManager.ConnectionStrings[Program.Empresa == 0 ? "empresa" : "marcos"].ToString());
+			frm = new FrmDespProv(ConfigurationManager.ConnectionStrings[Program.Empresa == 0 ? "servidor" : "marcos"].ToString());
 			frm.MandarDataTable += RecibirDataTable;
 			frm.ShowDialog();
 		}

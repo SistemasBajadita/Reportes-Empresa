@@ -48,6 +48,7 @@
 			this.label5 = new System.Windows.Forms.Label();
 			this.lblTotal = new System.Windows.Forms.Label();
 			this.BtnDesglosadoDiario = new System.Windows.Forms.Button();
+			this.chkGrafica = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.reporte)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -239,12 +240,25 @@
 			this.BtnDesglosadoDiario.UseVisualStyleBackColor = true;
 			this.BtnDesglosadoDiario.Click += new System.EventHandler(this.BtnDesglosadoDiario_Click);
 			// 
+			// chkGrafica
+			// 
+			this.chkGrafica.AutoSize = true;
+			this.chkGrafica.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
+			this.chkGrafica.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
+			this.chkGrafica.Location = new System.Drawing.Point(63, 126);
+			this.chkGrafica.Name = "chkGrafica";
+			this.chkGrafica.Size = new System.Drawing.Size(318, 25);
+			this.chkGrafica.TabIndex = 22;
+			this.chkGrafica.Text = "Imprimir grafica en desglosado";
+			this.chkGrafica.UseVisualStyleBackColor = true;
+			// 
 			// FrmVentaCosto
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
 			this.ClientSize = new System.Drawing.Size(1065, 561);
+			this.Controls.Add(this.chkGrafica);
 			this.Controls.Add(this.BtnDesglosadoDiario);
 			this.Controls.Add(this.lblTotal);
 			this.Controls.Add(this.label5);
@@ -284,5 +298,6 @@
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label lblTotal;
 		private System.Windows.Forms.Button BtnDesglosadoDiario;
+		private System.Windows.Forms.CheckBox chkGrafica;
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using Aspose.Cells;
 using Aspose.Cells.Charts;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -18,7 +17,7 @@ namespace Reportes
 			this.ventaGeneral = ventaGeneral;
 		}
 
-		public void GenerarReporte()
+		public void GenerarReporte(bool grafica)
 		{
 			try
 			{
@@ -59,39 +58,41 @@ namespace Reportes
 					valor.SetStyle(estilo);
 				}
 
-				// Crear gráfico de líneas
-				int chartIndex = hoja.Charts.Add(ChartType.Line, 5, 0, 25, 10);
-				Chart grafico = hoja.Charts[chartIndex];
+				if (grafica)
+				{
+					// Crear gráfico de líneas
+					int chartIndex = hoja.Charts.Add(ChartType.Line, 5, 0, 25, 10);
+					Chart grafico = hoja.Charts[chartIndex];
 
-				// Configurar series de datos por FILAS en lugar de COLUMNAS
-				grafico.NSeries.Add("B2:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "2", false); // Efectivo
-				grafico.NSeries.Add("B3:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "3", false); // Terminal
-				grafico.NSeries.Add("B4:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "4", false); // Mayoreo
+					// Configurar series de datos por FILAS en lugar de COLUMNAS
+					grafico.NSeries.Add("B2:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "2", false); // Efectivo
+					grafico.NSeries.Add("B3:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "3", false); // Terminal
+					grafico.NSeries.Add("B4:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "4", false); // Mayoreo
 
-				// Configurar etiquetas del eje X (Fechas)
-				grafico.NSeries.CategoryData = "B1:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "1";
+					// Configurar etiquetas del eje X (Fechas)
+					grafico.NSeries.CategoryData = "B1:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "1";
 
-				// Nombres de las series
-				grafico.NSeries[0].Name = "Efectivo";
-				grafico.NSeries[1].Name = "Terminal";
-				grafico.NSeries[2].Name = "Mayoreo";
+					// Nombres de las series
+					grafico.NSeries[0].Name = "Efectivo";
+					grafico.NSeries[1].Name = "Terminal";
+					grafico.NSeries[2].Name = "Mayoreo";
 
-				// Configurar título y otros aspectos del gráfico
-				grafico.Title.Text = "Ventas por Día";
-				grafico.ValueAxis.Title.Text = "Monto en Pesos";
-				grafico.CategoryAxis.Title.Text = "Fechas";
+					// Configurar título y otros aspectos del gráfico
+					grafico.Title.Text = "Ventas por Día";
+					grafico.ValueAxis.Title.Text = "Monto en Pesos";
+					grafico.CategoryAxis.Title.Text = "Fechas";
+				}
 
 				// Ajustar tamaño de columnas automáticamente
 				hoja.AutoFitColumns();
-				excel.Save("venta.xlsx", SaveFormat.Xlsx);
-				Process.Start("venta.xlsx");
+				string archivo = "venta.xlsx";
+				excel.Save(archivo, SaveFormat.Xlsx);
+				Process.Start(archivo);
 			}
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
-
-
 	}
 }
