@@ -129,6 +129,8 @@ namespace Reportes
 					_con.GetTxtExistencias(save.FileName);
 				}
 			}
+			else
+				return;
 
 			_con.PrintReportInPDFNegativos($"Negativos en inventario\nSucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}");
 		}

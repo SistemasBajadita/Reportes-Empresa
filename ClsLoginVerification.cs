@@ -94,6 +94,11 @@ namespace Reportes
 			}
 		}
 
+		public void EliminarUsuario(string id)
+		{
+			con.GetQuery($"delete from users_roles where userid={id}; delete from users where userid={id};");
+		}
+
 		public void CrearRoles(string id)
 		{
 			MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["log"].ConnectionString);

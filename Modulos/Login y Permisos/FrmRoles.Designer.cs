@@ -39,6 +39,7 @@
 			this.BtnNewUser = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.BtnDesactivarUsuario = new System.Windows.Forms.Button();
+			this.BtnDeleteUser = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// flowLayoutPanel1
@@ -115,7 +116,7 @@
 			// BtnNewUser
 			// 
 			this.BtnNewUser.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnNewUser.Location = new System.Drawing.Point(27, 531);
+			this.BtnNewUser.Location = new System.Drawing.Point(27, 576);
 			this.BtnNewUser.Name = "BtnNewUser";
 			this.BtnNewUser.Size = new System.Drawing.Size(465, 40);
 			this.BtnNewUser.TabIndex = 44;
@@ -144,12 +145,24 @@
 			this.BtnDesactivarUsuario.UseVisualStyleBackColor = true;
 			this.BtnDesactivarUsuario.Click += new System.EventHandler(this.BtnEliminarUsuario_Click);
 			// 
+			// BtnDeleteUser
+			// 
+			this.BtnDeleteUser.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
+			this.BtnDeleteUser.Location = new System.Drawing.Point(27, 530);
+			this.BtnDeleteUser.Name = "BtnDeleteUser";
+			this.BtnDeleteUser.Size = new System.Drawing.Size(465, 40);
+			this.BtnDeleteUser.TabIndex = 47;
+			this.BtnDeleteUser.Text = "Eliminar usuario";
+			this.BtnDeleteUser.UseVisualStyleBackColor = true;
+			this.BtnDeleteUser.Click += new System.EventHandler(this.BtnDeleteUser_Click);
+			// 
 			// FrmRoles
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(147)))), ((int)(((byte)(60)))));
-			this.ClientSize = new System.Drawing.Size(519, 583);
+			this.ClientSize = new System.Drawing.Size(519, 634);
+			this.Controls.Add(this.BtnDeleteUser);
 			this.Controls.Add(this.BtnDesactivarUsuario);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.BtnNewUser);
@@ -164,7 +177,6 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Accesos y contraseñas";
 			this.Load += new System.EventHandler(this.prueba_Load);
-			this.Paint += new System.Windows.Forms.PaintEventHandler(this.FrmRoles_Paint);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -183,5 +195,6 @@
 		private System.Windows.Forms.Button BtnNewUser;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button BtnDesactivarUsuario;
+		private System.Windows.Forms.Button BtnDeleteUser;
 	}
 }
