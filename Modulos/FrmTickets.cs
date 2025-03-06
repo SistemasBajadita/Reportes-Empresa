@@ -497,7 +497,7 @@ namespace Reportes
 
 						doc.Close();
 						writer.Close();
-						Process.Start("reporte de tickets.pdf");
+						Process.Start(pdfPath);
 					}
 				}
 				catch (Exception ex)
