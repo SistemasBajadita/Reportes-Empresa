@@ -1,23 +1,75 @@
 ﻿using Aspose.Cells;
 using Aspose.Cells.Charts;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Reportes
 {
 	public class ClsGenerarExcel
 	{
-		public DataTable ventaGeneral;
-		public DataTable ventaMayoreo;
+		public DataTable dataTable;
 
 		public ClsGenerarExcel(DataTable ventaGeneral)
 		{
-			this.ventaGeneral = ventaGeneral;
+			this.dataTable = ventaGeneral;
 		}
 
-		public void GenerarReporte(bool grafica)
+		public void GenerarReporteDeCompras()
+		{
+			DateTime startDate = dataTable.AsEnumerable().Min(row => row.Field<DateTime>("fec_fac"));
+			DateTime endDate = dataTable.AsEnumerable().Max(row => row.Field<DateTime>("fec_fac"));
+
+			// Diccionario para almacenar todas las fechas en el rango con valores en 0
+			Dictionary<DateTime, decimal> completeData = new Dictionary<DateTime, decimal>();
+
+			for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+			{
+				completeData[date] = 0; // Inicializar con 0
+			}
+
+			// Llenar con los valores existentes del DataTable
+			foreach (DataRow row in dataTable.Rows)
+			{
+				DateTime fecha = row.Field<DateTime>("fec_fac");
+				decimal total = row.Field<decimal>("total");
+				completeData[fecha] = total;
+			}
+
+			// Crear el archivo Excel con Aspose.Cells
+			Workbook workbook = new Workbook();
+			Worksheet sheet = workbook.Worksheets[0];
+
+			// Escribir encabezados
+			sheet.Cells[1, 0].PutValue("Compra");
+
+			CellsFactory f = new CellsFactory();
+			Style estilo = f.CreateStyle();
+			estilo.Number = 4;
+
+			// Escribir datos en el archivo Excel
+			int column = 1;
+			foreach (var entry in completeData)
+			{
+				Cell valor = sheet.Cells[1, column];
+				sheet.Cells[0, column].PutValue(entry.Key.ToString("yyyy/MM/dd"));
+				valor.PutValue(entry.Value);
+				valor.SetStyle(estilo);
+				column++;
+			}
+			sheet.AutoFitColumns();
+
+			// Guardar el archivo Excel
+			string filePath = "compras.xlsx";
+			workbook.Save(filePath, SaveFormat.Xlsx);
+			Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
+
+		}
+
+		public void GenerarReporteDeVenta(bool grafica)
 		{
 			try
 			{
@@ -37,24 +89,24 @@ namespace Reportes
 
 				Cell valor;
 
-				for (int i = 0; i < ventaGeneral.Rows.Count; i++)
+				for (int i = 0; i < dataTable.Rows.Count; i++)
 				{
 					//Fecha
-					hoja.Cells[0, i + 1].Value = ventaGeneral.Rows[i]["Fecha"].ToString().Split(' ')[0];
+					hoja.Cells[0, i + 1].Value = dataTable.Rows[i]["Fecha"].ToString().Split(' ')[0];
 
 					//Efectivo
 					valor = hoja.Cells[1, i + 1];
-					valor.PutValue(double.Parse(ventaGeneral.Rows[i]["Efectivo"].ToString()));
+					valor.PutValue(double.Parse(dataTable.Rows[i]["Efectivo"].ToString()));
 					valor.SetStyle(estilo);
 
 					//Terminal
 					valor = hoja.Cells[2, i + 1];
-					valor.PutValue(double.Parse(ventaGeneral.Rows[i]["Terminal"].ToString()));
+					valor.PutValue(double.Parse(dataTable.Rows[i]["Terminal"].ToString()));
 					valor.SetStyle(estilo);
 
 					//Mayoreo
 					valor = hoja.Cells[3, i + 1];
-					valor.PutValue(double.Parse(ventaGeneral.Rows[i]["Mayoreo"].ToString()));
+					valor.PutValue(double.Parse(dataTable.Rows[i]["Mayoreo"].ToString()));
 					valor.SetStyle(estilo);
 				}
 
@@ -65,12 +117,12 @@ namespace Reportes
 					Chart grafico = hoja.Charts[chartIndex];
 
 					// Configurar series de datos por FILAS en lugar de COLUMNAS
-					grafico.NSeries.Add("B2:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "2", false); // Efectivo
-					grafico.NSeries.Add("B3:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "3", false); // Terminal
-					grafico.NSeries.Add("B4:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "4", false); // Mayoreo
+					grafico.NSeries.Add("B2:" + Convert.ToChar('A' + dataTable.Rows.Count) + "2", false); // Efectivo
+					grafico.NSeries.Add("B3:" + Convert.ToChar('A' + dataTable.Rows.Count) + "3", false); // Terminal
+					grafico.NSeries.Add("B4:" + Convert.ToChar('A' + dataTable.Rows.Count) + "4", false); // Mayoreo
 
 					// Configurar etiquetas del eje X (Fechas)
-					grafico.NSeries.CategoryData = "B1:" + Convert.ToChar('A' + ventaGeneral.Rows.Count) + "1";
+					grafico.NSeries.CategoryData = "B1:" + Convert.ToChar('A' + dataTable.Rows.Count) + "1";
 
 					// Nombres de las series
 					grafico.NSeries[0].Name = "Efectivo";

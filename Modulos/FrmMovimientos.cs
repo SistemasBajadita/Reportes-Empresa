@@ -1,10 +1,7 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing.Drawing2D;
-using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 

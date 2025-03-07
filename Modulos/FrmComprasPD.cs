@@ -3,7 +3,6 @@ using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -32,7 +31,7 @@ namespace Reportes
 				{
 					reporte.DataSource = quer;
 					decimal total = quer.AsEnumerable().Sum(row => row.Field<decimal>("Total")) + quer.AsEnumerable().Sum(row => row.Field<decimal>("IVA"));
-					lblTotal.Text = "Total: $"+total.ToString("N2");
+					lblTotal.Text = "Total: $" + total.ToString("N2");
 				}));
 			}
 			catch (Exception) { }
@@ -127,6 +126,35 @@ namespace Reportes
 		private void FrmComprasPD_Paint(object sender, PaintEventArgs e)
 		{
 
+		}
+
+		private void BtnDesgloce_Click(object sender, EventArgs e)
+		{
+			string parametroA = FechaA.Value.ToString("yyyy-MM-dd");
+			string parametroB = FechaB.Value.ToString("yyyy-MM-dd");
+
+			if (Program.Empresa == 0)
+			{
+				if (FechaA.Value < new DateTime(2025, 02, 01))
+				{
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["antes"].ToString());
+				}
+				else
+				{
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+				}
+			}
+			else
+			{
+				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
+			}
+
+			DataTable compras = metodos.GetQuery($@"select fec_fac, sum(tot_doc) as total
+													from tblcomprasenc enc
+													where fec_fac between '{parametroA}' and '{parametroB}' 
+													group by fec_fac;");
+			ClsGenerarExcel excel = new ClsGenerarExcel(compras);
+			excel.GenerarReporteDeCompras();
 		}
 	}
 }

@@ -232,7 +232,7 @@ namespace Reportes
 
 			ClsGenerarExcel excel = new ClsGenerarExcel(ventaGeneral);
 
-			excel.GenerarReporte(chkGrafica.Checked);
+			excel.GenerarReporteDeVenta(chkGrafica.Checked);
 		}
 	}
 }

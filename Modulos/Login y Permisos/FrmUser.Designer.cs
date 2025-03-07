@@ -64,7 +64,7 @@
 			this.label1.AutoSize = true;
 			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(66, 84);
+			this.label1.Location = new System.Drawing.Point(70, 84);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(68, 17);
 			this.label1.TabIndex = 3;
@@ -95,7 +95,7 @@
 			this.label4.AutoSize = true;
 			this.label4.BackColor = System.Drawing.Color.Transparent;
 			this.label4.Font = new System.Drawing.Font("Lucida Console", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label4.Location = new System.Drawing.Point(37, 150);
+			this.label4.Location = new System.Drawing.Point(40, 150);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(98, 17);
 			this.label4.TabIndex = 9;
@@ -150,7 +150,6 @@
 			this.Controls.Add(this.label1);
 			this.Name = "FrmUser";
 			this.Text = "La Bajadita - Crear Usuario";
-			this.Paint += new System.Windows.Forms.PaintEventHandler(this.FrmUser_Paint);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
