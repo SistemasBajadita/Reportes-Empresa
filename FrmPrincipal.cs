@@ -43,6 +43,8 @@ namespace Reportes
 			this.userid = userid;
 			InitializeComponent();
 			Text = $"Reportes - {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}";
+			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings["log"].ConnectionString);
+			lblBienvenid.Text = $"Bienvenid@, {con.GetScalar($"select Name from users_reports.users where userid={userid}").Split(' ')[0]}";
 		}
 
 		private void BtnVentaCosto_Click(object sender, EventArgs e)
@@ -129,8 +131,6 @@ namespace Reportes
 					_con.GetTxtExistencias(save.FileName);
 				}
 			}
-			else
-				return;
 
 			_con.PrintReportInPDFNegativos($"Negativos en inventario\nSucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}");
 		}

@@ -47,6 +47,7 @@
 			this.Tortillas = new System.Windows.Forms.Button();
 			this.Codigos = new System.Windows.Forms.Button();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.lblBienvenid = new System.Windows.Forms.Label();
 			this.ModificarAccesos.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -54,7 +55,7 @@
 			// 
 			this.Ventas.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
 			this.Ventas.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.Ventas.Location = new System.Drawing.Point(21, 51);
+			this.Ventas.Location = new System.Drawing.Point(21, 86);
 			this.Ventas.Name = "Ventas";
 			this.Ventas.Size = new System.Drawing.Size(516, 58);
 			this.Ventas.TabIndex = 0;
@@ -65,7 +66,7 @@
 			// Compras
 			// 
 			this.Compras.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.Compras.Location = new System.Drawing.Point(543, 115);
+			this.Compras.Location = new System.Drawing.Point(543, 150);
 			this.Compras.Name = "Compras";
 			this.Compras.Size = new System.Drawing.Size(516, 58);
 			this.Compras.TabIndex = 1;
@@ -76,7 +77,7 @@
 			// TopProductos
 			// 
 			this.TopProductos.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.TopProductos.Location = new System.Drawing.Point(21, 179);
+			this.TopProductos.Location = new System.Drawing.Point(21, 214);
 			this.TopProductos.Name = "TopProductos";
 			this.TopProductos.Size = new System.Drawing.Size(516, 58);
 			this.TopProductos.TabIndex = 2;
@@ -87,7 +88,7 @@
 			// HabilitarReportes
 			// 
 			this.HabilitarReportes.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.HabilitarReportes.Location = new System.Drawing.Point(21, 371);
+			this.HabilitarReportes.Location = new System.Drawing.Point(21, 406);
 			this.HabilitarReportes.Name = "HabilitarReportes";
 			this.HabilitarReportes.Size = new System.Drawing.Size(516, 58);
 			this.HabilitarReportes.TabIndex = 3;
@@ -98,7 +99,7 @@
 			// HojaConteo
 			// 
 			this.HojaConteo.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.HojaConteo.Location = new System.Drawing.Point(21, 243);
+			this.HojaConteo.Location = new System.Drawing.Point(21, 278);
 			this.HojaConteo.Name = "HojaConteo";
 			this.HojaConteo.Size = new System.Drawing.Size(516, 58);
 			this.HojaConteo.TabIndex = 4;
@@ -109,7 +110,7 @@
 			// MovAlm
 			// 
 			this.MovAlm.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.MovAlm.Location = new System.Drawing.Point(543, 179);
+			this.MovAlm.Location = new System.Drawing.Point(543, 214);
 			this.MovAlm.Name = "MovAlm";
 			this.MovAlm.Size = new System.Drawing.Size(516, 58);
 			this.MovAlm.TabIndex = 5;
@@ -120,7 +121,7 @@
 			// Margenes
 			// 
 			this.Margenes.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.Margenes.Location = new System.Drawing.Point(543, 51);
+			this.Margenes.Location = new System.Drawing.Point(543, 86);
 			this.Margenes.Name = "Margenes";
 			this.Margenes.Size = new System.Drawing.Size(516, 58);
 			this.Margenes.TabIndex = 6;
@@ -131,7 +132,7 @@
 			// Tickets
 			// 
 			this.Tickets.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.Tickets.Location = new System.Drawing.Point(543, 243);
+			this.Tickets.Location = new System.Drawing.Point(543, 278);
 			this.Tickets.Name = "Tickets";
 			this.Tickets.Size = new System.Drawing.Size(516, 58);
 			this.Tickets.TabIndex = 8;
@@ -142,7 +143,7 @@
 			// Negativos
 			// 
 			this.Negativos.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.Negativos.Location = new System.Drawing.Point(21, 115);
+			this.Negativos.Location = new System.Drawing.Point(21, 150);
 			this.Negativos.Name = "Negativos";
 			this.Negativos.Size = new System.Drawing.Size(516, 58);
 			this.Negativos.TabIndex = 9;
@@ -154,7 +155,7 @@
 			// 
 			this.PreciosCocina.Enabled = false;
 			this.PreciosCocina.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.PreciosCocina.Location = new System.Drawing.Point(21, 307);
+			this.PreciosCocina.Location = new System.Drawing.Point(21, 342);
 			this.PreciosCocina.Name = "PreciosCocina";
 			this.PreciosCocina.Size = new System.Drawing.Size(516, 58);
 			this.PreciosCocina.TabIndex = 10;
@@ -165,7 +166,7 @@
 			// DespProveedor
 			// 
 			this.DespProveedor.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.DespProveedor.Location = new System.Drawing.Point(543, 307);
+			this.DespProveedor.Location = new System.Drawing.Point(543, 342);
 			this.DespProveedor.Name = "DespProveedor";
 			this.DespProveedor.Size = new System.Drawing.Size(516, 58);
 			this.DespProveedor.TabIndex = 11;
@@ -182,34 +183,34 @@
             this.cerrarSesiónToolStripMenuItem});
 			this.ModificarAccesos.Location = new System.Drawing.Point(0, 0);
 			this.ModificarAccesos.Name = "ModificarAccesos";
-			this.ModificarAccesos.Size = new System.Drawing.Size(1083, 30);
+			this.ModificarAccesos.Size = new System.Drawing.Size(1083, 28);
 			this.ModificarAccesos.TabIndex = 12;
 			this.ModificarAccesos.Text = "menuStrip1";
 			// 
 			// modificarRolesToolStripMenuItem
 			// 
 			this.modificarRolesToolStripMenuItem.Name = "modificarRolesToolStripMenuItem";
-			this.modificarRolesToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
+			this.modificarRolesToolStripMenuItem.Size = new System.Drawing.Size(202, 24);
 			this.modificarRolesToolStripMenuItem.Text = "Modificar roles por usuario";
 			this.modificarRolesToolStripMenuItem.Click += new System.EventHandler(this.modificarRolesToolStripMenuItem_Click);
 			// 
 			// verMovimientosToolStripMenuItem
 			// 
 			this.verMovimientosToolStripMenuItem.Name = "verMovimientosToolStripMenuItem";
-			this.verMovimientosToolStripMenuItem.Size = new System.Drawing.Size(134, 26);
+			this.verMovimientosToolStripMenuItem.Size = new System.Drawing.Size(134, 24);
 			this.verMovimientosToolStripMenuItem.Text = "Ver movimientos";
 			// 
 			// cerrarSesiónToolStripMenuItem
 			// 
 			this.cerrarSesiónToolStripMenuItem.Name = "cerrarSesiónToolStripMenuItem";
-			this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(108, 26);
+			this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(108, 24);
 			this.cerrarSesiónToolStripMenuItem.Text = "Cerrar sesión";
 			this.cerrarSesiónToolStripMenuItem.Click += new System.EventHandler(this.cerrarSesiónToolStripMenuItem_Click);
 			// 
 			// Tortillas
 			// 
 			this.Tortillas.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.Tortillas.Location = new System.Drawing.Point(543, 371);
+			this.Tortillas.Location = new System.Drawing.Point(543, 406);
 			this.Tortillas.Name = "Tortillas";
 			this.Tortillas.Size = new System.Drawing.Size(516, 58);
 			this.Tortillas.TabIndex = 13;
@@ -220,7 +221,7 @@
 			// Codigos
 			// 
 			this.Codigos.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
-			this.Codigos.Location = new System.Drawing.Point(21, 435);
+			this.Codigos.Location = new System.Drawing.Point(21, 470);
 			this.Codigos.Name = "Codigos";
 			this.Codigos.Size = new System.Drawing.Size(516, 58);
 			this.Codigos.TabIndex = 14;
@@ -228,12 +229,24 @@
 			this.Codigos.UseVisualStyleBackColor = true;
 			this.Codigos.Click += new System.EventHandler(this.Codigos_Click);
 			// 
+			// lblBienvenid
+			// 
+			this.lblBienvenid.AutoSize = true;
+			this.lblBienvenid.Font = new System.Drawing.Font("Lucida Sans", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblBienvenid.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.lblBienvenid.Location = new System.Drawing.Point(347, 41);
+			this.lblBienvenid.Name = "lblBienvenid";
+			this.lblBienvenid.Size = new System.Drawing.Size(108, 34);
+			this.lblBienvenid.TabIndex = 15;
+			this.lblBienvenid.Text = "label1";
+			// 
 			// FrmPrincipal
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
-			this.ClientSize = new System.Drawing.Size(1083, 506);
+			this.ClientSize = new System.Drawing.Size(1083, 540);
+			this.Controls.Add(this.lblBienvenid);
 			this.Controls.Add(this.Codigos);
 			this.Controls.Add(this.Tortillas);
 			this.Controls.Add(this.DespProveedor);
@@ -280,6 +293,7 @@
 		private System.Windows.Forms.Button Tortillas;
         private System.Windows.Forms.Button Codigos;
 		private System.Windows.Forms.ToolTip toolTip1;
+		private System.Windows.Forms.Label lblBienvenid;
 	}
 }
 

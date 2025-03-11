@@ -221,14 +221,14 @@ namespace Reportes
 				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
 			}
 
-			DataTable ventaGeneral = metodos.GetQuery($@"select fec_doc as Fecha,
-														 sum(case when aux.COD_CAJ!=9 and aux.COD_FRP=1 then aux.IMP_MBA else 0 end) - SUM(CASE WHEN AUX.COD_CON = 'RCAJ' and aux.COD_CAJ!=9 THEN AUX.IMP_MBA ELSE 0 END) as Efectivo,
-														 sum(case when aux.COD_CAJ!=9 and aux.COD_FRP!=1 then aux.IMP_MBA else 0 end) as Terminal,
-														 sum(case when aux.COD_CAJ=9 then aux.IMP_MBA else 0 end) - SUM(CASE WHEN AUX.COD_CON = 'RCAJ' and aux.COD_CAJ=9 THEN AUX.IMP_MBA ELSE 0 END)  as Mayoreo
-														 from tblauxcaja aux
-														 where fec_doc between '{parametroA}' AND '{parametroB}'
-														 group by fec_doc
-														 order by fec_doc asc;");
+			DataTable ventaGeneral = metodos.GetQuery($@"SELECT fec_doc AS Fecha,
+														SUM(CASE WHEN aux.COD_CAJ != 9 AND aux.COD_FRP = 1 and cod_con='IVEN' THEN aux.IMP_MBA ELSE 0 END) - SUM(CASE WHEN AUX.CON_CEP = 'DCLI' AND aux.COD_CAJ != 9 THEN AUX.IMP_MBA ELSE 0 END) AS Efectivo,
+														SUM(CASE WHEN aux.COD_CAJ != 9 AND aux.COD_FRP != 1 AND COD_CON='IVEN' THEN aux.IMP_MBA ELSE 0 END) AS Terminal,
+														SUM(CASE WHEN aux.COD_CAJ = 9 AND COD_CON='IVEN' THEN aux.IMP_MBA ELSE 0 END) - SUM(CASE WHEN AUX.CON_CEP = 'DCLI' AND aux.COD_CAJ = 9 THEN AUX.IMP_MBA ELSE 0 END) AS Mayoreo
+														FROM tblauxcaja aux
+														WHERE fec_doc BETWEEN '{parametroA}' AND '{parametroB}'
+														GROUP BY fec_doc
+														ORDER BY fec_doc ASC;");	
 
 			ClsGenerarExcel excel = new ClsGenerarExcel(ventaGeneral);
 
