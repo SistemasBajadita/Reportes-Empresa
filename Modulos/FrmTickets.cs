@@ -277,6 +277,7 @@ namespace Reportes
 				double sub = 0;
 				double dev = 0;
 				double cred = 0;
+				double trans = 0;
 				double totalDelDia = 0;
 
 				try
@@ -337,6 +338,7 @@ namespace Reportes
 							query = "";
 							double devTotal = 0;
 
+
 							//Ahora recorro los tickets obtenidos, para saber si alguno tiene devolucion
 							foreach (DataRow r in tickets.Rows)
 							{
@@ -349,26 +351,34 @@ namespace Reportes
 								string ro = conn.GetRowQuery(query);
 
 								bool creditFlag = false;
+								bool trasnferFlag = false;
 
-								if (conn.GetRowQuery($"select cod_frp from tblauxcaja where ref_doc = '{r[1]}'") == "5")
-								{
+								string frp = conn.GetRowQuery($"select cod_frp from tblauxcaja where ref_doc = '{r[1]}'");
+
+								//Banderas para verificar si la nota es de credito o de transferencia
+								if (frp == "5")
 									creditFlag = true;
-								}
+								if (frp == "9") 
+									trasnferFlag = true;
 
 								//Si no hubo devoluciones, devuelve una cadena vacia
 								if (ro == "")
 								{
-									dataCell = new PdfPCell(new Phrase($"{Convert.ToDateTime(r[0]):dd/MM/yyyy}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f, BackgroundColor = creditFlag ? new BaseColor(255, 255, 0) : new BaseColor(255, 255, 255) };
+									BaseColor colorFondo = creditFlag ? new BaseColor(255, 255, 0) :
+												trasnferFlag ? new BaseColor(173, 216, 230) : // Azul claro
+												new BaseColor(255, 255, 255);
+
+									dataCell = new PdfPCell(new Phrase($"{Convert.ToDateTime(r[0]):dd/MM/yyyy}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f, BackgroundColor = colorFondo };
 									table.AddCell(dataCell);
-									dataCell = new PdfPCell(new Phrase($"{r[1]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = creditFlag ? new BaseColor(255, 255, 0) : new BaseColor(255, 255, 255) };
+									dataCell = new PdfPCell(new Phrase($"{r[1]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = colorFondo };
 									table.AddCell(dataCell);
-									dataCell = new PdfPCell(new Phrase($"{r[2]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = creditFlag ? new BaseColor(255, 255, 0) : new BaseColor(255, 255, 255) };
+									dataCell = new PdfPCell(new Phrase($"{r[2]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = colorFondo };
 									table.AddCell(dataCell);
-									dataCell = new PdfPCell(new Phrase($"{r[3]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = creditFlag ? new BaseColor(255, 255, 0) : new BaseColor(255, 255, 255) };
+									dataCell = new PdfPCell(new Phrase($"{r[3]}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = colorFondo };
 									table.AddCell(dataCell);
-									dataCell = new PdfPCell(new Phrase($"${Convert.ToDouble(r[4]).ToString("N2")}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = creditFlag ? new BaseColor(255, 255, 0) : new BaseColor(255, 255, 255) };
+									dataCell = new PdfPCell(new Phrase($"${Convert.ToDouble(r[4]).ToString("N2")}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = colorFondo };
 									table.AddCell(dataCell);
-									dataCell = new PdfPCell(new Phrase($"${0}.00", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = creditFlag ? new BaseColor(255, 255, 0) : new BaseColor(255, 255, 255) };
+									dataCell = new PdfPCell(new Phrase($"${0}.00", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 2f, BackgroundColor = colorFondo };
 									table.AddCell(dataCell);
 								}
 								else
@@ -392,6 +402,7 @@ namespace Reportes
 
 							double subtotal = 0;
 							double credito = 0;
+							double transferencia = 0;
 							//ahora recorremos la lista de vuelta para calcular el subtotal
 							doc.Add(table);
 
@@ -409,20 +420,36 @@ namespace Reportes
 									else
 										credito += double.Parse(r[4].ToString()) - double.Parse(conn.GetRowQuery(query));
 								}
+								if (conn.GetRowQuery(query) == "9")
+								{
+									query = $@" select round( SUM(tot_dev),2)
+									from tblencdevolucion dev
+									inner join tblgralventas ven on dev.REF_DOC=ven.REF_DOC
+									where dev.REF_DOC='{r[1]}' and cod_sts=5;";
+									if (conn.GetRowQuery(query) == "")
+										transferencia += double.Parse(r[4].ToString());
+									else
+										transferencia += double.Parse(r[4].ToString()) - double.Parse(conn.GetRowQuery(query));
+								}
 								subtotal += double.Parse(r[4].ToString());
 								//subtotal += double.Parse(r[4].ToString());
 							}
 
+
 							doc.Add(new Paragraph($"Subtotal: ${subtotal:N2}", titleFont) { Alignment = Element.ALIGN_RIGHT });
 							doc.Add(new Paragraph($"Devoluciones: ${devTotal:N2}", titleFont) { Alignment = Element.ALIGN_RIGHT });
 							doc.Add(new Paragraph($"Credito: ${credito:N2}", titleFont) { Alignment = Element.ALIGN_RIGHT });
-							doc.Add(new Paragraph($"Total: ${(subtotal - devTotal - credito).ToString("N2")}", titleFont) { Alignment = Element.ALIGN_RIGHT, });
+							doc.Add(new Paragraph($"Transferencias: ${transferencia:N2}", titleFont) { Alignment = Element.ALIGN_RIGHT });
+							doc.Add(new Paragraph($"Total: ${(subtotal - devTotal - credito - transferencia).ToString("N2")}", titleFont) { Alignment = Element.ALIGN_RIGHT, });
 
 							sub += subtotal;
 							dev += devTotal;
 							cred += credito;
-							totalDelDia += subtotal - devTotal - credito;
+							trans += transferencia;
+							totalDelDia += subtotal - devTotal - credito - transferencia;
 						}
+
+						//Suma general de todos los montos
 
 						// Crear una tabla con 2 columnas
 						PdfPTable table1 = new PdfPTable(2)
@@ -477,6 +504,20 @@ namespace Reportes
 							HorizontalAlignment = Element.ALIGN_LEFT,
 							Border = PdfPCell.NO_BORDER,
 							BackgroundColor = new BaseColor(244, 208, 63)
+						});
+
+						//Transferencias
+						table1.AddCell(new PdfPCell(new Phrase("-TRANSFERENCIAS DEL DIA:", titleFont))
+						{
+							HorizontalAlignment = Element.ALIGN_RIGHT,
+							Border = PdfPCell.NO_BORDER,
+							BackgroundColor = new BaseColor(173, 216, 230)
+						});
+						table1.AddCell(new PdfPCell(new Phrase($"${trans:N2}", titleFont))
+						{
+							HorizontalAlignment = Element.ALIGN_LEFT,
+							Border = PdfPCell.NO_BORDER,
+							BackgroundColor = new BaseColor(173, 216, 230)
 						});
 
 						//Venta del dia
