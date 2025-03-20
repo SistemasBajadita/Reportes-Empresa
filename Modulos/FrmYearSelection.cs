@@ -45,7 +45,7 @@ namespace Reportes.Modulos
 			{
 				anio = int.Parse(cbYears.Text);
 			}));
-			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings[anio == 2024 ? "antes":"empresa"].ToString());
 			DataTable departamentos = con.GetQuery("select DISTINCT agr.cod_agr, des_agr from tblcatagrupacionart agr " +
 				"inner join tblgpoarticulos cod on cod.COD_AGR=agr.COD_AGR where cod.COD_GPO=25 " +
 				"order by des_agr asc;");
@@ -117,7 +117,11 @@ namespace Reportes.Modulos
 				double porcentaje = ((double)(i + 1) / (double)departamentos.Rows.Count) * 100.0;
 
 				Invoke(new Action(() => { label1.Text = $"{porcentaje:N2}%"; }));
+
+				hojaActual.AutoFitColumns();
 			}
+
+
 
 			Worksheet evalSheet = sheets["Evaluation Warning"];
 			if (evalSheet != null)

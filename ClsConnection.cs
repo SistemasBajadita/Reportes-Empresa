@@ -52,6 +52,7 @@ namespace Reportes
 
 				MySqlCommand cmd = new MySqlCommand("VentaMensualDepartamento", _con);
 				cmd.CommandType = CommandType.StoredProcedure;
+				cmd.CommandTimeout = 10000;
 
 				cmd.Parameters.AddWithValue("@anio", anio);
 				cmd.Parameters.AddWithValue("@mes", mes);

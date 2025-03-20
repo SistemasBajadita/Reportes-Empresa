@@ -127,6 +127,7 @@
 			this.reporte.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.reporte.Size = new System.Drawing.Size(817, 271);
 			this.reporte.TabIndex = 24;
+			this.reporte.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.reporte_CellClick);
 			// 
 			// BtnCorrerQuery
 			// 

@@ -351,7 +351,7 @@ namespace Reportes
 								string ro = conn.GetRowQuery(query);
 
 								bool creditFlag = false;
-								bool trasnferFlag = false;
+								bool transferFlag = false;
 
 								string frp = conn.GetRowQuery($"select cod_frp from tblauxcaja where ref_doc = '{r[1]}'");
 
@@ -359,13 +359,13 @@ namespace Reportes
 								if (frp == "5")
 									creditFlag = true;
 								if (frp == "9") 
-									trasnferFlag = true;
+									transferFlag = true;
 
 								//Si no hubo devoluciones, devuelve una cadena vacia
 								if (ro == "")
 								{
 									BaseColor colorFondo = creditFlag ? new BaseColor(255, 255, 0) :
-												trasnferFlag ? new BaseColor(173, 216, 230) : // Azul claro
+												transferFlag ? new BaseColor(173, 216, 230) : // Azul claro
 												new BaseColor(255, 255, 255);
 
 									dataCell = new PdfPCell(new Phrase($"{Convert.ToDateTime(r[0]):dd/MM/yyyy}", dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f, BackgroundColor = colorFondo };

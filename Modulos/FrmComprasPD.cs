@@ -156,5 +156,10 @@ namespace Reportes
 			ClsGenerarExcel excel = new ClsGenerarExcel(compras);
 			excel.GenerarReporteDeCompras();
 		}
+
+		private void reporte_CellClick(object sender, DataGridViewCellEventArgs e)
+		{
+			Clipboard.SetText(reporte.Rows[reporte.SelectedRows[0].Index].Cells[1].Value.ToString());
+		}
 	}
 }

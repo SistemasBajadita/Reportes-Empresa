@@ -128,7 +128,6 @@
 			this.Name = "FrmCodigo";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Codigo de producto nuevo";
-			this.Paint += new System.Windows.Forms.PaintEventHandler(this.FrmCodigo_Paint);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
