@@ -49,6 +49,8 @@
 			this.lblTotal = new System.Windows.Forms.Label();
 			this.BtnDesglosadoDiario = new System.Windows.Forms.Button();
 			this.chkGrafica = new System.Windows.Forms.CheckBox();
+			this.chkTienda = new System.Windows.Forms.CheckBox();
+			this.chkMayoreo = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.reporte)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -66,7 +68,7 @@
 			// BtnExcel
 			// 
 			this.BtnExcel.Font = new System.Drawing.Font("Lucida Fax", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.BtnExcel.Location = new System.Drawing.Point(593, 508);
+			this.BtnExcel.Location = new System.Drawing.Point(593, 539);
 			this.BtnExcel.Name = "BtnExcel";
 			this.BtnExcel.Size = new System.Drawing.Size(245, 40);
 			this.BtnExcel.TabIndex = 16;
@@ -138,6 +140,7 @@
 			this.reporte.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.reporte.Size = new System.Drawing.Size(965, 304);
 			this.reporte.TabIndex = 14;
+			this.reporte.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.reporte_CellClick);
 			// 
 			// BtnCorrerQuery
 			// 
@@ -197,7 +200,7 @@
 			// BtnPDF
 			// 
 			this.BtnPDF.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnPDF.Location = new System.Drawing.Point(390, 508);
+			this.BtnPDF.Location = new System.Drawing.Point(390, 539);
 			this.BtnPDF.Name = "BtnPDF";
 			this.BtnPDF.Size = new System.Drawing.Size(197, 40);
 			this.BtnPDF.TabIndex = 17;
@@ -232,7 +235,7 @@
 			// BtnDesglosadoDiario
 			// 
 			this.BtnDesglosadoDiario.Font = new System.Drawing.Font("Lucida Fax", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.BtnDesglosadoDiario.Location = new System.Drawing.Point(844, 508);
+			this.BtnDesglosadoDiario.Location = new System.Drawing.Point(844, 539);
 			this.BtnDesglosadoDiario.Name = "BtnDesglosadoDiario";
 			this.BtnDesglosadoDiario.Size = new System.Drawing.Size(197, 40);
 			this.BtnDesglosadoDiario.TabIndex = 21;
@@ -252,12 +255,38 @@
 			this.chkGrafica.Text = "Imprimir grafica en desglosado";
 			this.chkGrafica.UseVisualStyleBackColor = true;
 			// 
+			// chkTienda
+			// 
+			this.chkTienda.AutoSize = true;
+			this.chkTienda.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
+			this.chkTienda.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
+			this.chkTienda.Location = new System.Drawing.Point(593, 508);
+			this.chkTienda.Name = "chkTienda";
+			this.chkTienda.Size = new System.Drawing.Size(94, 25);
+			this.chkTienda.TabIndex = 23;
+			this.chkTienda.Text = "Tienda";
+			this.chkTienda.UseVisualStyleBackColor = true;
+			// 
+			// chkMayoreo
+			// 
+			this.chkMayoreo.AutoSize = true;
+			this.chkMayoreo.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
+			this.chkMayoreo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
+			this.chkMayoreo.Location = new System.Drawing.Point(693, 508);
+			this.chkMayoreo.Name = "chkMayoreo";
+			this.chkMayoreo.Size = new System.Drawing.Size(109, 25);
+			this.chkMayoreo.TabIndex = 24;
+			this.chkMayoreo.Text = "Mayoreo";
+			this.chkMayoreo.UseVisualStyleBackColor = true;
+			// 
 			// FrmVentaCosto
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
-			this.ClientSize = new System.Drawing.Size(1065, 561);
+			this.ClientSize = new System.Drawing.Size(1065, 585);
+			this.Controls.Add(this.chkMayoreo);
+			this.Controls.Add(this.chkTienda);
 			this.Controls.Add(this.chkGrafica);
 			this.Controls.Add(this.BtnDesglosadoDiario);
 			this.Controls.Add(this.lblTotal);
@@ -276,6 +305,7 @@
 			this.Name = "FrmVentaCosto";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Reporte de venta con costo y margenes de utilidad";
+			this.Load += new System.EventHandler(this.FrmVentaCosto_Load);
 			((System.ComponentModel.ISupportInitialize)(this.reporte)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -299,5 +329,7 @@
 		private System.Windows.Forms.Label lblTotal;
 		private System.Windows.Forms.Button BtnDesglosadoDiario;
 		private System.Windows.Forms.CheckBox chkGrafica;
+		private System.Windows.Forms.CheckBox chkTienda;
+		private System.Windows.Forms.CheckBox chkMayoreo;
 	}
 }

@@ -49,7 +49,7 @@ namespace Reportes
 
 		private void BtnVentaCosto_Click(object sender, EventArgs e)
 		{
-			FrmVentaCosto frm = new FrmVentaCosto();
+			FrmVentaCosto frm = new FrmVentaCosto(int.Parse(userid));
 			frm.ShowDialog();
 		}
 
@@ -477,6 +477,12 @@ namespace Reportes
 		private void Codigos_Click(object sender, EventArgs e)
 		{
 			FrmCodigo frm = new FrmCodigo();
+			frm.ShowDialog();
+		}
+
+		private void Precios_Click(object sender, EventArgs e)
+		{
+			FrmPrecios frm = new FrmPrecios();
 			frm.ShowDialog();
 		}
 	}

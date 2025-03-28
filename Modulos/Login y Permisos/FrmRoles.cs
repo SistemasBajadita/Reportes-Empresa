@@ -43,6 +43,23 @@ namespace Reportes
 				flowLayoutPanel1.Controls.Add(chk[i - 1]);
 			}
 			comboBox1.Text = "";
+
+			chk[1].CheckedChanged += FrmRoles_CheckedChanged;
+
+			comboBox1_SelectedIndexChanged(sender, e);
+
+		}
+
+		private void FrmRoles_CheckedChanged(object sender, EventArgs e)
+		{
+			if (chk[1].Checked)
+			{
+				chkMayoreo.Visible = true;
+			}
+			else
+			{
+				chkMayoreo.Visible = false;
+			}
 		}
 
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -72,6 +89,10 @@ namespace Reportes
 					BtnDesactivarUsuario.BackColor = Color.Green;
 					BtnDesactivarUsuario.ForeColor = Color.White;
 				}
+
+				var mayoreo = ClsLoginVerification.ObtenerPermisoMayoreo(int.Parse(comboBox1.SelectedValue.ToString()));
+
+				chkMayoreo.Checked = mayoreo == "1";
 			}
 		}
 
@@ -88,6 +109,9 @@ namespace Reportes
 				login.GuardarConfig(comboBox1.SelectedValue.ToString(), chk[i].Name, chk[i].Checked == true ? "1" : "0");
 			}
 			MessageBox.Show("Configuracion guardada.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+			login.DarPermisoDeMayoreo(comboBox1.SelectedValue.ToString(), chkMayoreo.Checked ? "1" : "0");
+
 		}
 
 		private void BtnNewUser_Click(object sender, EventArgs e)

@@ -33,7 +33,7 @@ namespace Reportes
 
 			for (int i = 0; i < ReporteActivo.Rows.Count; i++)
 			{
-				archivo.WriteLine($"{ReporteActivo.Rows[i][0]},{double.Parse( ReporteActivo.Rows[i][3].ToString())*-1}");
+				archivo.WriteLine($"{ReporteActivo.Rows[i][0]},{double.Parse(ReporteActivo.Rows[i][3].ToString()) * -1}");
 			}
 
 			archivo.Close();
@@ -50,7 +50,7 @@ namespace Reportes
 			{
 				_con.Open();
 
-				MySqlCommand cmd = new MySqlCommand("VentaMensualDepartamento", _con);
+				MySqlCommand cmd = new MySqlCommand("VentaMensualDepartamentoGlobal", _con);
 				cmd.CommandType = CommandType.StoredProcedure;
 				cmd.CommandTimeout = 10000;
 
@@ -82,7 +82,7 @@ namespace Reportes
 		//metodo asincrono
 		public static async Task<bool> VerificarCodigoGenerado(string codigoGenerado)
 		{
-			MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings[Program.Empresa==0 ? "servidor" : "marcos"].ToString());
+			MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings[Program.Empresa == 0 ? "servidor" : "marcos"].ToString());
 			try
 			{
 				await con.OpenAsync();
@@ -368,7 +368,7 @@ namespace Reportes
 					table.AddCell(totalCell);
 					totalCell = new PdfPCell(new Phrase("$" + totalImpuesto.ToString("N2"), headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
-					totalCell = new PdfPCell(new Phrase("$" + (totalCompra+totalImpuesto).ToString("N2"), headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
+					totalCell = new PdfPCell(new Phrase("$" + (totalCompra + totalImpuesto).ToString("N2"), headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
 
 					Paragraph date = new Paragraph($"Fecha: {DateTime.Now}")
@@ -488,7 +488,7 @@ namespace Reportes
 		}
 
 
-		public void PrintReportInPDFVentas(string fechaA, string fechaB, string path)
+		public void PrintReportInPDFVentas(string fechaA, string fechaB, string path, string tipo)
 		{
 			DataView antes = ReporteActivo.DefaultView;
 			antes.Sort = "Departamento asc";
@@ -511,7 +511,9 @@ namespace Reportes
 
 					// Título del documento
 					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 24);
-					Paragraph title = new Paragraph($"Reporte de Ventas y Costos\nSucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}", titleFont);
+					Paragraph title = new Paragraph($"Reporte de Ventas y Costos\n" +
+						$"Sucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}\n" +
+						$"{tipo}", titleFont);
 					title.Alignment = Element.ALIGN_CENTER;
 					doc.Add(title);
 

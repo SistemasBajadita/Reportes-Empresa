@@ -13,8 +13,9 @@ namespace Reportes
 	public partial class FrmVentaCosto : Form
 	{
 		ClsConnection metodos;
+		int UserId { get; set; }
 
-		public FrmVentaCosto()
+		public FrmVentaCosto(int userId)
 		{
 			InitializeComponent();
 			FechaA.MaxDate = DateTime.Now;
@@ -25,6 +26,8 @@ namespace Reportes
 			{
 				BtnExcel.Enabled = false;
 			}
+
+			UserId = userId;
 		}
 
 		private void SetearQuery(DataSet quer)
@@ -92,11 +95,31 @@ namespace Reportes
 					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
 				}
 
+				if (!chkTienda.Checked && !chkMayoreo.Checked)
+				{
+					MessageBox.Show("Por favor selecciona un parametro de venta, de tienda o de mayoreo",
+						"LA BAJADITA - VENTA DE FRUTAS Y VERDURAS",
+						MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+					return;
+				}
+
+				string formato = "";
+
+				if (chkTienda.Checked && !chkMayoreo.Checked)
+				{
+					formato = " and gv.caja_doc!=9 ";
+				}
+				else if (!chkTienda.Checked && chkMayoreo.Checked)
+				{
+					formato = " and gv.caja_doc=9 ";
+				}
+
 				query = "select caa.DES_AGR as Departamento, round(sum(rv.CAN_ART * rv.PCIO_VEN),2) as 'Venta Total', round(sum(rv.CAN_ART * rv.COS_VEN),2) as Costo, round((1 - (sum(rv.CAN_ART * rv.COS_VEN) / sum(rv.CAN_ART * rv.PCIO_VEN))) * 100, 2) as Porc from tblgralventas gv " +
 					"inner join tblrenventas rv on gv.REF_DOC = rv.REF_DOC " +
 					"inner join tblgpoarticulos ga on rv.COD1_ART = ga.COD1_ART " +
 					"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
-					$"where  (gv.FEC_DOC between '{parametroA}' and '{parametroB}') and ga.COD_GPO = 25 " +
+					$"where  (gv.FEC_DOC between '{parametroA}' and '{parametroB}') and ga.COD_GPO = 25 {formato}" +
 					$"GROUP BY caa.DES_AGR " +
 					$"ORDER BY Departamento ASC; " +
 					$"select caa.DES_AGR as Departamento, round(sum(cos_uni*can_ren),2) as Merma " +
@@ -194,8 +217,19 @@ namespace Reportes
 			guardarArchivo.Filter = "Archivos PDF|*.pdf|Todos los archivos|*.*";
 			guardarArchivo.FileName = $"Ventas_{DateTime.Now:dd-MM-yy}.pdf";
 
+			string reporte = "General";
+
+			if (chkTienda.Checked && !chkMayoreo.Checked)
+			{
+				reporte = "Tienda";
+			}
+			else if (!chkTienda.Checked && chkMayoreo.Checked)
+			{
+				reporte = "Mayoreo";
+			}
+
 			label4.Visible = true;
-			await Task.Run(() => metodos.PrintReportInPDFVentas(parametroA, parametroB, guardarArchivo.FileName));
+			await Task.Run(() => metodos.PrintReportInPDFVentas(parametroA, parametroB, guardarArchivo.FileName, reporte));
 			label4.Visible = false;
 			Process.Start(guardarArchivo.FileName);
 		}
@@ -228,11 +262,27 @@ namespace Reportes
 														FROM tblauxcaja aux
 														WHERE fec_doc BETWEEN '{parametroA}' AND '{parametroB}'
 														GROUP BY fec_doc
-														ORDER BY fec_doc ASC;");	
+														ORDER BY fec_doc ASC;");
 
 			ClsGenerarExcel excel = new ClsGenerarExcel(ventaGeneral);
 
 			excel.GenerarReporteDeVenta(chkGrafica.Checked);
+		}
+
+		private async void reporte_CellClick(object sender, DataGridViewCellEventArgs e)
+		{
+			Clipboard.SetText(reporte.Rows[reporte.SelectedRows[0].Index].Cells[1].Value.ToString());
+			label5.Visible = true;
+			label5.Text = "Valor de venta copiado";
+			await Task.Delay(2000);
+			label5.Text = "";
+			label5.Visible = false;
+		}
+
+		private void FrmVentaCosto_Load(object sender, EventArgs e)
+		{
+			var permiso = ClsLoginVerification.ObtenerPermisoMayoreo(UserId);
+			chkMayoreo.Enabled = permiso == "1";
 		}
 	}
 }

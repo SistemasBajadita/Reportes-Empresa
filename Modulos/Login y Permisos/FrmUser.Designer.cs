@@ -112,9 +112,9 @@
 			// BtnRegistrar
 			// 
 			this.BtnRegistrar.Font = new System.Drawing.Font("Lucida Fax", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.BtnRegistrar.Location = new System.Drawing.Point(110, 209);
+			this.BtnRegistrar.Location = new System.Drawing.Point(62, 209);
 			this.BtnRegistrar.Name = "BtnRegistrar";
-			this.BtnRegistrar.Size = new System.Drawing.Size(231, 59);
+			this.BtnRegistrar.Size = new System.Drawing.Size(298, 59);
 			this.BtnRegistrar.TabIndex = 5;
 			this.BtnRegistrar.Text = "Registrar usuario";
 			this.BtnRegistrar.UseVisualStyleBackColor = true;
@@ -138,7 +138,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(147)))), ((int)(((byte)(60)))));
-			this.ClientSize = new System.Drawing.Size(434, 280);
+			this.ClientSize = new System.Drawing.Size(431, 280);
 			this.Controls.Add(this.checkBox1);
 			this.Controls.Add(this.BtnRegistrar);
 			this.Controls.Add(this.TxtName);

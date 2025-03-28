@@ -50,7 +50,7 @@ namespace Reportes
 		{
 			MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["log"].ConnectionString);
 			MySqlCommand cmd = con.CreateCommand();
-			cmd.CommandText = $"insert into users (name, password, active) values ('{name}', '{ClsLoginVerification.Encriptar(password)}',1)";
+			cmd.CommandText = $"insert into users (name, password, active, mayoreo) values ('{name}', '{ClsLoginVerification.Encriptar(password)}',1,0)";
 
 			string id = "";
 
@@ -102,7 +102,7 @@ namespace Reportes
 		{
 			MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["log"].ConnectionString);
 			MySqlCommand cmd = con.CreateCommand();
-			cmd.CommandText = $"insert into users_roles values ({id}, 0,0,0,0,0,0,0,0,0,0,0,0,0,0)";
+			cmd.CommandText = $"insert into users_roles values ({id}, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)";
 
 			try
 			{
@@ -117,6 +117,43 @@ namespace Reportes
 			{
 				con.Close();
 			}
+		}
+
+		public static string ObtenerPermisoMayoreo(int userID)
+		{
+			MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["log"].ToString());
+			var cmd = con.CreateCommand();
+
+			cmd.CommandText = $"select mayoreo from users where userid={userID}";
+
+			try
+			{
+				con.Open();
+				var result = cmd.ExecuteScalar();
+
+				return result.ToString();
+			}
+			catch (MySqlException ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+			return "";
+		}
+
+		public void DarPermisoDeMayoreo(string id, string estado)
+		{
+			MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["log"].ConnectionString);
+			MySqlCommand cmd = con.CreateCommand();
+
+			cmd.CommandText = $"update users set mayoreo={estado} where userid={id}";
+
+			try
+			{
+				con.Open();
+				cmd.ExecuteNonQuery();
+			}
+			catch (MySqlException ex) { MessageBox.Show(ex.Message); }
+			finally { con.Close(); }
 		}
 	}
 }

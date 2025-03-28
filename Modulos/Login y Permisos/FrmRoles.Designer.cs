@@ -40,6 +40,7 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.BtnDesactivarUsuario = new System.Windows.Forms.Button();
 			this.BtnDeleteUser = new System.Windows.Forms.Button();
+			this.chkMayoreo = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// flowLayoutPanel1
@@ -63,7 +64,7 @@
 			// BtnSave
 			// 
 			this.BtnSave.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnSave.Location = new System.Drawing.Point(27, 438);
+			this.BtnSave.Location = new System.Drawing.Point(28, 476);
 			this.BtnSave.Name = "BtnSave";
 			this.BtnSave.Size = new System.Drawing.Size(465, 40);
 			this.BtnSave.TabIndex = 39;
@@ -116,7 +117,7 @@
 			// BtnNewUser
 			// 
 			this.BtnNewUser.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnNewUser.Location = new System.Drawing.Point(27, 576);
+			this.BtnNewUser.Location = new System.Drawing.Point(28, 614);
 			this.BtnNewUser.Name = "BtnNewUser";
 			this.BtnNewUser.Size = new System.Drawing.Size(465, 40);
 			this.BtnNewUser.TabIndex = 44;
@@ -137,7 +138,7 @@
 			// BtnDesactivarUsuario
 			// 
 			this.BtnDesactivarUsuario.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnDesactivarUsuario.Location = new System.Drawing.Point(27, 484);
+			this.BtnDesactivarUsuario.Location = new System.Drawing.Point(28, 522);
 			this.BtnDesactivarUsuario.Name = "BtnDesactivarUsuario";
 			this.BtnDesactivarUsuario.Size = new System.Drawing.Size(465, 40);
 			this.BtnDesactivarUsuario.TabIndex = 46;
@@ -148,7 +149,7 @@
 			// BtnDeleteUser
 			// 
 			this.BtnDeleteUser.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnDeleteUser.Location = new System.Drawing.Point(27, 530);
+			this.BtnDeleteUser.Location = new System.Drawing.Point(28, 568);
 			this.BtnDeleteUser.Name = "BtnDeleteUser";
 			this.BtnDeleteUser.Size = new System.Drawing.Size(465, 40);
 			this.BtnDeleteUser.TabIndex = 47;
@@ -156,12 +157,26 @@
 			this.BtnDeleteUser.UseVisualStyleBackColor = true;
 			this.BtnDeleteUser.Click += new System.EventHandler(this.BtnDeleteUser_Click);
 			// 
+			// chkMayoreo
+			// 
+			this.chkMayoreo.AutoSize = true;
+			this.chkMayoreo.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
+			this.chkMayoreo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
+			this.chkMayoreo.Location = new System.Drawing.Point(28, 441);
+			this.chkMayoreo.Name = "chkMayoreo";
+			this.chkMayoreo.Size = new System.Drawing.Size(195, 25);
+			this.chkMayoreo.TabIndex = 48;
+			this.chkMayoreo.Text = "Venta de mayoreo";
+			this.chkMayoreo.UseVisualStyleBackColor = true;
+			this.chkMayoreo.Visible = false;
+			// 
 			// FrmRoles
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(147)))), ((int)(((byte)(60)))));
-			this.ClientSize = new System.Drawing.Size(519, 634);
+			this.ClientSize = new System.Drawing.Size(519, 668);
+			this.Controls.Add(this.chkMayoreo);
 			this.Controls.Add(this.BtnDeleteUser);
 			this.Controls.Add(this.BtnDesactivarUsuario);
 			this.Controls.Add(this.label4);
@@ -196,5 +211,6 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button BtnDesactivarUsuario;
 		private System.Windows.Forms.Button BtnDeleteUser;
+		private System.Windows.Forms.CheckBox chkMayoreo;
 	}
 }
