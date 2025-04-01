@@ -22,10 +22,10 @@ namespace Reportes
 			FechaB.MaxDate = DateTime.Now;
 			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
 
-			if (Program.Empresa == 1)
-			{
-				BtnExcel.Enabled = false;
-			}
+			//if (Program.Empresa == 1)
+			//{
+			//	BtnExcel.Enabled = false;
+			//}
 
 			UserId = userId;
 		}

@@ -45,9 +45,14 @@ namespace Reportes.Modulos
 			{
 				anio = int.Parse(cbYears.Text);
 			}));
-			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings[anio == 2024 ? "antes":"empresa"].ToString());
+
+			int empresa = Program.Empresa;
+
+			string cadena = empresa == 0 ? (anio == 2024 ? "antes" : "empresa") : "marcos";
+
+			ClsConnection con = new ClsConnection(ConfigurationManager.ConnectionStrings[cadena].ToString());
 			DataTable departamentos = con.GetQuery("select DISTINCT agr.cod_agr, des_agr from tblcatagrupacionart agr " +
-				"inner join tblgpoarticulos cod on cod.COD_AGR=agr.COD_AGR where cod.COD_GPO=25 " +
+				$"inner join tblgpoarticulos cod on cod.COD_AGR=agr.COD_AGR where cod.COD_GPO={(empresa == 0 ? 25 : 1)} " +
 				"order by des_agr asc;");
 			Workbook excel = new Workbook();
 

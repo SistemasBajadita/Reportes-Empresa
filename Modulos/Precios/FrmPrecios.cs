@@ -38,13 +38,13 @@ namespace Reportes.Modulos
 
 		private void AplicarFiltros()
 		{
-			dataGridView1.Columns[0].ReadOnly = true;
-			dataGridView1.Columns[1].ReadOnly = true;
-			dataGridView1.Columns[2].ReadOnly = true;
+			dgListaPrecios.Columns[0].ReadOnly = true;
+			dgListaPrecios.Columns[1].ReadOnly = true;
+			dgListaPrecios.Columns[2].ReadOnly = true;
 
-			dataGridView1.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
-			dataGridView1.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
-			dataGridView1.Columns[2].SortMode = DataGridViewColumnSortMode.NotSortable;
+			dgListaPrecios.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+			dgListaPrecios.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
+			dgListaPrecios.Columns[2].SortMode = DataGridViewColumnSortMode.NotSortable;
 		}
 
 		decimal costoUCO = 0;
@@ -93,14 +93,14 @@ namespace Reportes.Modulos
 					ad.Fill(precios);
 
 					//Por ultimo, muestro los precios
-					dataGridView1.DataSource = precios;
+					dgListaPrecios.DataSource = precios;
 					AplicarFiltros();
 
 					TxtPrecioNuevo.Focus();
 				}
 				else
 				{
-					dataGridView1.DataSource = null;
+					dgListaPrecios.DataSource = null;
 					lblDescripcion.Text = "Producto no encontrado";
 					lblPrecio.Text = "";
 					lblCosto.Text = "";
@@ -165,12 +165,7 @@ namespace Reportes.Modulos
 												  "INNER JOIN tblcatarticulos art ON art.COD_IMP = imp.COD_IMP " +
 												  $"WHERE COD1_ART = '{TxtCodigo.Text}';";
 
-								var impuestoResult = await cmd.ExecuteScalarAsync();
-								if (impuestoResult == null)
-								{
-									throw new Exception($"No existe el código {TxtCodigo.Text} en la base de datos de {connection.DataSource}");
-								}
-
+								var impuestoResult = await cmd.ExecuteScalarAsync() ?? throw new Exception($"No existe el código {TxtCodigo.Text} en la base de datos de {connection.DataSource}");
 								double imp = double.Parse(impuestoResult.ToString());
 
 								// Actualizar los precios
@@ -196,12 +191,12 @@ namespace Reportes.Modulos
 
 
 								//ahora actualizo las listas de precios
-								for (int i = 1; i < dataGridView1.Rows.Count; i++)
+								for (int i = 1; i < dgListaPrecios.Rows.Count; i++)
 								{
-									precioBase = double.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString()) / (1 + (imp / 100));
+									precioBase = double.Parse(dgListaPrecios.Rows[i].Cells[3].Value.ToString()) / (1 + (imp / 100));
 
 									cmd.CommandText = $"UPDATE tblprecios set pre_art={precioBase}," +
-										$"pre_iva={dataGridView1.Rows[i].Cells[3].Value} where cod1_art='{TxtCodigo.Text}' and cod_precio='{dataGridView1.Rows[i].Cells[0].Value}';";
+										$"pre_iva={dgListaPrecios.Rows[i].Cells[3].Value} where cod1_art='{TxtCodigo.Text}' and cod_precio='{dgListaPrecios.Rows[i].Cells[0].Value}';";
 									int result = await cmd.ExecuteNonQueryAsync();
 								}
 
@@ -244,7 +239,7 @@ namespace Reportes.Modulos
 		private async Task MostrarMensaje()
 		{
 			lblPrecioActualizado.Text = "Precio Actualizado!";
-			lblPrecioActualizado.ForeColor = ColorTranslator.FromHtml("#A3BFD9");
+			lblPrecioActualizado.ForeColor = ColorTranslator.FromHtml("#2e0d23");
 			await Task.Delay(3000);
 			lblPrecioActualizado.ForeColor = Color.Black;
 			lblPrecioActualizado.Text = "";
@@ -265,12 +260,12 @@ namespace Reportes.Modulos
 
 		private async void TxtPrecioNuevo_TextChanged(object sender, EventArgs e)
 		{
-			MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["labajadita1"].ConnectionString);
+			MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings[rbJardines.Checked ? "labajadita1" : "labajadita2"].ConnectionString);
 
-			if (dataGridView1.Columns.Count > 3)
+			if (dgListaPrecios.Columns.Count > 3)
 			{
-				dataGridView1.Columns.RemoveAt(3);
-				dataGridView1.Columns.RemoveAt(3);
+				dgListaPrecios.Columns.RemoveAt(3);
+				dgListaPrecios.Columns.RemoveAt(3);
 			}
 
 			if (TxtPrecioNuevo.Text == "")
@@ -278,10 +273,10 @@ namespace Reportes.Modulos
 				return;
 			}
 
-			if (dataGridView1.DataSource != null)
+			if (dgListaPrecios.DataSource != null)
 			{
-				dataGridView1.Columns.Add("Column4", "Nuevo Precio");
-				dataGridView1.Columns.Add("Column5", "Nuevo Margen");
+				dgListaPrecios.Columns.Add("Column4", "Nuevo Precio");
+				dgListaPrecios.Columns.Add("Column5", "Nuevo Margen");
 			}
 
 			decimal precio = decimal.Parse(TxtPrecioNuevo.Text);
@@ -292,12 +287,12 @@ namespace Reportes.Modulos
 
 				MySqlCommand cmd = con.CreateCommand();
 
-				for (int i = 0; i < dataGridView1.Rows.Count; i++)
+				for (int i = 0; i < dgListaPrecios.Rows.Count; i++)
 				{
 					cmd.CommandText = "select des_precio " +
 						"from tblprecios pre " +
 						"inner join tblcatprecios listas on listas.COD_PRECIO=pre.COD_PRECIO " +
-						$"where pre.cod1_art='{TxtCodigo.Text}' and pre.cod_precio='{dataGridView1.Rows[i].Cells[0].Value}';";
+						$"where pre.cod1_art='{TxtCodigo.Text}' and pre.cod_precio='{dgListaPrecios.Rows[i].Cells[0].Value}';";
 
 					var porcentaje = await cmd.ExecuteScalarAsync();
 
@@ -311,16 +306,16 @@ namespace Reportes.Modulos
 
 						decimal margenNuevo = (precioNuevo - costoUCO) / precioNuevo;
 
-						dataGridView1.Rows[i].Cells[3].Value = precioNuevo;
-						dataGridView1.Rows[i].Cells[4].Value = (margenNuevo * 100).ToString("N2");
+						dgListaPrecios.Rows[i].Cells[3].Value = precioNuevo;
+						dgListaPrecios.Rows[i].Cells[4].Value = (margenNuevo * 100).ToString("N2");
 					}
 					else
 					{
 						decimal precioNuevo = decimal.Parse(TxtPrecioNuevo.Text);
 						decimal margen = ((precioNuevo - costoUCO) / precioNuevo) * 100;
 
-						dataGridView1.Rows[i].Cells[3].Value = precioNuevo;
-						dataGridView1.Rows[i].Cells[4].Value = (margen).ToString("N2");
+						dgListaPrecios.Rows[i].Cells[3].Value = precioNuevo;
+						dgListaPrecios.Rows[i].Cells[4].Value = (margen).ToString("N2");
 					}
 				}
 			}
@@ -350,23 +345,23 @@ namespace Reportes.Modulos
 
 		object valorCeldaOriginal;
 
-		private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+		private void ListaPrecios_EditadaCelda(object sender, DataGridViewCellEventArgs e)
 		{
 			// Obtener el precio base
 			decimal PrecioBase = decimal.Parse(lblPrecio.Text.Substring(1));
 
 			// Obtener el valor de la segunda columna en la fila editada
-			object lista = dataGridView1.Rows[e.RowIndex].Cells[0].Value;
-			object valorCelda = dataGridView1.Rows[e.RowIndex].Cells[3].Value;
+			object lista = dgListaPrecios.Rows[e.RowIndex].Cells[0].Value;
+			object valorCelda = dgListaPrecios.Rows[e.RowIndex].Cells[3].Value;
 			if (valorCelda != null && decimal.TryParse(valorCelda.ToString(), out decimal precioSeleccionado))
 			{
-				if (lista.ToString() == "ABARREY" || lista.ToString() == "General")
+				if (lista.ToString() == "ABARREY" || lista.ToString() == "General" || lista.ToString() == "ABARREY2")
 					return;
 				if (PrecioBase - precioSeleccionado >= 1)
 				{
 					MessageBox.Show("El precio introducido supera el limite de descuento", "LA BAJADITA - No se puede asignar ese precio",
 						MessageBoxButtons.OK, MessageBoxIcon.Warning);
-					dataGridView1.Rows[e.RowIndex].Cells[3].Value = valorCeldaOriginal.ToString();
+					dgListaPrecios.Rows[e.RowIndex].Cells[3].Value = valorCeldaOriginal.ToString();
 					return;
 				}
 			}
@@ -376,11 +371,11 @@ namespace Reportes.Modulos
 			}
 		}
 
-		private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+		private void ListaPrecios_GuardarValor(object sender, DataGridViewCellCancelEventArgs e)
 		{
 			try
 			{
-				valorCeldaOriginal = dataGridView1.Rows[e.RowIndex].Cells[3].Value;
+				valorCeldaOriginal = dgListaPrecios.Rows[e.RowIndex].Cells[3].Value;
 			}
 			catch (ArgumentOutOfRangeException) { }
 		}

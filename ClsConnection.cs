@@ -50,7 +50,7 @@ namespace Reportes
 			{
 				_con.Open();
 
-				MySqlCommand cmd = new MySqlCommand("VentaMensualDepartamentoGlobal", _con);
+				MySqlCommand cmd = new MySqlCommand("VentaMensualDepartamento", _con);
 				cmd.CommandType = CommandType.StoredProcedure;
 				cmd.CommandTimeout = 10000;
 
