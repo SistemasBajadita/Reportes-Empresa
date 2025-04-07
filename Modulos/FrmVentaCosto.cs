@@ -264,7 +264,35 @@ namespace Reportes
 														GROUP BY fec_doc
 														ORDER BY fec_doc ASC;");
 
-			ClsGenerarExcel excel = new ClsGenerarExcel(ventaGeneral);
+			DataTable hola = metodos.GetQuery($@"SELECT 
+													FEC_DOC AS Fecha,
+    
+													-- Tickets Tienda
+													SUM(CASE WHEN caja_doc != 9 THEN 1 ELSE 0 END) AS TicketsTienda,
+    
+													-- Promedio Tienda
+													IF(SUM(CASE WHEN caja_doc != 9 THEN 1 ELSE 0 END) > 0,
+														SUM(CASE WHEN caja_doc != 9 THEN tot_doc ELSE 0 END) / SUM(CASE WHEN caja_doc != 9 THEN 1 ELSE 0 END),
+														0
+													) AS PromedioTienda,
+    
+													-- Tickets Mayoreo
+													SUM(CASE WHEN caja_doc = 9 THEN 1 ELSE 0 END) AS TicketsMayoreo,
+    
+													-- Promedio Mayoreo
+													IF(SUM(CASE WHEN caja_doc = 9 THEN 1 ELSE 0 END) > 0,
+														SUM(CASE WHEN caja_doc = 9 THEN tot_doc ELSE 0 END) / SUM(CASE WHEN caja_doc = 9 THEN 1 ELSE 0 END),
+														0
+													) AS PromedioMayoreo
+
+												FROM tblgralventas
+												WHERE FEC_DOC BETWEEN '{parametroA}' AND '{parametroB}'
+												GROUP BY FEC_DOC
+												ORDER BY FEC_DOC;");
+
+
+
+			ClsGenerarExcel excel = new ClsGenerarExcel(ventaGeneral, hola);
 
 			excel.GenerarReporteDeVenta(chkGrafica.Checked);
 		}

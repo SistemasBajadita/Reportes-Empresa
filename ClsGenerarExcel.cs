@@ -12,10 +12,18 @@ namespace Reportes
 	public class ClsGenerarExcel
 	{
 		public DataTable dataTable;
+		public DataTable tickets;
 
+		//Constructor para compras
 		public ClsGenerarExcel(DataTable ventaGeneral)
 		{
-			this.dataTable = ventaGeneral;
+			dataTable = ventaGeneral;
+		}
+
+		public ClsGenerarExcel(DataTable ventaGeneral, DataTable Tickets)
+		{
+			dataTable = ventaGeneral;
+			tickets = Tickets;
 		}
 
 		public void GenerarReporteDeCompras()
@@ -81,6 +89,11 @@ namespace Reportes
 				hoja.Cells[1, 0].Value = "EFECTIVO";
 				hoja.Cells[2, 0].Value = "TERMINAL";
 				hoja.Cells[3, 0].Value = "MAYOREO";
+				hoja.Cells[5, 0].Value = "TicketsTienda";
+				hoja.Cells[6, 0].Value = "PromedioTienda";
+				hoja.Cells[7, 0].Value = "TicketsMayoreo";
+				hoja.Cells[8, 0].Value = "PromedioMayoreo";
+
 
 				//Creamos el formato para que se pueda visualizar numericamente en excel los valores, y poder hacer calculos con ellos
 				CellsFactory f = new CellsFactory();
@@ -91,6 +104,8 @@ namespace Reportes
 
 				for (int i = 0; i < dataTable.Rows.Count; i++)
 				{
+					estilo.Number = 4;
+
 					//Fecha
 					hoja.Cells[0, i + 1].Value = dataTable.Rows[i]["Fecha"].ToString().Split(' ')[0];
 
@@ -108,6 +123,32 @@ namespace Reportes
 					valor = hoja.Cells[3, i + 1];
 					valor.PutValue(double.Parse(dataTable.Rows[i]["Mayoreo"].ToString()));
 					valor.SetStyle(estilo);
+
+					
+
+					//PromedioTienda
+					valor = hoja.Cells[6, i + 1];
+					valor.PutValue(double.Parse(tickets.Rows[i]["PromedioTienda"].ToString()));
+					valor.SetStyle(estilo);
+
+					//PromedioMayoreo
+					valor = hoja.Cells[8, i + 1];
+					valor.PutValue(double.Parse(tickets.Rows[i]["PromedioMayoreo"].ToString()));
+					valor.SetStyle(estilo);
+
+					estilo.Number = 1;
+
+					//TicketsTienda
+					valor = hoja.Cells[5, i + 1];
+					valor.PutValue(double.Parse(tickets.Rows[i]["TicketsTienda"].ToString()));
+					valor.SetStyle(estilo);
+
+					//TicketsTienda
+					valor = hoja.Cells[7, i + 1];
+					valor.PutValue(double.Parse(tickets.Rows[i]["TicketsMayoreo"].ToString()));
+					valor.SetStyle(estilo);
+
+					
 				}
 
 				if (grafica)
