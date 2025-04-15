@@ -485,5 +485,11 @@ namespace Reportes
 			FrmPrecios frm = new FrmPrecios();
 			frm.ShowDialog();
 		}
+
+		private void Clientes_Click(object sender, EventArgs e)
+		{
+			FrmClientes clientes = new FrmClientes();
+			clientes.ShowDialog();
+		}
 	}
 }

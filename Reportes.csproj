@@ -15,7 +15,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>\\192.168.1.100\Users\Public\Aplicaciones\Reportes\</PublishUrl>
+    <PublishUrl>\\auxiliar\Users\Public\Documents\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -27,7 +27,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>66</ApplicationRevision>
+    <ApplicationRevision>67</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -185,6 +185,12 @@
     <Compile Include="ClsHeaderTickets.cs" />
     <Compile Include="ClsLoginVerification.cs" />
     <Compile Include="ClsPageEventHelper.cs" />
+    <Compile Include="Modulos\FrmClientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modulos\FrmClientes.Designer.cs">
+      <DependentUpon>FrmClientes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modulos\FrmCodigo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -289,6 +295,9 @@
     <Compile Include="Modulos\Login y Permisos\FrmRoles.Designer.cs">
       <DependentUpon>FrmRoles.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Modulos\FrmClientes.resx">
+      <DependentUpon>FrmClientes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modulos\FrmCodigo.resx">
       <DependentUpon>FrmCodigo.cs</DependentUpon>
     </EmbeddedResource>
@@ -368,7 +377,9 @@
     <Content Include="Imagenes\LOGO_EMPRESA-removebg-preview.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Imagenes\LOGO_EMPRESA-removebg-preview.png" />
+    <Content Include="Imagenes\LOGO_EMPRESA-removebg-preview.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

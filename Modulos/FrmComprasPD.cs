@@ -151,7 +151,7 @@ namespace Reportes
 
 			DataTable compras = metodos.GetQuery($@"select fec_fac, sum(tot_doc) as total
 													from tblcomprasenc enc
-													where fec_fac between '{parametroA}' and '{parametroB}' 
+													where fec_fac between '{parametroA}' and '{parametroB}' and cod_estatus=1 
 													group by fec_fac;");
 			ClsGenerarExcel excel = new ClsGenerarExcel(compras);
 			excel.GenerarReporteDeCompras();

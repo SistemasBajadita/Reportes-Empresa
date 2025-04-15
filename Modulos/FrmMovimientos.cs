@@ -245,7 +245,9 @@ namespace Reportes
 
 		private void BtnPDFDetails_Click(object sender, EventArgs e)
 		{
-			movimientos.PrintReportMovimientosDetail(GetSelectedTextFromCombo(2), $"Reporte de {GetSelectedTextFromCombo(3)}");
+			string parametroA = FechaA2.Value.ToString("yyyy/MM/dd");
+			string parametroB = FechaB2.Value.ToString("yyyy/MM/dd");
+			movimientos.PrintReportMovimientosDetail(GetSelectedTextFromCombo(2), $"Reporte de {GetSelectedTextFromCombo(3)}", parametroA, parametroB);
 			Process.Start("movimientos.pdf");
 		}
 

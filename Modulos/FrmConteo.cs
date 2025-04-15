@@ -33,11 +33,11 @@ namespace Reportes
 
 			if (rbCategoria.Checked)
 			{
-				await Task.Run(() => opciones = metodos.GetQuery($"select cod_agr, des_agr from tblcatagrupacionart where cod_gpo={(Program.Empresa == 0 ? 26 : 2)} order by des_agr asc"));
+				await Task.Run(() => opciones = metodos.GetQuery($"select cod_agr, des_agr from tblcatagrupacionart where cod_gpo={(Program.Empresa == 0 ? 26 : 2)} order by des_agr asc;"));
 			}
 			else
 			{
-				await Task.Run(() => opciones = metodos.GetQuery($"select cod_agr, des_agr from tblcatagrupacionart where cod_gpo={(Program.Empresa == 0 ? 25 : 1)} order by des_agr asc"));
+				await Task.Run(() => opciones = metodos.GetQuery($"select cod_agr, des_agr from tblcatagrupacionart where cod_gpo={(Program.Empresa == 0 ? 25 : 1)} order by des_agr asc;"));
 			}
 
 			cbOP.DataSource = opciones;
@@ -132,7 +132,7 @@ namespace Reportes
 
 			label2.Visible = true;
 
-			await Task.Run(() => opciones = metodos.GetQuery($"select cod_agr, des_agr from tblcatagrupacionart where cod_gpo={(Program.Empresa==0 ? 25 : 1)} order by des_agr asc"));
+			await Task.Run(() => opciones = metodos.GetQuery($"select cod_agr, des_agr from tblcatagrupacionart where cod_gpo={(Program.Empresa == 0 ? 25 : 1)} order by des_agr asc"));
 
 			cbOP.DataSource = opciones;
 			cbOP.DisplayMember = "des_agr";

@@ -845,7 +845,7 @@ namespace Reportes
 			}
 		}
 
-		public void PrintReportMovimientosDetail(string departamento, string titulo)
+		public void PrintReportMovimientosDetail(string departamento, string titulo, string periodoA, string periodoB)
 		{
 			try
 			{
@@ -855,7 +855,7 @@ namespace Reportes
 				{
 					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
 
-					ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", departamento, titulo);
+					ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", departamento + $"\nPeriodo: {periodoA} al {periodoB}", titulo);
 					writer.PageEvent = pageEventHelper;
 
 					doc.Open();
@@ -897,7 +897,8 @@ namespace Reportes
 
 					decimal total = ReporteActivo.AsEnumerable().Sum(row => row.Field<decimal>("Costo"));
 
-					doc.Add(new Paragraph($"Costo total de la merma: ${total:N2}") { Alignment = Element.ALIGN_RIGHT });
+					doc.Add(new Paragraph($"Costo total de la merma: ${total:N2}") { Alignment = Element.ALIGN_RIGHT});
+					doc.Add(new Paragraph($"No. de articulos: {ReporteActivo.Rows.Count}") { Alignment = Element.ALIGN_RIGHT });
 
 					doc.Close();
 					writer.Close();

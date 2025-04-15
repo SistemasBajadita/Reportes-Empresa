@@ -49,6 +49,7 @@
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.lblBienvenid = new System.Windows.Forms.Label();
 			this.Precios = new System.Windows.Forms.Button();
+			this.Clientes = new System.Windows.Forms.Button();
 			this.ModificarAccesos.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -184,27 +185,27 @@
             this.cerrarSesiónToolStripMenuItem});
 			this.ModificarAccesos.Location = new System.Drawing.Point(0, 0);
 			this.ModificarAccesos.Name = "ModificarAccesos";
-			this.ModificarAccesos.Size = new System.Drawing.Size(1083, 30);
+			this.ModificarAccesos.Size = new System.Drawing.Size(1083, 28);
 			this.ModificarAccesos.TabIndex = 12;
 			this.ModificarAccesos.Text = "menuStrip1";
 			// 
 			// modificarRolesToolStripMenuItem
 			// 
 			this.modificarRolesToolStripMenuItem.Name = "modificarRolesToolStripMenuItem";
-			this.modificarRolesToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
+			this.modificarRolesToolStripMenuItem.Size = new System.Drawing.Size(202, 24);
 			this.modificarRolesToolStripMenuItem.Text = "Modificar roles por usuario";
 			this.modificarRolesToolStripMenuItem.Click += new System.EventHandler(this.modificarRolesToolStripMenuItem_Click);
 			// 
 			// verMovimientosToolStripMenuItem
 			// 
 			this.verMovimientosToolStripMenuItem.Name = "verMovimientosToolStripMenuItem";
-			this.verMovimientosToolStripMenuItem.Size = new System.Drawing.Size(134, 26);
+			this.verMovimientosToolStripMenuItem.Size = new System.Drawing.Size(134, 24);
 			this.verMovimientosToolStripMenuItem.Text = "Ver movimientos";
 			// 
 			// cerrarSesiónToolStripMenuItem
 			// 
 			this.cerrarSesiónToolStripMenuItem.Name = "cerrarSesiónToolStripMenuItem";
-			this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(108, 26);
+			this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(108, 24);
 			this.cerrarSesiónToolStripMenuItem.Text = "Cerrar sesión";
 			this.cerrarSesiónToolStripMenuItem.Click += new System.EventHandler(this.cerrarSesiónToolStripMenuItem_Click);
 			// 
@@ -252,12 +253,24 @@
 			this.Precios.UseVisualStyleBackColor = true;
 			this.Precios.Click += new System.EventHandler(this.Precios_Click);
 			// 
+			// Clientes
+			// 
+			this.Clientes.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
+			this.Clientes.Location = new System.Drawing.Point(21, 534);
+			this.Clientes.Name = "Clientes";
+			this.Clientes.Size = new System.Drawing.Size(516, 58);
+			this.Clientes.TabIndex = 17;
+			this.Clientes.Text = "Ventas de clientes";
+			this.Clientes.UseVisualStyleBackColor = true;
+			this.Clientes.Click += new System.EventHandler(this.Clientes_Click);
+			// 
 			// FrmPrincipal
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
-			this.ClientSize = new System.Drawing.Size(1083, 540);
+			this.ClientSize = new System.Drawing.Size(1083, 604);
+			this.Controls.Add(this.Clientes);
 			this.Controls.Add(this.Precios);
 			this.Controls.Add(this.lblBienvenid);
 			this.Controls.Add(this.Codigos);
@@ -308,6 +321,7 @@
 		private System.Windows.Forms.ToolTip toolTip1;
 		private System.Windows.Forms.Label lblBienvenid;
 		private System.Windows.Forms.Button Precios;
+		private System.Windows.Forms.Button Clientes;
 	}
 }
 
