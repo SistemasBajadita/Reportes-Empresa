@@ -33,6 +33,7 @@
 			this.BtnGetExcel = new System.Windows.Forms.Button();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
+			this.pgProgress = new System.Windows.Forms.ProgressBar();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -92,12 +93,21 @@
 			this.label1.TabIndex = 42;
 			this.label1.Text = "0%";
 			// 
+			// pgProgress
+			// 
+			this.pgProgress.Location = new System.Drawing.Point(12, 213);
+			this.pgProgress.Name = "pgProgress";
+			this.pgProgress.Size = new System.Drawing.Size(364, 23);
+			this.pgProgress.TabIndex = 43;
+			this.pgProgress.Visible = false;
+			// 
 			// FrmYearSelection
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Linen;
 			this.ClientSize = new System.Drawing.Size(388, 258);
+			this.Controls.Add(this.pgProgress);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.BtnGetExcel);
@@ -120,5 +130,6 @@
 		private System.Windows.Forms.Button BtnGetExcel;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.ProgressBar pgProgress;
 	}
 }

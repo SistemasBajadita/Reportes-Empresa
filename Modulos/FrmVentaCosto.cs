@@ -265,7 +265,7 @@ namespace Reportes
 														ORDER BY fec_doc ASC;");
 
 			DataTable hola = metodos.GetQuery($@"SELECT 
-													FEC_DOC AS Fecha,
+												 	FEC_DOC AS Fecha,
     
 													-- Tickets Tienda
 													SUM(CASE WHEN caja_doc != 9 THEN 1 ELSE 0 END) AS TicketsTienda,

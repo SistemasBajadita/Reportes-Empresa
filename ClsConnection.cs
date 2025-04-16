@@ -721,11 +721,11 @@ namespace Reportes
 					table.AddCell(headerCell);
 					headerCell = new PdfPCell(new Phrase("Descripción", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 					table.AddCell(headerCell);
-					headerCell = new PdfPCell(new Phrase("Costo", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
-					table.AddCell(headerCell);
 					headerCell = new PdfPCell(new Phrase("Existencia", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 					table.AddCell(headerCell);
-					headerCell = new PdfPCell(new Phrase("Existencia Real", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					headerCell = new PdfPCell(new Phrase("Existencia Real", headerFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("Diferencia", headerFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 					table.AddCell(headerCell);
 
 					iTextSharp.text.Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
@@ -735,18 +735,17 @@ namespace Reportes
 					{
 						string codigo = row["Codigo"].ToString();
 						string descripcion = row["Descripcion"].ToString();
-						string costo = "$" + double.Parse(row["Costo"].ToString()).ToString("N2");
 						string existencia = row["Existencia"].ToString(); // Suponiendo que esta columna está en el DataTable
 
 						dataCell = new PdfPCell(new Phrase(codigo, dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 						table.AddCell(dataCell);
 						dataCell = new PdfPCell(new Phrase(descripcion, dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 						table.AddCell(dataCell);
-						dataCell = new PdfPCell(new Phrase(costo, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
-						table.AddCell(dataCell);
 						dataCell = new PdfPCell(new Phrase(existencia, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 						table.AddCell(dataCell);
-						dataCell = new PdfPCell(new Phrase("____________", dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						dataCell = new PdfPCell(new Phrase("____________", dataFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase("____________", dataFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 						table.AddCell(dataCell);
 					}
 
@@ -897,7 +896,7 @@ namespace Reportes
 
 					decimal total = ReporteActivo.AsEnumerable().Sum(row => row.Field<decimal>("Costo"));
 
-					doc.Add(new Paragraph($"Costo total de la merma: ${total:N2}") { Alignment = Element.ALIGN_RIGHT});
+					doc.Add(new Paragraph($"Costo total de la merma: ${total:N2}") { Alignment = Element.ALIGN_RIGHT });
 					doc.Add(new Paragraph($"No. de articulos: {ReporteActivo.Rows.Count}") { Alignment = Element.ALIGN_RIGHT });
 
 					doc.Close();

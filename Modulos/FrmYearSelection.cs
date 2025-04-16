@@ -121,7 +121,11 @@ namespace Reportes.Modulos
 
 				double porcentaje = ((double)(i + 1) / (double)departamentos.Rows.Count) * 100.0;
 
-				Invoke(new Action(() => { label1.Text = $"{porcentaje:N2}%"; }));
+				Invoke(new Action(() =>
+				{
+					label1.Text = $"{porcentaje:N2}%";
+					pgProgress.Value = (int)porcentaje;
+				}));
 
 				hojaActual.AutoFitColumns();
 			}
@@ -140,11 +144,13 @@ namespace Reportes.Modulos
 
 		private async void BtnGetExcel_Click(object sender, EventArgs e)
 		{
+			pgProgress.Visible = true;
 			pictureBox1.Visible = true;
 			label1.Visible = true;
 			await Task.Run(SetExcel);
 			pictureBox1.Visible = false;
 			label1.Visible = false;
+			pictureBox1.Visible = false;
 			Close();
 		}
 	}
