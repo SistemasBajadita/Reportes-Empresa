@@ -50,7 +50,7 @@ namespace Reportes
 			string codigo = "750";
 			for (int i = 0; i < 10; i++)
 			{
-				codigo = codigo + rnd.Next(0, 10);
+				codigo += rnd.Next(0, 10);
 			}
 
 			return codigo;
@@ -58,15 +58,17 @@ namespace Reportes
 
 		public static void CrearCodigoBarraYQR(string codigo)
 		{
-			var bar = new BarcodeWriter();
-			bar.Options = new ZXing.Common.EncodingOptions()
+			var bar = new BarcodeWriter
 			{
-				Width = 300,
-				Height = 100,
-				GS1Format = true
-			};
+				Options = new ZXing.Common.EncodingOptions()
+				{
+					Width = 300,
+					Height = 100,
+					GS1Format = true
+				},
 
-			bar.Format = BarcodeFormat.EAN_13;
+				Format = BarcodeFormat.EAN_13
+			};
 
 			Bitmap barra = bar.Write(codigo);
 

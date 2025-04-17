@@ -29,8 +29,10 @@ namespace Reportes
 			cb.AddImage(_headerImage);
 
 			// Añadir encabezado
-			PdfPTable headerTable = new PdfPTable(1);
-			headerTable.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin;
+			PdfPTable headerTable = new PdfPTable(1)
+			{
+				TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin
+			};
 			headerTable.DefaultCell.Border = Rectangle.NO_BORDER;
 
 			PdfPCell cell;

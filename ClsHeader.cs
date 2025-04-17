@@ -37,8 +37,10 @@ namespace Reportes
 			cb.AddImage(_headerImage);
 
 			// Añadir encabezado
-			PdfPTable headerTable = new PdfPTable(1);
-			headerTable.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin;
+			PdfPTable headerTable = new PdfPTable(1)
+			{
+				TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin
+			};
 			headerTable.DefaultCell.Border = Rectangle.NO_BORDER;
 
 			PdfPCell cell;
@@ -49,9 +51,11 @@ namespace Reportes
 			{
 				Alignment = Element.ALIGN_CENTER
 			};
-			cell = new PdfPCell(title);
-			cell.Border = Rectangle.NO_BORDER;
-			cell.HorizontalAlignment = Element.ALIGN_CENTER;
+			cell = new PdfPCell(title)
+			{
+				Border = Rectangle.NO_BORDER,
+				HorizontalAlignment = Element.ALIGN_CENTER
+			};
 			headerTable.AddCell(cell);
 
 			// Fecha
@@ -59,9 +63,11 @@ namespace Reportes
 			{
 				Alignment = Element.ALIGN_CENTER
 			};
-			cell = new PdfPCell(fecha);
-			cell.Border = Rectangle.NO_BORDER;
-			cell.HorizontalAlignment = Element.ALIGN_CENTER;
+			cell = new PdfPCell(fecha)
+			{
+				Border = Rectangle.NO_BORDER,
+				HorizontalAlignment = Element.ALIGN_CENTER
+			};
 			headerTable.AddCell(cell);
 
 			// Departamento
@@ -69,9 +75,11 @@ namespace Reportes
 			{
 				Alignment = Element.ALIGN_CENTER
 			};
-			cell = new PdfPCell(departamento);
-			cell.Border = Rectangle.NO_BORDER;
-			cell.HorizontalAlignment = Element.ALIGN_CENTER;
+			cell = new PdfPCell(departamento)
+			{
+				Border = Rectangle.NO_BORDER,
+				HorizontalAlignment = Element.ALIGN_CENTER
+			};
 			headerTable.AddCell(cell);
 
 			Paragraph pageNumber = new Paragraph($"Página {writer.PageNumber}", FontFactory.GetFont(FontFactory.HELVETICA, 12))
@@ -79,13 +87,15 @@ namespace Reportes
 				Alignment = Element.ALIGN_CENTER
 			};
 
-			cell = new PdfPCell(pageNumber);
-			cell.Border = Rectangle.NO_BORDER;
-			cell.HorizontalAlignment = Element.ALIGN_CENTER;
+			cell = new PdfPCell(pageNumber)
+			{
+				Border = Rectangle.NO_BORDER,
+				HorizontalAlignment = Element.ALIGN_CENTER
+			};
 			headerTable.AddCell(cell);
 
 			// Ajustar la posición del encabezado
-			float yPos = document.PageSize.Height - _headerImage.ScaledHeight - 30; // Ajusta este valor según sea necesario
+			_ = document.PageSize.Height - _headerImage.ScaledHeight - 30; // Ajusta este valor según sea necesario
 			headerTable.WriteSelectedRows(0, -1, document.LeftMargin, 830, cb);
 		}
 	}

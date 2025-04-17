@@ -46,10 +46,9 @@ namespace Reportes
 			if (cbDepartamentos.SelectedItem != null)
 			{
 				// Accede al DataRowView del elemento seleccionado
-				DataRowView selectedRow = cbDepartamentos.SelectedItem as DataRowView;
 
 				// Asegúrate de que la conversión fue exitosa
-				if (selectedRow != null)
+				if (cbDepartamentos.SelectedItem is DataRowView selectedRow)
 				{
 					// Obtén el texto del elemento seleccionado usando el DisplayMember
 					string selectedText = selectedRow[cbDepartamentos.DisplayMember].ToString();

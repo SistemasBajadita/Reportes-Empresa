@@ -50,9 +50,11 @@ namespace Reportes
 			{
 				_con.Open();
 
-				MySqlCommand cmd = new MySqlCommand("VentaMensualDepartamento", _con);
-				cmd.CommandType = CommandType.StoredProcedure;
-				cmd.CommandTimeout = 10000;
+				MySqlCommand cmd = new MySqlCommand("VentaMensualDepartamento", _con)
+				{
+					CommandType = CommandType.StoredProcedure,
+					CommandTimeout = 10000
+				};
 
 				cmd.Parameters.AddWithValue("@anio", anio);
 				cmd.Parameters.AddWithValue("@mes", mes);
@@ -248,8 +250,10 @@ namespace Reportes
 				con = new MySqlConnection(this.con);
 				con.Open();
 
-				MySqlCommand cmd = new MySqlCommand(query, con);
-				cmd.CommandTimeout = 540;
+				MySqlCommand cmd = new MySqlCommand(query, con)
+				{
+					CommandTimeout = 540
+				};
 				cmd.ExecuteNonQuery();
 
 				MySqlDataAdapter ad = new MySqlDataAdapter(cmd);
@@ -315,8 +319,10 @@ namespace Reportes
 					doc.Add(new Paragraph("\n"));
 
 					// Crear una tabla para los datos
-					PdfPTable table = new PdfPTable(4);
-					table.WidthPercentage = 100;
+					PdfPTable table = new PdfPTable(4)
+					{
+						WidthPercentage = 100
+					};
 
 					// Establecer anchos de las columnas
 					float[] columnWidths = new float[] { 3f, 2f, 2f, 2f }; // Ajusta estos valores según sea necesario
@@ -414,8 +420,10 @@ namespace Reportes
 
 					// Título del documento
 					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
-					Paragraph title = new Paragraph($"Reporte de desplazamiento por {tipo}\nSucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}", titleFont);
-					title.Alignment = Element.ALIGN_CENTER;
+					Paragraph title = new Paragraph($"Reporte de desplazamiento por {tipo}\nSucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}", titleFont)
+					{
+						Alignment = Element.ALIGN_CENTER
+					};
 					doc.Add(title);
 
 					// Subtítulo con el periodo
@@ -436,8 +444,10 @@ namespace Reportes
 					doc.Add(new Paragraph("\n"));
 
 					// Crear una tabla para los datos
-					PdfPTable table = new PdfPTable(4);
-					table.WidthPercentage = 100;
+					PdfPTable table = new PdfPTable(4)
+					{
+						WidthPercentage = 100
+					};
 
 					// Añadir encabezados
 					iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12); // Fuente en negrita y tamaño 12
@@ -472,8 +482,10 @@ namespace Reportes
 						table.AddCell(dataCell);
 					}
 
-					Paragraph date = new Paragraph($"Fecha: {DateTime.Now}");
-					date.Alignment = Element.ALIGN_LEFT;
+					Paragraph date = new Paragraph($"Fecha: {DateTime.Now}")
+					{
+						Alignment = Element.ALIGN_LEFT
+					};
 					doc.Add(table);
 					doc.Add(new Paragraph("\n"));
 					doc.Add(date);
@@ -513,8 +525,10 @@ namespace Reportes
 					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 24);
 					Paragraph title = new Paragraph($"Reporte de Ventas y Costos\n" +
 						$"Sucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}\n" +
-						$"{tipo}", titleFont);
-					title.Alignment = Element.ALIGN_CENTER;
+						$"{tipo}", titleFont)
+					{
+						Alignment = Element.ALIGN_CENTER
+					};
 					doc.Add(title);
 
 					// Subtítulo con el periodo
@@ -529,8 +543,10 @@ namespace Reportes
 					doc.Add(new Paragraph("\n"));
 
 					// Crear una tabla para los datos
-					PdfPTable table = new PdfPTable(6);
-					table.WidthPercentage = 100;
+					PdfPTable table = new PdfPTable(6)
+					{
+						WidthPercentage = 100
+					};
 					//float[] columnWidths = new float[] { 1f, 2f, 1f, 1f, 1f, 1f }; // Ajusta estos valores según sea necesario
 					//table.SetWidths(columnWidths);
 
@@ -621,8 +637,10 @@ namespace Reportes
 					totalCell = new PdfPCell(new Phrase($"{((mermaTotal / totalVenta) * 100):N2}%", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
 
-					Paragraph date = new Paragraph($"Fecha: {DateTime.Now}                                                                                    *MERMA/VENTA");
-					date.Alignment = Element.ALIGN_LEFT;
+					Paragraph date = new Paragraph($"Fecha: {DateTime.Now}                                                                                    *MERMA/VENTA")
+					{
+						Alignment = Element.ALIGN_LEFT
+					};
 
 					doc.Add(table);
 					doc.Add(new Paragraph("\n"));

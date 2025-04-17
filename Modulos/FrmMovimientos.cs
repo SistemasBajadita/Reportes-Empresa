@@ -98,10 +98,9 @@ namespace Reportes
 				if (cbConceptos.SelectedItem != null)
 				{
 					// Accede al DataRowView del elemento seleccionado
-					DataRowView selectedRow = cbConceptos.SelectedItem as DataRowView;
 
 					// Asegúrate de que la conversión fue exitosa
-					if (selectedRow != null)
+					if (cbConceptos.SelectedItem is DataRowView selectedRow)
 					{
 						// Obtén el texto del elemento seleccionado usando el DisplayMember
 						string selectedText = selectedRow[cbConceptos.DisplayMember].ToString();
@@ -118,10 +117,9 @@ namespace Reportes
 				if (cbDepartamentos.SelectedItem != null)
 				{
 					// Accede al DataRowView del elemento seleccionado
-					DataRowView selectedRow = cbDepartamentos.SelectedItem as DataRowView;
 
 					// Asegúrate de que la conversión fue exitosa
-					if (selectedRow != null)
+					if (cbDepartamentos.SelectedItem is DataRowView selectedRow)
 					{
 						// Obtén el texto del elemento seleccionado usando el DisplayMember
 						string selectedText = selectedRow[cbDepartamentos.DisplayMember].ToString();
@@ -138,10 +136,9 @@ namespace Reportes
 				if (cbConceptos2.SelectedItem != null)
 				{
 					// Accede al DataRowView del elemento seleccionado
-					DataRowView selectedRow = cbConceptos2.SelectedItem as DataRowView;
 
 					// Asegúrate de que la conversión fue exitosa
-					if (selectedRow != null)
+					if (cbConceptos2.SelectedItem is DataRowView selectedRow)
 					{
 						// Obtén el texto del elemento seleccionado usando el DisplayMember
 						string selectedText = selectedRow[cbConceptos2.DisplayMember].ToString();

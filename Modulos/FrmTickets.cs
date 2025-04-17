@@ -28,9 +28,7 @@ namespace Reportes
 		{
 			if (cmbVendedor.SelectedItem != null)
 			{
-				DataRowView selectedRow = cmbVendedor.SelectedItem as DataRowView;
-
-				if (selectedRow != null)
+				if (cmbVendedor.SelectedItem is DataRowView selectedRow)
 				{
 					string selectedText = selectedRow[cmbVendedor.DisplayMember].ToString();
 					return selectedText;
