@@ -12,6 +12,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.Diagnostics;
 using System.Collections.Generic;
+using Reportes.Modulos.Contrarecibo;
 
 namespace Reportes
 {
@@ -490,6 +491,12 @@ namespace Reportes
 		{
 			FrmClientes clientes = new FrmClientes();
 			clientes.ShowDialog();
+		}
+
+		private void Contrarecibo_Click(object sender, EventArgs e)
+		{
+			FrmContrareciboMenu frm = new FrmContrareciboMenu();
+			frm.ShowDialog();
 		}
 	}
 }

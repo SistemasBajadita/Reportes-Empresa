@@ -25,7 +25,12 @@ namespace Reportes.Modulos
 				if (FechaA.Value < new DateTime(2025, 02, 01) && FechaA.Value < new DateTime(2025, 02, 01))
 					con = new ClsConnection(ConfigurationManager.ConnectionStrings["antes"].ToString());
 				else
-					con = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+				{
+					if (FechaA.Value.Month == DateTime.Now.Month)
+						con = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+					else
+						con = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+				}
 			}
 			else
 				con = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ConnectionString);
@@ -40,7 +45,7 @@ namespace Reportes.Modulos
 				con.SetQuery($@"select gral.cod_cli as Codigo, cli.NOM_CLI as Cliente, count(ref_doc) as Tickets, round(sum(tot_doc),2) as SumaTotal 
 								from tblgralventas gral
 								inner join tblcatclientes cli on cli.COD_CLI=gral.cod_cli
-								where gral.fec_doc between '{parametroA}' and '{parametroB}' 
+								where gral.fec_doc between '{parametroA}' and '{parametroB}' and gral.cod_cli!='PUBLIC'
 								group by gral.cod_cli
 								order by SumaTotal desc;");
 			});
@@ -55,7 +60,16 @@ namespace Reportes.Modulos
 
 		private void BtnPDF_Click(object sender, EventArgs e)
 		{
+			if (con == null)
+			{
+				MessageBox.Show("Presiona ver reporte antes de descargar la informacion",
+					"OJO!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 
+			string parametroA = FechaA.Value.ToString("yyyy/MM/dd");
+			string parametroB = FechaB.Value.ToString("yyyy/MM/dd");
+
+			con.PrintReportInClientesVentas("Reporte de venta de clientes", $"Periodo: {parametroA} al {parametroB}");
 		}
 	}
 }

@@ -1052,6 +1052,90 @@ namespace Reportes
 				MessageBox.Show(ex.Message);
 			}
 		}
+
+		public void PrintReportInClientesVentas(string titulo, string periodo)
+		{
+			try
+			{
+				Document doc = new Document(PageSize.A4, 10, 10, 100, 50);
+				string pdfPath = "clientes.pdf";
+				using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
+				{
+					PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+					ClsHeader pageEventHelper = new ClsHeader("Imagenes/LOGO_EMPRESA-removebg-preview.png", periodo, titulo);
+					writer.PageEvent = pageEventHelper;
+
+					doc.Open();
+					PdfPTable table = new PdfPTable(5) { WidthPercentage = 100 };
+					float[] columnWidths = new float[] { 4f, 7f, 1.5f, 3f, 3f };
+					table.SetWidths(columnWidths);
+
+					doc.Add(new Paragraph($"Numero de clientes: {ReporteActivo.Rows.Count}")
+					{
+						Alignment = Element.ALIGN_CENTER,
+						SpacingAfter = 15f
+					});
+
+					iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+					PdfPCell headerCell;
+					headerCell = new PdfPCell(new Phrase("Codigo", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("Cliente", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("Tickets", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("Venta Total", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("Promedio", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 5f };
+					table.AddCell(headerCell);
+
+					iTextSharp.text.Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+					PdfPCell dataCell;
+					foreach (DataRow row in ReporteActivo.Rows)
+					{
+						dataCell = new PdfPCell(new Phrase(row[0].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 6f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(row[1].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 6f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(row[2].ToString(), dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 6f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase("$" + double.Parse(row[3].ToString()).ToString("N2"), dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 6f };
+						table.AddCell(dataCell);
+
+						double promedio = double.Parse(row[3].ToString()) / double.Parse(row[2].ToString());
+
+						dataCell = new PdfPCell(new Phrase("$" + double.Parse(promedio.ToString()).ToString("N2"), dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 6f };
+						table.AddCell(dataCell);
+					}
+
+					decimal totalVentas = ReporteActivo
+											.AsEnumerable()
+											.Sum(row => row.Field<decimal>(3));
+
+					double sumaDePromedios = 0;
+
+					foreach (DataRow r in ReporteActivo.Rows)
+					{
+						sumaDePromedios += double.Parse(r[3].ToString()) / double.Parse(r[2].ToString());
+					}
+
+
+					doc.Add(table);
+					dataFont.Size = 13;
+					doc.Add(new Paragraph($"Suma de venta total: ${totalVentas:N2}", dataFont) { Alignment = Element.ALIGN_RIGHT });
+					doc.Add(new Paragraph($"Promedio general de venta: ${sumaDePromedios/ReporteActivo.Rows.Count:N2}", dataFont) { Alignment = Element.ALIGN_RIGHT });
+					doc.Close();
+					writer.Close();
+					Process.Start(pdfPath);
+
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
 	}
 }
 

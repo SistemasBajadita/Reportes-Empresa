@@ -27,7 +27,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>70</ApplicationRevision>
+    <ApplicationRevision>71</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -185,6 +185,12 @@
     <Compile Include="ClsHeaderTickets.cs" />
     <Compile Include="ClsLoginVerification.cs" />
     <Compile Include="ClsPageEventHelper.cs" />
+    <Compile Include="Modulos\Contrarecibo\FrmContrareciboMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modulos\Contrarecibo\FrmContrareciboMenu.Designer.cs">
+      <DependentUpon>FrmContrareciboMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modulos\FrmClientes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -295,6 +301,9 @@
     <Compile Include="Modulos\Login y Permisos\FrmRoles.Designer.cs">
       <DependentUpon>FrmRoles.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Modulos\Contrarecibo\FrmContrareciboMenu.resx">
+      <DependentUpon>FrmContrareciboMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modulos\FrmClientes.resx">
       <DependentUpon>FrmClientes.cs</DependentUpon>
     </EmbeddedResource>

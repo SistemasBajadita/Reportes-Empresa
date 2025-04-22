@@ -50,6 +50,7 @@
 			this.lblBienvenid = new System.Windows.Forms.Label();
 			this.Precios = new System.Windows.Forms.Button();
 			this.Clientes = new System.Windows.Forms.Button();
+			this.Contrarecibo = new System.Windows.Forms.Button();
 			this.ModificarAccesos.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -264,12 +265,24 @@
 			this.Clientes.UseVisualStyleBackColor = true;
 			this.Clientes.Click += new System.EventHandler(this.Clientes_Click);
 			// 
+			// Contrarecibo
+			// 
+			this.Contrarecibo.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
+			this.Contrarecibo.Location = new System.Drawing.Point(543, 534);
+			this.Contrarecibo.Name = "Contrarecibo";
+			this.Contrarecibo.Size = new System.Drawing.Size(516, 58);
+			this.Contrarecibo.TabIndex = 18;
+			this.Contrarecibo.Text = "Contrarecibo";
+			this.Contrarecibo.UseVisualStyleBackColor = true;
+			this.Contrarecibo.Click += new System.EventHandler(this.Contrarecibo_Click);
+			// 
 			// FrmPrincipal
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
 			this.ClientSize = new System.Drawing.Size(1083, 604);
+			this.Controls.Add(this.Contrarecibo);
 			this.Controls.Add(this.Clientes);
 			this.Controls.Add(this.Precios);
 			this.Controls.Add(this.lblBienvenid);
@@ -322,6 +335,7 @@
 		private System.Windows.Forms.Label lblBienvenid;
 		private System.Windows.Forms.Button Precios;
 		private System.Windows.Forms.Button Clientes;
+		private System.Windows.Forms.Button Contrarecibo;
 	}
 }
 

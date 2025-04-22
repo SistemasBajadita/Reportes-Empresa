@@ -65,7 +65,7 @@ namespace Reportes
 			else
 			{
 				lbMessage.Visible = true;
-				await Task.Run(() => Thread.Sleep(3000));
+				await Task.Delay(3000);
 				lbMessage.Visible = false;
 			}
 		}
