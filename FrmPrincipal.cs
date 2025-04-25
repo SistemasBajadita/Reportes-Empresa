@@ -412,7 +412,7 @@ namespace Reportes
 			frm.ActiveReport(false);
 		}
 
-		private void FrmPrincipal_Load(object sender, EventArgs e)
+		private async void FrmPrincipal_Load(object sender, EventArgs e)
 		{
 			ControlBox = false;
 
@@ -423,12 +423,15 @@ namespace Reportes
 
 			foreach (Button b in buttons)
 			{
-				string result = con.GetScalar($"select {b.Name} from users_roles where userid={userid}");
+				string result = "False";
+				await Task.Run(() => result = con.GetScalar($"select {b.Name} from users_roles where userid={userid}"));
 				if (result == "True") b.Enabled = true;
 				else { b.Enabled = false; b.Visible = false; }
 			}
 
-			string super = con.GetScalar($"select super from users_roles where userid={userid}");
+			string super = "False";
+
+			await Task.Run(() => super = con.GetScalar($"select super from users_roles where userid={userid}"));
 
 			modificarRolesToolStripMenuItem.Visible = super == "True";
 			verMovimientosToolStripMenuItem.Visible = super == "True";

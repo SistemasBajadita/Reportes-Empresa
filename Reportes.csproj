@@ -27,7 +27,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>71</ApplicationRevision>
+    <ApplicationRevision>72</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -66,6 +66,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Imagenes\LOGO_EMPRESA-removebg-preview.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Aspose.Cells, Version=24.6.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
@@ -185,11 +188,37 @@
     <Compile Include="ClsHeaderTickets.cs" />
     <Compile Include="ClsLoginVerification.cs" />
     <Compile Include="ClsPageEventHelper.cs" />
+    <Compile Include="Modulos\Contrarecibo\ClsContrareciboOperaciones.cs" />
+    <Compile Include="Modulos\Contrarecibo\ClsHeaderContrarecibo.cs" />
+    <Compile Include="Modulos\Contrarecibo\FrmAplicarContrarecibo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modulos\Contrarecibo\FrmAplicarContrarecibo.Designer.cs">
+      <DependentUpon>FrmAplicarContrarecibo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modulos\Contrarecibo\FrmConsultarContrarecibo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modulos\Contrarecibo\FrmConsultarContrarecibo.Designer.cs">
+      <DependentUpon>FrmConsultarContrarecibo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modulos\Contrarecibo\FrmContrareciboMenu.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Modulos\Contrarecibo\FrmContrareciboMenu.Designer.cs">
       <DependentUpon>FrmContrareciboMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modulos\Contrarecibo\FrmGenerarContrarecibo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modulos\Contrarecibo\FrmGenerarContrarecibo.Designer.cs">
+      <DependentUpon>FrmGenerarContrarecibo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modulos\Contrarecibo\FrmSelectProv.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modulos\Contrarecibo\FrmSelectProv.Designer.cs">
+      <DependentUpon>FrmSelectProv.cs</DependentUpon>
     </Compile>
     <Compile Include="Modulos\FrmClientes.cs">
       <SubType>Form</SubType>
@@ -301,8 +330,20 @@
     <Compile Include="Modulos\Login y Permisos\FrmRoles.Designer.cs">
       <DependentUpon>FrmRoles.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Modulos\Contrarecibo\FrmAplicarContrarecibo.resx">
+      <DependentUpon>FrmAplicarContrarecibo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modulos\Contrarecibo\FrmConsultarContrarecibo.resx">
+      <DependentUpon>FrmConsultarContrarecibo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modulos\Contrarecibo\FrmContrareciboMenu.resx">
       <DependentUpon>FrmContrareciboMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modulos\Contrarecibo\FrmGenerarContrarecibo.resx">
+      <DependentUpon>FrmGenerarContrarecibo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modulos\Contrarecibo\FrmSelectProv.resx">
+      <DependentUpon>FrmSelectProv.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modulos\FrmClientes.resx">
       <DependentUpon>FrmClientes.cs</DependentUpon>

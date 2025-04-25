@@ -42,6 +42,7 @@
 			this.BtnGenerar.TabIndex = 5;
 			this.BtnGenerar.Text = "Generar";
 			this.BtnGenerar.UseVisualStyleBackColor = true;
+			this.BtnGenerar.Click += new System.EventHandler(this.BtnGenerar_Click);
 			// 
 			// BtnConsultar
 			// 
@@ -52,6 +53,7 @@
 			this.BtnConsultar.TabIndex = 6;
 			this.BtnConsultar.Text = "Consultar";
 			this.BtnConsultar.UseVisualStyleBackColor = true;
+			this.BtnConsultar.Click += new System.EventHandler(this.BtnConsultar_Click);
 			// 
 			// BtnAplicar
 			// 
@@ -62,18 +64,20 @@
 			this.BtnAplicar.TabIndex = 7;
 			this.BtnAplicar.Text = "Aplicar como pagado";
 			this.BtnAplicar.UseVisualStyleBackColor = true;
+			this.BtnAplicar.Click += new System.EventHandler(this.BtnAplicar_Click);
 			// 
 			// FrmContrareciboMenu
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
 			this.ClientSize = new System.Drawing.Size(475, 299);
 			this.Controls.Add(this.BtnAplicar);
 			this.Controls.Add(this.BtnConsultar);
 			this.Controls.Add(this.BtnGenerar);
 			this.Name = "FrmContrareciboMenu";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "FrmContrareciboMenu";
+			this.Text = "Opciones de contrarecibo";
 			this.ResumeLayout(false);
 
 		}
