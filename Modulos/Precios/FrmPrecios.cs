@@ -81,10 +81,30 @@ namespace Reportes.Modulos
 					result.Close();
 
 					//Aqui cargo la lista de precios
-					cmd.CommandText = "select case when Cod_Precio = '' then 'General' else cod_precio end as Lista ,precios.pre_iva as Precio, round( ((precios.PRE_IVA- cos.COS_UCO)/precios.Pre_iva)*100,2) as Margen " +
-						"from tblprecios precios " +
-						"inner join tblundcospreart cos on cos.cod1_art=precios.COD1_ART " +
-						$"where precios.COD1_ART='{TxtCodigo.Text}';";
+					cmd.CommandText = $@"SELECT 
+										CASE
+											WHEN p.COD_PRECIO = '' THEN CONCAT('General ', p.cod_und)
+											ELSE p.COD_PRECIO
+										END AS Lista,
+										p.PRE_IVA AS Precio,
+										ROUND(
+											(
+												p.PRE_IVA - u.COS_UCO
+											) / p.PRE_IVA * 100,
+											2
+										) AS Margen
+									FROM 
+										tblprecios p
+									INNER JOIN 
+										tblundcospreart u ON u.COD1_ART = p.COD1_ART AND u.COD_UND = p.COD_UND
+									WHERE 
+										p.COD1_ART = '{TxtCodigo.Text}'
+									ORDER BY 
+										CASE 
+											WHEN p.EQV_UND=1 THEN 0
+											ELSE 1
+										END,
+										p.COD_PRECIO;";
 
 					DataTable precios = new DataTable();
 
@@ -109,6 +129,7 @@ namespace Reportes.Modulos
 
 			}
 			catch (MySqlException ex)
+
 			{
 				MessageBox.Show(ex.Message);
 			}
@@ -173,9 +194,9 @@ namespace Reportes.Modulos
 
 								cmd.CommandText = $"UPDATE tblundcospreart " +
 												  $"SET PRE_UND = {precioBase}, PRE_IVA = {TxtPrecioNuevo.Text} " +
-												  $"WHERE COD1_ART = '{TxtCodigo.Text}'; " +
+												  $"WHERE COD1_ART = '{TxtCodigo.Text}' and eqv_und=1; " +
 												  $"UPDATE tblprecios set pre_art={precioBase}, pre_iva={TxtPrecioNuevo.Text} " +
-												  $"WHERE cod_lista=1 and cod1_art='{TxtCodigo.Text}'";
+												  $"WHERE cod_lista=1 and cod1_art='{TxtCodigo.Text}' and eqv_und=1";
 								/*+
 								$"UPDATE tblprecios " +
 								$"SET PRE_ART = {precioBase}, PRE_IVA = {TxtPrecioNuevo.Text} " +
@@ -194,6 +215,19 @@ namespace Reportes.Modulos
 								for (int i = 1; i < dgListaPrecios.Rows.Count; i++)
 								{
 									precioBase = double.Parse(dgListaPrecios.Rows[i].Cells[3].Value.ToString()) / (1 + (imp / 100));
+
+									if (dgListaPrecios.Rows[i].Cells[0].Value.ToString().ToUpper().Contains("GENERAL"))
+									{
+										string unidad = dgListaPrecios.Rows[i].Cells[0].Value.ToString().Split(' ')[1];
+
+										cmd.CommandText = $"UPDATE tblundcospreart " +
+												  $"SET PRE_UND = {precioBase}, PRE_IVA = {precioBase * (1 + (imp / 100))} " +
+												  $"WHERE COD1_ART = '{TxtCodigo.Text}' and cod_und='{unidad}'; " +
+												  $"UPDATE tblprecios set pre_art={precioBase}, pre_iva={precioBase * (1 + (imp / 100))} " +
+												  $"WHERE cod_lista=1 and cod1_art='{TxtCodigo.Text}' and cod_und='{unidad}'";
+										await cmd.ExecuteNonQueryAsync();
+										continue;
+									}
 
 									cmd.CommandText = $"UPDATE tblprecios set pre_art={precioBase}," +
 										$"pre_iva={dgListaPrecios.Rows[i].Cells[3].Value} where cod1_art='{TxtCodigo.Text}' and cod_precio='{dgListaPrecios.Rows[i].Cells[0].Value}';";

@@ -508,7 +508,7 @@ namespace Reportes
 
 			try
 			{
-				Document doc = new Document(PageSize.A4, 10, 10, 30, 50);
+				Document doc = new Document(PageSize.A4, 10, 10, 20, 50);
 				string pdfPath = path;
 
 				using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
@@ -522,7 +522,7 @@ namespace Reportes
 					doc.Open();
 
 					// Título del documento
-					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 24);
+					iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 22);
 					Paragraph title = new Paragraph($"Reporte de Ventas y Costos\n" +
 						$"Sucursal: {(Program.Empresa == 0 ? "Jardines del Bosque" : "Colinas del Yaqui")}\n" +
 						$"{tipo}", titleFont)
@@ -538,9 +538,6 @@ namespace Reportes
 						Alignment = Element.ALIGN_CENTER
 					};// Alineación centrada
 					doc.Add(period);
-
-					// Añadir un espacio después del encabezado
-					doc.Add(new Paragraph("\n"));
 
 					// Crear una tabla para los datos
 					PdfPTable table = new PdfPTable(6)

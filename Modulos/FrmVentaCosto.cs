@@ -92,7 +92,10 @@ namespace Reportes
 				}
 				else
 				{
-					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+					if (FechaA.Value.Date == DateTime.Now.Date)
+						metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+					else
+						metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ConnectionString);
 				}
 
 				if (!chkTienda.Checked && !chkMayoreo.Checked)
@@ -105,14 +108,17 @@ namespace Reportes
 				}
 
 				string formato = "";
+				string merma = "";
 
 				if (chkTienda.Checked && !chkMayoreo.Checked)
 				{
 					formato = " and gv.caja_doc!=9 ";
+					merma = " and enc_alm.COD_ALM='A001'";
 				}
 				else if (!chkTienda.Checked && chkMayoreo.Checked)
 				{
 					formato = " and gv.caja_doc=9 ";
+					merma = " and enc_alm.COD_ALM='A002'";
 				}
 
 				query = "select caa.DES_AGR as Departamento, round(sum(rv.CAN_ART * rv.PCIO_VEN),2) as 'Venta Total', round(sum(rv.CAN_ART * rv.COS_VEN),2) as Costo, round((1 - (sum(rv.CAN_ART * rv.COS_VEN) / sum(rv.CAN_ART * rv.PCIO_VEN))) * 100, 2) as Porc from tblgralventas gv " +
@@ -127,7 +133,7 @@ namespace Reportes
 					$"inner join tblgralalmacen enc_alm on ren_alm.REF_MOV=enc_alm.REF_MOV " +
 					$"inner join tblgpoarticulos ga on ren_alm.COD1_ART = ga.COD1_ART " +
 					$"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
-					$"where (enc_alm.FEC_MOV between'{parametroA}' and '{parametroB}') and enc_alm.cod_con='SMER' and caa.COD_GPO=25 AND COD_STS=1 " +
+					$"where (enc_alm.FEC_MOV between'{parametroA}' and '{parametroB}') and enc_alm.cod_con='SMER' and caa.COD_GPO=25 AND COD_STS=1 {merma}" +
 					$"group by caa.des_agr;";
 			}
 			if (Program.Empresa == 1)
