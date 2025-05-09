@@ -88,10 +88,11 @@ namespace Reportes
 
 			metodos.sendReport = GetReport;
 
-			string query = $"select art.cod1_art as Codigo, des1_art as Descripcion, c.Cos_Pro as Costo, EXI_ACT as Existencia " +
+			string query = $"select art.cod1_art as Codigo, des1_art as Descripcion, c.Cos_Pro as Costo, exi.exi_alm as Existencia " +
 				$"from tblcatarticulos art " +
-				$"inner join tblundcospreart c on c.COD1_ART=art.COD1_ART " +
+				$"inner join tblundcospreart c on c.COD1_ART=art.COD1_ART and c.eqv_und=1 " +
 				$"inner join tblgpoarticulos g on g.COD1_ART=art.COD1_ART " +
+				$"inner join tblexiporalmacen exi on exi.cod1_art=art.cod1_art and exi.cod_alm='{cbAlmacen.SelectedValue}'" +
 				$"where COD_AGR={cbOP.SelectedValue};";
 
 			await Task.Run(() => metodos.SetQuery(query));
@@ -107,9 +108,9 @@ namespace Reportes
 			string Encabezado = "";
 
 			if (rbDepartamento.Checked)
-				Encabezado = $"Departamento : {GetSelectedTextFromCombo()}";
+				Encabezado = $"Departamento : {GetSelectedTextFromCombo()}\nAlmacen: {cbAlmacen.SelectedValue}";
 			else
-				Encabezado = $"Categoria : {GetSelectedTextFromCombo()}";
+				Encabezado = $"Categoria : {GetSelectedTextFromCombo()}\nAlmacen: {cbAlmacen.SelectedValue}";
 
 
 			metodos.PrintReportInPDFExistencia(guardarArchivo.FileName, Encabezado);
@@ -128,14 +129,19 @@ namespace Reportes
 				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
 
 			DataTable opciones = null;
+			DataTable almacenes = null;
 
 			label2.Visible = true;
 
 			await Task.Run(() => opciones = metodos.GetQuery($"select cod_agr, des_agr from tblcatagrupacionart where cod_gpo={(Program.Empresa == 0 ? 25 : 1)} order by des_agr asc"));
-
+			await Task.Run(() => almacenes = metodos.GetQuery("select cod_alm as Codigo, DES_ALM as Almacen from tblcatalmacenes where cod_tip=1;"));
 			cbOP.DataSource = opciones;
 			cbOP.DisplayMember = "des_agr";
 			cbOP.ValueMember = "cod_agr";
+
+			cbAlmacen.DataSource = almacenes;
+			cbAlmacen.DisplayMember = "Almacen";
+			cbAlmacen.ValueMember = "Codigo";
 
 			label2.Visible = false;
 			metodos = null;

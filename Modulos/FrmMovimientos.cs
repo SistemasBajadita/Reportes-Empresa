@@ -68,7 +68,7 @@ namespace Reportes
 			string parametroB = FechaB.Value.ToString("yyyy-MM-dd");
 
 			string query = $"SELECT tblCatAgrupacionArt.DES_AGR as Departamento, round(Sum(COS_UNI * can_ren * tblGralAlmacen.TIP_CAM),2) AS Total " +
-				$"FROM ((tblGralAlmacen INNER JOIN tblRenAlmacen ON tblGralAlmacen.REF_MOV = tblRenAlmacen.REF_MOV) " +
+				$"FROM ((tblGralAlmacen INNER JOIN tblRenAlmacen ON tblGralAlmacen.REF_MOV = tblRenAlmacen.REF_MOV and tblgralalmacen.COD_ALM='{cbAlmacen.SelectedValue}') " +
 				$"INNER JOIN tblCatArticulos ON tblRenAlmacen.COD1_ART = tblCatArticulos.COD1_ART) " +
 				$"INNER JOIN tblGpoArticulos ON tblCatArticulos.COD1_ART = tblGpoArticulos.COD1_ART " +
 				$"INNER JOIN tblCatAgrupacionArt ON tblCatAgrupacionArt.COD_AGR = tblGpoArticulos.COD_AGR " +
@@ -168,7 +168,7 @@ namespace Reportes
 			guardarArchivo.Filter = "Archivos PDF|*.pdf|Todos los archivos|*.*";
 			guardarArchivo.FileName = $"movimientos_{DateTime.Now:dd-MM-yy}";
 
-			movimientos.PrintReportForMovimientos(parametroA, parametroB, "movimientos.pdf", GetSelectedTextFromCombo(1));
+			movimientos.PrintReportForMovimientos(parametroA, parametroB, "movimientos.pdf", GetSelectedTextFromCombo(1) + "\n" + cbAlmacen.SelectedValue);
 			Process.Start("movimientos.pdf");
 		}
 
@@ -183,6 +183,8 @@ namespace Reportes
 				DataTable departamentos = movimientos.GetQuery("select cod_agr as Codigo, des_agr as Agrupacion " +
 					"from tblcatagrupacionart agr inner join tblagrupacionart gpo on gpo.cod_gpo=agr.COD_GPO " +
 					$"where agr.cod_gpo={(Program.Empresa == 0 ? "25" : "1")} order by des_agr asc;");
+				DataTable almacenes = movimientos.GetQuery("select cod_alm as Codigo, DES_ALM as Almacen from tblcatalmacenes where cod_tip=1;");
+
 				try
 				{
 					Invoke(new Action(() =>
@@ -190,6 +192,14 @@ namespace Reportes
 								cbDepartamentos.DataSource = departamentos;
 								cbDepartamentos.ValueMember = "Codigo";
 								cbDepartamentos.DisplayMember = "Agrupacion";
+
+								cbAlmacen.DataSource = almacenes;
+								cbAlmacen.ValueMember = "Codigo";
+								cbAlmacen.DisplayMember = "Almacen";
+
+								cbAlmacenArticulos.DataSource = almacenes;
+								cbAlmacenArticulos.ValueMember = "Codigo";
+								cbAlmacenArticulos.DisplayMember = "Almacen";
 							}));
 				}
 				catch (Exception)
@@ -218,7 +228,7 @@ namespace Reportes
 			string parametroB = FechaB2.Value.ToString("yyyy-MM-dd");
 
 			string query = $"SELECT tblCatArticulos.cod1_art as Codigo, des1_art as Descripcion, round(Sum(can_ren),2) as Piezas, round(Sum(COS_UNI * can_ren * tblGralAlmacen.TIP_CAM),2) AS Costo " +
-				$"FROM ((tblGralAlmacen INNER JOIN tblRenAlmacen ON tblGralAlmacen.REF_MOV = tblRenAlmacen.REF_MOV) INNER JOIN tblCatArticulos ON tblRenAlmacen.COD1_ART = tblCatArticulos.COD1_ART) " +
+				$"FROM ((tblGralAlmacen INNER JOIN tblRenAlmacen ON tblGralAlmacen.REF_MOV = tblRenAlmacen.REF_MOV and tblgralalmacen.COD_ALM='{cbAlmacenArticulos.SelectedValue}') INNER JOIN tblCatArticulos ON tblRenAlmacen.COD1_ART = tblCatArticulos.COD1_ART) " +
 				$"INNER JOIN tblGpoArticulos ON tblCatArticulos.COD1_ART = tblGpoArticulos.COD1_ART " +
 				$"Where ((tblGralAlmacen.FEC_MOV >= '{parametroA}' And tblGralAlmacen.FEC_MOV <= '{parametroB}') And (tblGralAlmacen.COD_CON = '{cbConceptos2.SelectedValue}') AND (tblGpoArticulos.COD_AGR = {cbDepartamentos.SelectedValue})) " +
 				$"GROUP BY tblCatArticulos.cod1_art " +
@@ -244,11 +254,16 @@ namespace Reportes
 		{
 			string parametroA = FechaA2.Value.ToString("yyyy/MM/dd");
 			string parametroB = FechaB2.Value.ToString("yyyy/MM/dd");
-			movimientos.PrintReportMovimientosDetail(GetSelectedTextFromCombo(2), $"Reporte de {GetSelectedTextFromCombo(3)}", parametroA, parametroB);
+			movimientos.PrintReportMovimientosDetail(GetSelectedTextFromCombo(2), $"Reporte de {GetSelectedTextFromCombo(3)}" + "\n" + cbAlmacenArticulos.SelectedValue, parametroA, parametroB);
 			Process.Start("movimientos.pdf");
 		}
 
 		private void FrmMovimientos_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void tabPage1_Click(object sender, EventArgs e)
 		{
 
 		}

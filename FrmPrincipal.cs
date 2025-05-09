@@ -107,14 +107,27 @@ namespace Reportes
 			{
 				_con = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
 			}
-
-			_ = _con.GetQuery("select art.cod1_art, art.des1_art, agr.DES_AGR, art.exi_act " +
-				"from tblcatarticulos art " +
-				"left join tblgpoarticulos gpo on gpo.cod1_art=art.cod1_art " +
-				"inner join tblcatagrupacionart agr on agr.COD_AGR=gpo.COD_AGR " +
-				$"where art.EXI_ACT < 0 and gpo.COD_GPO={(Program.Empresa == 0 ? "25" : "1")} " +
-				"order by agr.des_agr asc; ");
-			DialogResult response = MessageBox.Show($"Hay {_con.GetScalar("select count(*) from tblcatarticulos where exi_act<0")} productos con existencia negativa\n" +
+//{(Program.Empresa == 0 ? "25" : "1")}
+			_ = _con.GetQuery($@"SELECT 
+									art.cod1_art,
+									CONCAT(art.des1_art, ' (', und.cod_und, ')'),
+									agr.DES_AGR,
+									exi.EXI_ALM
+								FROM
+									tblcatarticulos art
+										LEFT JOIN
+									tblgpoarticulos gpo ON gpo.cod1_art = art.cod1_art
+										INNER JOIN
+									tblexiporalmacen exi on exi.COD1_ART=art.cod1_art and exi.COD_ALM='A001'
+										INNER JOIN
+									tblcatagrupacionart agr ON agr.COD_AGR = gpo.COD_AGR
+										INNER JOIN
+									tblundcospreart und ON und.cod1_art = art.cod1_art
+										AND und.eqv_und = 1
+								WHERE
+									art.EXI_ACT < 0 AND gpo.COD_GPO = {(Program.Empresa == 0 ? "25" : "1")}
+								ORDER BY agr.des_agr ASC; ");
+			DialogResult response = MessageBox.Show($"Hay {_con.GetScalar("select count(art.cod1_art) from tblcatarticulos art inner join tblexiporalmacen exi on exi.cod1_art=art.cod1_art where exi.exi_alm<0 and exi.cod_alm='A001'")} productos con existencia negativa\n" +
 				$"¿Deseas generar el archivo txt para hacer ajuste de negativos?", "La Bajadita - Existencias Negativas", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
 			if (response == DialogResult.Yes)
@@ -188,6 +201,7 @@ namespace Reportes
 					if (precioExcel != precioBD)
 					{
 						hoja.Cells[r, 2].PutValue(precioBD);
+						sendText($"Se actualizo el precio de {codigo} de {precioExcel} a {precioBD}");
 					}
 				}
 				else
@@ -220,6 +234,7 @@ namespace Reportes
 							if (precioExcel != precioBD)
 							{
 								hoja.Cells[r, 2].PutValue(precioBD);
+								sendText($"Se actualizo el precio de {codigo} de {precioExcel} a {precioBD}");
 							}
 						}
 						else
@@ -244,6 +259,7 @@ namespace Reportes
 							if (precioExcel != precioBD)
 							{
 								hoja.Cells[r, 2].PutValue(precioBD);
+								sendText($"Se actualizo el precio de {codigo} de {precioExcel} a {precioBD}");
 							}
 						}
 						else
