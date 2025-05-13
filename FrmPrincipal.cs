@@ -107,7 +107,6 @@ namespace Reportes
 			{
 				_con = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
 			}
-//{(Program.Empresa == 0 ? "25" : "1")}
 			_ = _con.GetQuery($@"SELECT 
 									art.cod1_art,
 									CONCAT(art.des1_art, ' (', und.cod_und, ')'),
