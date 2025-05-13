@@ -540,7 +540,7 @@ namespace Reportes
 					doc.Add(period);
 
 					// Crear una tabla para los datos
-					PdfPTable table = new PdfPTable(6)
+					PdfPTable table = new PdfPTable(7)
 					{
 						WidthPercentage = 100
 					};
@@ -548,11 +548,13 @@ namespace Reportes
 					//table.SetWidths(columnWidths);
 
 					// Añadir encabezados
-					iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12); // Fuente en negrita y tamaño 12
+					iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10); // Fuente en negrita y tamaño 12
 					PdfPCell headerCell;
 					headerCell = new PdfPCell(new Phrase("Departamento", headerFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 					table.AddCell(headerCell);
 					headerCell = new PdfPCell(new Phrase("Venta", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					table.AddCell(headerCell);
+					headerCell = new PdfPCell(new Phrase("Imp", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 					table.AddCell(headerCell);
 					headerCell = new PdfPCell(new Phrase("Costo", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 					table.AddCell(headerCell);
@@ -568,20 +570,24 @@ namespace Reportes
 					PdfPCell dataCell;
 
 					double totalVenta = 0;
+					double totalImp = 0;
 					double totalCosto = 0;
 					double mermaTotal = 0;
 
 					foreach (DataRow row in ReporteActivo.Rows)
 					{
-						string departamento = row[0].ToString();
-						string venta = "$" + double.Parse(row[1].ToString()).ToString("N2");
-						string costo = "$" + double.Parse(row[2].ToString()).ToString("N2");
-						string utilidad = row[3].ToString() + "%";
+						string departamento = row["Departamento"].ToString();
+						string venta = "$" + double.Parse(row["Venta"].ToString()).ToString("N2");
+						string imp = "$" + double.Parse(row["Imp"].ToString()).ToString("N2");
+						string costo = "$" + double.Parse(row["Costo"].ToString()).ToString("N2");
+						string utilidad = row["Porc"].ToString() + "%";
 
 
 						dataCell = new PdfPCell(new Phrase(departamento, dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 						table.AddCell(dataCell);
 						dataCell = new PdfPCell(new Phrase(venta, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+						table.AddCell(dataCell);
+						dataCell = new PdfPCell(new Phrase(imp, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 						table.AddCell(dataCell);
 						dataCell = new PdfPCell(new Phrase(costo, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 						table.AddCell(dataCell);
@@ -615,8 +621,10 @@ namespace Reportes
 							table.AddCell(dataCell);
 						}
 
-						totalVenta += double.Parse(row[1].ToString());
-						totalCosto += double.Parse(row[2].ToString());
+						totalVenta += double.Parse(row["Venta"].ToString());
+						totalCosto += double.Parse(row["Costo"].ToString());
+						totalImp += double.Parse(row["Imp"].ToString());
+
 					}
 
 					// Añadir fila de totales
@@ -624,6 +632,8 @@ namespace Reportes
 					totalCell = new PdfPCell(new Phrase("TOTAL:", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
 					totalCell = new PdfPCell(new Phrase("$" + totalVenta.ToString("N2"), headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
+					table.AddCell(totalCell);
+					totalCell = new PdfPCell(new Phrase("$" + totalImp.ToString("N2"), headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
 					totalCell = new PdfPCell(new Phrase("$" + totalCosto.ToString("N2"), headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.TOP_BORDER, PaddingTop = 10f };
 					table.AddCell(totalCell);
@@ -641,6 +651,7 @@ namespace Reportes
 
 					doc.Add(table);
 					doc.Add(new Paragraph("\n"));
+					doc.Add(new Paragraph($"Venta total del periodo(con impuestos incluidos): ${(totalVenta + totalImp):N2}"));
 					doc.Add(date);
 					doc.Close();
 					writer.Close();
@@ -1121,7 +1132,7 @@ namespace Reportes
 					doc.Add(table);
 					dataFont.Size = 13;
 					doc.Add(new Paragraph($"Suma de venta total: ${totalVentas:N2}", dataFont) { Alignment = Element.ALIGN_RIGHT });
-					doc.Add(new Paragraph($"Promedio general de venta: ${sumaDePromedios/ReporteActivo.Rows.Count:N2}", dataFont) { Alignment = Element.ALIGN_RIGHT });
+					doc.Add(new Paragraph($"Promedio general de venta: ${sumaDePromedios / ReporteActivo.Rows.Count:N2}", dataFont) { Alignment = Element.ALIGN_RIGHT });
 					doc.Close();
 					writer.Close();
 					Process.Start(pdfPath);

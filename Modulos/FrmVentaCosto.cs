@@ -39,6 +39,7 @@ namespace Reportes
 					reporte.Columns.Clear();
 					reporte.Columns.Add("Departamento", "Departamento");
 					reporte.Columns.Add("Venta", "Venta");
+					reporte.Columns.Add("Imp", "Imp");
 					reporte.Columns.Add("Costo", "Costo");
 					reporte.Columns.Add("Utilidad", "Utilidad");
 					reporte.Columns.Add("Merma", "Merma");
@@ -47,28 +48,30 @@ namespace Reportes
 					DataTable venta = quer.Tables[0];
 					DataTable merma = quer.Tables[1];
 					double total = 0;
+					double imp = 0;
 
 					foreach (DataRow row in venta.Rows)
 					{
 						bool mer = true;
 						total += Convert.ToDouble(row[1]);
+						imp += Convert.ToDouble(row[2]);
 						foreach (DataRow r in merma.Rows)
 						{
 							if (r[0].ToString() == row[0].ToString())
 							{
 								double porcentaje = (Convert.ToDouble(r[1]) / Convert.ToDouble(row[1])) * 100;
-								reporte.Rows.Add(row[0], row[1], row[2], row[3], double.Parse(r[1].ToString()), Math.Round(porcentaje, 2));
+								reporte.Rows.Add(row["Departamento"], row["Venta"], row["Imp"], row["Costo"], row["Porc"],double.Parse(r[1].ToString()), Math.Round(porcentaje, 2));
 								merma.Rows.Remove(r);
 								mer = false;
 								break;
 							}
 
 						}
-						if (mer) reporte.Rows.Add(row[0], row[1], row[2], row[3], 0.00, 0.00);
+						if (mer) reporte.Rows.Add(row["Departamento"], row["Venta"], row["Imp"], row["Costo"], row["Porc"], 0.00, 0.00);
 					}
 
 					lblTotal.Visible = true;
-					lblTotal.Text = $"Total: ${Convert.ToDouble(total):N2}";
+					lblTotal.Text = $"Subtotal: ${Convert.ToDouble(total):N2}. Imp: ${imp:N2}. Total: ${(total+imp):N2}";
 				}));
 			}
 			catch (Exception) { }
@@ -121,7 +124,7 @@ namespace Reportes
 					merma = " and enc_alm.COD_ALM='A002'";
 				}
 
-				query = "select caa.DES_AGR as Departamento, round(sum(rv.CAN_ART * rv.PCIO_VEN),2) as 'Venta Total', round(sum(rv.CAN_ART * rv.COS_VEN),2) as Costo, round((1 - (sum(rv.CAN_ART * rv.COS_VEN) / sum(rv.CAN_ART * rv.PCIO_VEN))) * 100, 2) as Porc from tblgralventas gv " +
+				query = "select caa.DES_AGR as Departamento, round(sum(rv.CAN_ART * rv.PCIO_VEN),2) as 'Venta',round(sum(rv.imp1_reg),2) as Imp, round(sum(rv.CAN_ART * rv.COS_VEN),2) as Costo, round((1 - (sum(rv.CAN_ART * rv.COS_VEN) / sum(rv.CAN_ART * rv.PCIO_VEN))) * 100, 2) as Porc from tblgralventas gv " +
 					"inner join tblrenventas rv on gv.REF_DOC = rv.REF_DOC " +
 					"inner join tblgpoarticulos ga on rv.COD1_ART = ga.COD1_ART " +
 					"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
