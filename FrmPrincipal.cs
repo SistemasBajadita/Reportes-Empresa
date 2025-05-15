@@ -301,7 +301,7 @@ namespace Reportes
 				string name = con.GetScalar($"select nom_prov from tblcatproveedor where cod_prov='{prov}'");
 				try
 				{
-					Document doc = new Document(PageSize.A4, 10, 10, 100, 50);
+					Document doc = new Document(PageSize.A4, 10, 10, 120, 50);
 					string pdfPath = "desp.pdf";
 
 					using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))

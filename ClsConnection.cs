@@ -720,7 +720,7 @@ namespace Reportes
 		{
 			try
 			{
-				Document doc = new Document(PageSize.A4, 10, 10, 100, 50);
+				Document doc = new Document(PageSize.A4, 10, 10, 120, 50);
 				string pdfPath = path;
 
 				using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))

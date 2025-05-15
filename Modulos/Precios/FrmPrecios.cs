@@ -15,6 +15,12 @@ namespace Reportes.Modulos
 {
 	public partial class FrmPrecios : Form
 	{
+		//Historial de precios
+		private Workbook historialExcel;
+		private Worksheet hojaHistorial;
+		private int filaHistorial = 1; // Comenzamos en la fila 1 porque 0 es para encabezados
+
+
 		private static readonly List<MySqlConnection> mySqlConnections = new List<MySqlConnection>()
 		{
 			new MySqlConnection(ConfigurationManager.ConnectionStrings["labajadita1"].ToString()),
@@ -211,6 +217,7 @@ namespace Reportes.Modulos
 									throw new Exception($"No se realizaron cambios para el código {TxtCodigo.Text}.");
 								}
 
+								int result = 0; ;
 
 								//ahora actualizo las listas de precios
 								for (int i = 1; i < dgListaPrecios.Rows.Count; i++)
@@ -232,11 +239,22 @@ namespace Reportes.Modulos
 
 									cmd.CommandText = $"UPDATE tblprecios set pre_art={precioBase}," +
 										$"pre_iva={dgListaPrecios.Rows[i].Cells[3].Value} where cod1_art='{TxtCodigo.Text}' and cod_precio='{dgListaPrecios.Rows[i].Cells[0].Value}';";
-									int result = await cmd.ExecuteNonQueryAsync();
+									result = await cmd.ExecuteNonQueryAsync();
 								}
 
 								// Confirmar transacción
 								await transaction.CommitAsync();
+
+								if (principal >= 2)
+								{
+									// Registrar en Excel
+									hojaHistorial.Cells[filaHistorial, 0].PutValue(TxtCodigo.Text);
+									hojaHistorial.Cells[filaHistorial, 1].PutValue(lblDescripcion.Text);
+									hojaHistorial.Cells[filaHistorial, 2].PutValue(lblPrecio.Text.Replace("$", ""));
+									hojaHistorial.Cells[filaHistorial, 3].PutValue(TxtPrecioNuevo.Text);
+									hojaHistorial.Cells[filaHistorial, 4].PutValue(empresa.DataSource.ToString());
+									filaHistorial++;
+								}
 							}
 							catch (Exception ex)
 							{
@@ -375,7 +393,17 @@ namespace Reportes.Modulos
 
 		private void FrmPrincipal_Load(object sender, EventArgs e)
 		{
+			historialExcel = new Workbook();
+			hojaHistorial = historialExcel.Worksheets[0];
+			hojaHistorial.Name = "HistorialPrecios";
 
+			// Encabezados
+			hojaHistorial.Cells[0, 0].PutValue("Código");
+			hojaHistorial.Cells[0, 1].PutValue("Descripción");
+			hojaHistorial.Cells[0, 2].PutValue("Precio Anterior");
+			hojaHistorial.Cells[0, 3].PutValue("Precio Nuevo");
+			hojaHistorial.Cells.Columns[2].Style.Custom = "0.00";
+			hojaHistorial.Cells.Columns[3].Style.Custom = "0.00";
 		}
 
 		object valorCeldaOriginal;
@@ -413,6 +441,29 @@ namespace Reportes.Modulos
 				valorCeldaOriginal = dgListaPrecios.Rows[e.RowIndex].Cells[3].Value;
 			}
 			catch (ArgumentOutOfRangeException) { }
+		}
+
+		private void FrmPrecios_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (filaHistorial > 1) // Si hay cambios
+			{
+				string path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "HistorialPrecios.xlsx");
+				historialExcel.Save(path);
+
+				// Abrir archivo con el sistema operativo
+				try
+				{
+					System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+					{
+						FileName = path,
+						UseShellExecute = true // Para que lo abra con Excel o la app predeterminada
+					});
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("No se pudo abrir el archivo de historial: " + ex.Message);
+				}
+			}
 		}
 	}
 }

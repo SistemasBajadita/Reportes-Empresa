@@ -311,6 +311,7 @@
 			this.Name = "FrmPrecios";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Actualizador de Precios";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmPrecios_FormClosing);
 			this.Load += new System.EventHandler(this.FrmPrincipal_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dgListaPrecios)).EndInit();
 			this.ResumeLayout(false);
