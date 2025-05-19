@@ -187,11 +187,20 @@ namespace Reportes.Modulos
 								var cmd = connection.CreateCommand();
 								cmd.Transaction = transaction;
 
+								string codigo = TxtCodigo.Text;
+
+								cmd.CommandText = $"select cod_art from tblcodarticuloextra where CODART_EXTRA='{codigo}'";
+
+								var obj = await cmd.ExecuteScalarAsync();
+
+								if (obj?.ToString() != null)
+									codigo = obj.ToString();
+
 								// Obtener el impuesto
 								cmd.CommandText = "SELECT por_imp " +
 												  "FROM tblimpuestos imp " +
 												  "INNER JOIN tblcatarticulos art ON art.COD_IMP = imp.COD_IMP " +
-												  $"WHERE COD1_ART = '{TxtCodigo.Text}';";
+												  $"WHERE COD1_ART = '{codigo}';";
 
 								var impuestoResult = await cmd.ExecuteScalarAsync() ?? throw new Exception($"No existe el código {TxtCodigo.Text} en la base de datos de {connection.DataSource}");
 								double imp = double.Parse(impuestoResult.ToString());
@@ -201,9 +210,9 @@ namespace Reportes.Modulos
 
 								cmd.CommandText = $"UPDATE tblundcospreart " +
 												  $"SET PRE_UND = {precioBase}, PRE_IVA = {TxtPrecioNuevo.Text} " +
-												  $"WHERE COD1_ART = '{TxtCodigo.Text}' and eqv_und=1; " +
+												  $"WHERE COD1_ART = '{codigo}' and eqv_und=1; " +
 												  $"UPDATE tblprecios set pre_art={precioBase}, pre_iva={TxtPrecioNuevo.Text} " +
-												  $"WHERE cod_lista=1 and cod1_art='{TxtCodigo.Text}' and eqv_und=1";
+												  $"WHERE cod_lista=1 and cod1_art='{codigo}' and eqv_und=1";
 								/*+
 								$"UPDATE tblprecios " +
 								$"SET PRE_ART = {precioBase}, PRE_IVA = {TxtPrecioNuevo.Text} " +
@@ -217,7 +226,7 @@ namespace Reportes.Modulos
 									throw new Exception($"No se realizaron cambios para el código {TxtCodigo.Text}.");
 								}
 
-								int result = 0; ;
+								int result = 0;
 
 								//ahora actualizo las listas de precios
 								for (int i = 1; i < dgListaPrecios.Rows.Count; i++)
@@ -230,15 +239,15 @@ namespace Reportes.Modulos
 
 										cmd.CommandText = $"UPDATE tblundcospreart " +
 												  $"SET PRE_UND = {precioBase}, PRE_IVA = {precioBase * (1 + (imp / 100))} " +
-												  $"WHERE COD1_ART = '{TxtCodigo.Text}' and cod_und='{unidad}'; " +
+												  $"WHERE COD1_ART = '{codigo}' and cod_und='{unidad}'; " +
 												  $"UPDATE tblprecios set pre_art={precioBase}, pre_iva={precioBase * (1 + (imp / 100))} " +
-												  $"WHERE cod_lista=1 and cod1_art='{TxtCodigo.Text}' and cod_und='{unidad}'";
+												  $"WHERE cod_lista=1 and cod1_art='{codigo}' and cod_und='{unidad}'";
 										await cmd.ExecuteNonQueryAsync();
 										continue;
 									}
 
 									cmd.CommandText = $"UPDATE tblprecios set pre_art={precioBase}," +
-										$"pre_iva={dgListaPrecios.Rows[i].Cells[3].Value} where cod1_art='{TxtCodigo.Text}' and cod_precio='{dgListaPrecios.Rows[i].Cells[0].Value}';";
+										$"pre_iva={dgListaPrecios.Rows[i].Cells[3].Value} where cod1_art='{codigo}' and cod_precio='{dgListaPrecios.Rows[i].Cells[0].Value}';";
 									result = await cmd.ExecuteNonQueryAsync();
 								}
 
@@ -248,7 +257,7 @@ namespace Reportes.Modulos
 								if (principal >= 2)
 								{
 									// Registrar en Excel
-									hojaHistorial.Cells[filaHistorial, 0].PutValue(TxtCodigo.Text);
+									hojaHistorial.Cells[filaHistorial, 0].PutValue(codigo);
 									hojaHistorial.Cells[filaHistorial, 1].PutValue(lblDescripcion.Text);
 									hojaHistorial.Cells[filaHistorial, 2].PutValue(lblPrecio.Text.Replace("$", ""));
 									hojaHistorial.Cells[filaHistorial, 3].PutValue(TxtPrecioNuevo.Text);
