@@ -124,7 +124,7 @@ namespace Reportes
 									tblundcospreart und ON und.cod1_art = art.cod1_art
 										AND und.eqv_und = 1
 								WHERE
-									art.EXI_ACT < 0 AND gpo.COD_GPO = {(Program.Empresa == 0 ? "25" : "1")}
+									exi.EXI_ALM < 0 AND gpo.COD_GPO = {(Program.Empresa == 0 ? "25" : "1")}
 								ORDER BY agr.des_agr ASC; ");
 			DialogResult response = MessageBox.Show($"Hay {_con.GetScalar("select count(art.cod1_art) from tblcatarticulos art inner join tblexiporalmacen exi on exi.cod1_art=art.cod1_art where exi.exi_alm<0 and exi.cod_alm='A001'")} productos con existencia negativa\n" +
 				$"¿Deseas generar el archivo txt para hacer ajuste de negativos?", "La Bajadita - Existencias Negativas", MessageBoxButtons.YesNo, MessageBoxIcon.Information);

@@ -64,6 +64,7 @@ namespace Reportes.Modulos
 			{
 				MessageBox.Show("Presiona ver reporte antes de descargar la informacion",
 					"OJO!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
 			}
 
 			string parametroA = FechaA.Value.ToString("yyyy/MM/dd");

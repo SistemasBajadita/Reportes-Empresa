@@ -65,9 +65,13 @@ namespace Reportes
 				{
 					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["antes"].ToString());
 				}
-				else
+				else if (FechaA.Value.Date == DateTime.Now && FechaB.Value.Date == DateTime.Now)
 				{
 					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+				}
+				else
+				{
+					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
 				}
 			}
 			else if (Program.Empresa == 1)
