@@ -42,12 +42,23 @@ namespace Reportes.Modulos
 
 			await Task.Run(() =>
 			{
-				con.SetQuery($@"select gral.cod_cli as Codigo, cli.NOM_CLI as Cliente, count(ref_doc) as Tickets, round(sum(tot_doc),2) as SumaTotal 
-								from tblgralventas gral
-								inner join tblcatclientes cli on cli.COD_CLI=gral.cod_cli
-								where gral.fec_doc between '{parametroA}' and '{parametroB}' and gral.cod_cli!='PUBLIC'
-								group by gral.cod_cli
-								order by SumaTotal desc;");
+				con.SetQuery($@"SELECT 
+								  gral.cod_cli AS Codigo, 
+								  cli.NOM_CLI AS Cliente, 
+								  SUM(
+									CASE 
+									  WHEN COALESCE(dev.tot_dev, 0) < gral.tot_doc THEN 1
+									  ELSE 0
+									END
+								  ) AS Tickets,
+								  ROUND(SUM(gral.tot_doc - COALESCE(dev.tot_dev, 0)), 2) AS SumaTotal
+								FROM tblgralventas gral
+								LEFT JOIN tblencdevolucion dev ON dev.REF_DOC = gral.REF_DOC
+								INNER JOIN tblcatclientes cli ON cli.COD_CLI = gral.cod_cli
+								WHERE gral.fec_doc BETWEEN '{parametroA}' AND '{parametroB}'
+								  AND gral.cod_cli != 'PUBLIC'
+								GROUP BY gral.cod_cli, cli.NOM_CLI
+								ORDER BY SumaTotal DESC;");
 			});
 
 		}

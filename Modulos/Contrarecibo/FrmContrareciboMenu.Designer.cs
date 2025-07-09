@@ -31,6 +31,7 @@
 			this.BtnGenerar = new System.Windows.Forms.Button();
 			this.BtnConsultar = new System.Windows.Forms.Button();
 			this.BtnAplicar = new System.Windows.Forms.Button();
+			this.BtnDiario = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// BtnGenerar
@@ -66,12 +67,24 @@
 			this.BtnAplicar.UseVisualStyleBackColor = true;
 			this.BtnAplicar.Click += new System.EventHandler(this.BtnAplicar_Click);
 			// 
+			// BtnDiario
+			// 
+			this.BtnDiario.Font = new System.Drawing.Font("Lucida Fax", 13.8F);
+			this.BtnDiario.Location = new System.Drawing.Point(82, 249);
+			this.BtnDiario.Name = "BtnDiario";
+			this.BtnDiario.Size = new System.Drawing.Size(321, 58);
+			this.BtnDiario.TabIndex = 8;
+			this.BtnDiario.Text = "Reporte diario";
+			this.BtnDiario.UseVisualStyleBackColor = true;
+			this.BtnDiario.Click += new System.EventHandler(this.BtnDiario_Click);
+			// 
 			// FrmContrareciboMenu
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
-			this.ClientSize = new System.Drawing.Size(475, 299);
+			this.ClientSize = new System.Drawing.Size(475, 360);
+			this.Controls.Add(this.BtnDiario);
 			this.Controls.Add(this.BtnAplicar);
 			this.Controls.Add(this.BtnConsultar);
 			this.Controls.Add(this.BtnGenerar);
@@ -87,5 +100,6 @@
 		private System.Windows.Forms.Button BtnGenerar;
 		private System.Windows.Forms.Button BtnConsultar;
 		private System.Windows.Forms.Button BtnAplicar;
+		private System.Windows.Forms.Button BtnDiario;
 	}
 }

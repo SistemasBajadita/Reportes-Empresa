@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reportes", "Reportes.csproj", "{183E9A6A-06D5-4A15-9240-7F6F6491F494}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3F9D1760-64B3-49E3-98B3-B01845343C2B} = {3F9D1760-64B3-49E3-98B3-B01845343C2B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModuloDespProv", "..\ModuloDespProv\ModuloDespProv.csproj", "{3F9D1760-64B3-49E3-98B3-B01845343C2B}"
 EndProject

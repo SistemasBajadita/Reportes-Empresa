@@ -92,8 +92,9 @@ namespace Reportes
 				$"from tblcatarticulos art " +
 				$"inner join tblundcospreart c on c.COD1_ART=art.COD1_ART and c.eqv_und=1 " +
 				$"inner join tblgpoarticulos g on g.COD1_ART=art.COD1_ART " +
-				$"inner join tblexiporalmacen exi on exi.cod1_art=art.cod1_art and exi.cod_alm='{cbAlmacen.SelectedValue}'" +
-				$"where COD_AGR={cbOP.SelectedValue} order by Descripcion asc;";
+				$"inner join tblexiporalmacen exi on exi.cod1_art=art.cod1_art and exi.cod_alm='{cbAlmacen.SelectedValue}' " +
+				$"left JOIN tbldescontinuados des on des.COD1_ART=art.cod1_art " +
+				$"where COD_AGR={cbOP.SelectedValue} AND (des.NO_VENTA IS NULL OR des.NO_VENTA = 0) order by Descripcion asc;";
 
 			await Task.Run(() => metodos.SetQuery(query));
 

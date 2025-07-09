@@ -27,5 +27,11 @@ namespace Reportes.Modulos.Contrarecibo
 			FrmAplicarContrarecibo frm = new FrmAplicarContrarecibo();
 			frm.ShowDialog();
 		}
+
+		private void BtnDiario_Click(object sender, EventArgs e)
+		{
+			FrmReporte r = new FrmReporte();
+			r.ShowDialog();
+		}
 	}
 }

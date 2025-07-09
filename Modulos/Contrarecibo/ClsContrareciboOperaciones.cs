@@ -204,6 +204,109 @@ namespace Reportes.Modulos.Contrarecibo
 			return true;
 		}
 
+		private async Task<DataTable> ObtenerDiario(DateTime fecha)
+		{
+			DataTable result = new DataTable();
+			try
+			{
+				await _con.OpenAsync();
+				_cmd.CommandType = CommandType.StoredProcedure;
+
+				_cmd.CommandText = "contrarecibo.PagosDiario";
+				_cmd.Parameters.AddWithValue("fecha", fecha.Date);
+
+				MySqlDataAdapter ad = new MySqlDataAdapter(_cmd);
+
+				await ad.FillAsync(result);
+			}
+			catch (MySqlException ex)
+			{
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally
+			{
+				await _con.CloseAsync();
+			}
+
+			return result;
+		}
+
+		public async Task GenerarPdfPagosDiarios(DateTime fecha)
+		{
+			string pdfPath = $"PagosDiarios_{fecha:yyyyMMdd}.pdf";
+			Document doc = new Document(PageSize.A4, 10, 10, 50, 30);
+
+			using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
+			{
+				PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+				// Puedes usar tu clase de encabezado si deseas
+				writer.PageEvent = new ClsHeaderContrarecibo("Imagenes/LOGO_EMPRESA-removebg-preview.png", "Pagos Diarios");
+
+				doc.Open();
+
+				iTextSharp.text.Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16);
+				iTextSharp.text.Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+				iTextSharp.text.Font cellFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+
+				// Título
+				doc.Add(new Paragraph("Reporte de Pagos Diarios", titleFont)
+				{
+					Alignment = Element.ALIGN_CENTER,
+					SpacingAfter = 10f
+				});
+				doc.Add(new Paragraph($"Fecha: {fecha:dd/MM/yyyy}\n\n", cellFont));
+
+				// Obtener datos
+				DataTable pagos = await ObtenerDiario(fecha.Date);
+
+				// Tabla de resultados
+				PdfPTable table = new PdfPTable(3) { WidthPercentage = 100 };
+				table.SetWidths(new float[] { 1f, 3f, 2f });
+
+				// Encabezados
+				string[] headers = { "Código", "Proveedor", "Pago" };
+				foreach (string header in headers)
+				{
+					PdfPCell headerCell = new PdfPCell(new Phrase(header, headerFont))
+					{
+						HorizontalAlignment = Element.ALIGN_CENTER,
+						PaddingBottom = 8f,
+						Border = PdfPCell.BOTTOM_BORDER
+					};
+					table.AddCell(headerCell);
+				}
+
+				double totalPago = 0;
+
+				foreach (DataRow row in pagos.Rows)
+				{
+					string cod = row["Cod"].ToString();
+					string proveedor = row["Proveedor"].ToString();
+					double pago = Convert.ToDouble(row["Pago"]);
+
+					totalPago += pago;
+
+					table.AddCell(new PdfPCell(new Phrase(cod, cellFont)) { HorizontalAlignment = Element.ALIGN_CENTER });
+					table.AddCell(new PdfPCell(new Phrase(proveedor, cellFont)) { HorizontalAlignment = Element.ALIGN_LEFT });
+					table.AddCell(new PdfPCell(new Phrase(pago.ToString("C2"), cellFont)) { HorizontalAlignment = Element.ALIGN_RIGHT });
+				}
+
+				// Total final
+				PdfPCell empty = new PdfPCell(new Phrase("")) { Border = PdfPCell.NO_BORDER };
+				table.AddCell(empty);
+				table.AddCell(new PdfPCell(new Phrase("TOTAL", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT });
+				table.AddCell(new PdfPCell(new Phrase(totalPago.ToString("C2"), headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT });
+
+				doc.Add(table);
+
+				doc.Close();
+			}
+
+			Process.Start(pdfPath);
+		}
+
+
 		public async Task GenerarPdfContrarecibo(string id, string proveedor, string fechaPago)
 		{
 			bool conexionIinterna = false;
@@ -237,13 +340,15 @@ namespace Reportes.Modulos.Contrarecibo
 
 				DataTable partidas = new DataTable();
 
-				_cmd.CommandText = $@"SELECT ren.cod1_art, art.des1_art, sum(ren.can_art), sum(ren.importe)
-										FROM tblcomprasren ren
-										inner join tblcatarticulos art on art.cod1_art=ren.cod1_art
-										inner join tblcomprasenc enc on enc.FOL_DOC=ren.FOL_DOC
-										inner join contrarecibo.contrarecibodetail det on det.FolioCompra=enc.fol_doc
-										where det.IDContrarecibo={id}
-										group by art.cod1_art";
+				_cmd.CommandText = $@"SELECT ren.cod1_art, art.des1_art, sum(ren.can_art) - coalesce(sum(ren_dev.can_art), 0), sum(ren.importe) - coalesce(sum(ren_dev.can_art*ren_dev.cos_uni),0)
+									FROM tblcomprasren ren
+									inner join tblcatarticulos art on art.cod1_art=ren.cod1_art
+									inner join tblcomprasenc enc on enc.FOL_DOC=ren.FOL_DOC
+									inner join contrarecibo.contrarecibodetail det on det.FolioCompra=enc.fol_doc
+									LEFT join tbldevolucionenc enc_dev on enc_dev.FOL_REC=enc.FOL_DOC
+									LEFT join tbldevolucionren ren_dev on enc_dev.FOL_DEV=ren_dev.FOL_DEV and ren_dev.COD1_ART=art.cod1_art
+									where det.IDContrarecibo={id}
+									group by art.cod1_art";
 
 				MySqlDataAdapter ad = new MySqlDataAdapter(_cmd);
 

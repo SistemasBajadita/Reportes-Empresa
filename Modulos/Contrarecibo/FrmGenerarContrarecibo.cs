@@ -36,10 +36,11 @@ namespace Reportes.Modulos.Contrarecibo
 			string nombreProveedor = con.GetScalar($"select nom_prov from tblcatproveedor where cod_prov='{obj}'");
 			lblNombreProv.Text = nombreProveedor;
 
-			DataTable recepciones = con.GetQuery($@"select fol_doc as Folio, replace(FEC_DOC, '-', '/') as Fecha, SUB_DOC+IVA_DOC as Total 
-													from tblcomprasenc 
-													inner join contrarecibo.folios fols on fols.fol=tblcomprasenc.FOL_DOC
-													where COD_PROV='{obj}';");
+			DataTable recepciones = con.GetQuery($@"select enc.fol_doc as Folio, replace(enc.FEC_DOC, '-', '/') as Fecha, enc.SUB_DOC+enc.IVA_DOC - coalesce(dev_enc.tot_dev,0) as Total 
+													from tblcomprasenc enc
+													left join tbldevolucionenc dev_enc on dev_enc.FOL_REC=enc.FOL_DOC
+													inner join contrarecibo.folios fols on fols.fol=enc.FOL_DOC
+													where enc.COD_PROV='{obj}';;");
 
 			foreach (DataRow r in recepciones.Rows)
 			{
@@ -93,7 +94,7 @@ namespace Reportes.Modulos.Contrarecibo
 			}
 
 
-			ClsContrareciboOperaciones operaciones = new ClsContrareciboOperaciones(ConfigurationManager.ConnectionStrings["pruebas"].ConnectionString);
+			ClsContrareciboOperaciones operaciones = new ClsContrareciboOperaciones(ConfigurationManager.ConnectionStrings["servidor"].ConnectionString);
 
 			List<string> folios = new List<string>();
 
