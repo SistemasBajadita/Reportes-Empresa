@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Reportes.Modulos.Contrarecibo
@@ -8,6 +9,7 @@ namespace Reportes.Modulos.Contrarecibo
 		public FrmContrareciboMenu()
 		{
 			InitializeComponent();
+			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
 		}
 
 		private void BtnGenerar_Click(object sender, EventArgs e)

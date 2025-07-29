@@ -268,7 +268,13 @@ namespace Reportes
 			DataTable ventaGeneral = metodos.GetQuery($@"SELECT fec_doc AS Fecha,
 															SUM(CASE WHEN aux.COD_CAJ not in(7,8, 9) AND aux.COD_FRP = 1 and cod_con='IVEN' THEN aux.IMP_MBA ELSE 0 END) - SUM(CASE WHEN AUX.CON_CEP = 'DCLI' AND aux.COD_CAJ not in(7,8, 9) THEN AUX.IMP_MBA ELSE 0 END) AS Efectivo,
 															SUM(CASE WHEN aux.COD_CAJ not in(7,8, 9) AND aux.COD_FRP != 1 AND COD_CON='IVEN' THEN aux.IMP_MBA ELSE 0 END) AS Terminal,
-															SUM(CASE WHEN aux.COD_CAJ = 9 AND COD_CON='IVEN' THEN aux.IMP_MBA ELSE 0 END) - SUM(CASE WHEN AUX.CON_CEP = 'DCLI' AND aux.COD_CAJ = 9 THEN AUX.IMP_MBA ELSE 0 END) AS Mayoreo
+															SUM(CASE WHEN aux.COD_CAJ = 9 AND COD_CON='IVEN' THEN aux.IMP_MBA ELSE 0 END) - SUM(CASE WHEN AUX.CON_CEP = 'DCLI' AND aux.COD_CAJ = 9 THEN AUX.IMP_MBA ELSE 0 END) - COALESCE((
+        SELECT SUM(dev.TOT_DEV)
+        FROM tblencdevolucion dev
+        WHERE dev.FEC_DEV = aux.fec_doc
+          AND dev.TIP_DEV = 0
+          AND dev.CON_GRL = 'ACLI'
+    ),0) AS Mayoreo
 															FROM tblauxcaja aux														
 															WHERE fec_doc BETWEEN '{parametroA}' AND '{parametroB}'														
 															GROUP BY fec_doc														

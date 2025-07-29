@@ -16,6 +16,7 @@ namespace Reportes.Modulos.Contrarecibo
 		public FrmReporte()
 		{
 			InitializeComponent();
+			Icon = new Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
 		}
 
 		private async void BtnShow_Click(object sender, EventArgs e)

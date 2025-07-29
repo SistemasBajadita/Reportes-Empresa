@@ -411,8 +411,10 @@ namespace Reportes.Modulos
 			hojaHistorial.Cells[0, 1].PutValue("Descripción");
 			hojaHistorial.Cells[0, 2].PutValue("Precio Anterior");
 			hojaHistorial.Cells[0, 3].PutValue("Precio Nuevo");
-			hojaHistorial.Cells.Columns[2].Style.Custom = "0.00";
-			hojaHistorial.Cells.Columns[3].Style.Custom = "0.00";
+			var columnStyle = hojaHistorial.Cells.Columns[2].GetStyle();
+			columnStyle.Custom = "0.00";
+			hojaHistorial.Cells.Columns[2].SetStyle(columnStyle);
+			hojaHistorial.Cells.Columns[3].SetStyle(columnStyle);
 		}
 
 		object valorCeldaOriginal;

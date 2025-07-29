@@ -234,7 +234,7 @@ namespace Reportes.Modulos.Contrarecibo
 		public async Task GenerarPdfPagosDiarios(DateTime fecha)
 		{
 			string pdfPath = $"PagosDiarios_{fecha:yyyyMMdd}.pdf";
-			Document doc = new Document(PageSize.A4, 10, 10, 50, 30);
+			Document doc = new Document(PageSize.A4, 10, 10, 100, 30);
 
 			using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
 			{
