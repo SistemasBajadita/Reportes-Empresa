@@ -52,7 +52,6 @@ namespace Reportes.Modulos
 			SetMensaje($"Se generaron {i} codigos");
 			await Task.Delay(3000);
 			SetMensaje("");
-
 		}
 
 		private void FrmCodigo_Paint(object sender, PaintEventArgs e)

@@ -89,7 +89,7 @@
 			this.Controls.Add(this.label2);
 			this.Name = "FrmReporte";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "FrmReporte";
+			this.Text = "Reporte diario";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
