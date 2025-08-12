@@ -125,13 +125,34 @@ namespace Reportes
 					merma = " and enc_alm.COD_ALM='A002'";
 				}
 
-				query = "select caa.DES_AGR as Departamento, round(sum(rv.CAN_ART * rv.PCIO_VEN),2) as 'Venta',round(sum(rv.imp1_reg),2) as Imp, round(sum(rv.CAN_ART * rv.COS_VEN),2) as Costo, round((1 - (sum(rv.CAN_ART * rv.COS_VEN) / sum(rv.CAN_ART * rv.PCIO_VEN))) * 100, 2) as Porc from tblgralventas gv " +
-					"inner join tblrenventas rv on gv.REF_DOC = rv.REF_DOC " +
-					"inner join tblgpoarticulos ga on rv.COD1_ART = ga.COD1_ART " +
-					"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
-					$"where  (gv.FEC_DOC between '{parametroA}' and '{parametroB}') and ga.COD_GPO = 25 {formato}" +
-					$"GROUP BY caa.DES_AGR " +
-					$"ORDER BY Departamento ASC; " +
+				query = $@" SELECT 
+									caa.DES_AGR AS Departamento,
+									ROUND(SUM(rv.CAN_ART * rv.PCIO_VEN) - IFNULL(SUM(devr.CAN_DEV * devr.pcio_art), 0), 2) AS Venta,
+									ROUND(SUM(rv.imp1_reg) - IFNULL(SUM(devr.imp1_reg), 0), 2) AS Imp,
+									ROUND(SUM(rv.CAN_ART * rv.COS_VEN) - IFNULL(SUM(devr.CAN_DEV * devr.COS_ART), 0), 2) AS Costo,
+									ROUND(
+										(1 - (
+											(SUM(rv.CAN_ART * rv.COS_VEN) - IFNULL(SUM(devr.CAN_DEV * devr.COS_ART), 0)) /
+											NULLIF(SUM(rv.CAN_ART * rv.PCIO_VEN) - IFNULL(SUM(devr.CAN_DEV * devr.PCIO_ART), 0), 0)
+										)) * 100, 
+									2) AS Porc
+								FROM tblgralventas gv
+								INNER JOIN tblrenventas rv 
+									ON gv.REF_DOC = rv.REF_DOC
+								INNER JOIN tblgpoarticulos ga 
+									ON rv.COD1_ART = ga.COD1_ART
+								INNER JOIN tblcatagrupacionart caa 
+									ON ga.COD_AGR = caa.COD_AGR
+								LEFT JOIN tblencdevolucion dev 
+									ON dev.REF_DOC = gv.REF_DOC
+								LEFT JOIN tblrendevolucion devr 
+									ON devr.FOL_DEV = dev.FOL_DEV and devr.cod1_art=rv.cod1_art
+								WHERE
+									gv.FEC_DOC BETWEEN '{parametroA}' AND '{parametroB}'
+									AND ga.COD_GPO = 25 {formato}
+								GROUP BY caa.DES_AGR
+								ORDER BY Departamento ASC;
+								" +
 					$"select caa.DES_AGR as Departamento, round(sum(cos_uni*can_ren),2) as Merma " +
 					$"from tblrenalmacen ren_alm " +
 					$"inner join tblgralalmacen enc_alm on ren_alm.REF_MOV=enc_alm.REF_MOV " +
@@ -144,19 +165,40 @@ namespace Reportes
 			{
 				metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["marcos"].ToString());
 
-				query = "select caa.DES_AGR as Departamento, round(sum(rv.CAN_ART * rv.PCIO_VEN),2) as 'Venta',round(sum(rv.imp1_reg),2) as Imp, round(sum(rv.CAN_ART * rv.COS_VEN),2) as Costo, round((1 - (sum(rv.CAN_ART * rv.COS_VEN) / sum(rv.CAN_ART * rv.PCIO_VEN))) * 100, 2) as Porc from tblgralventas gv " +
-					"inner join tblrenventas rv on gv.REF_DOC = rv.REF_DOC " +
-					"inner join tblgpoarticulos ga on rv.COD1_ART = ga.COD1_ART " +
-					"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
-					$"where  (gv.FEC_DOC between '{parametroA}' and '{parametroB}') and ga.COD_GPO = 1 " +
-					$"GROUP BY caa.DES_AGR " +
-					$"ORDER BY Departamento ASC; " +
+				query = $@" SELECT 
+									caa.DES_AGR AS Departamento,
+									ROUND(SUM(rv.CAN_ART * rv.PCIO_VEN) - IFNULL(SUM(devr.CAN_DEV * devr.pcio_art), 0), 2) AS Venta,
+									ROUND(SUM(rv.imp1_reg) - IFNULL(SUM(devr.imp1_reg), 0), 2) AS Imp,
+									ROUND(SUM(rv.CAN_ART * rv.COS_VEN) - IFNULL(SUM(devr.CAN_DEV * devr.COS_ART), 0), 2) AS Costo,
+									ROUND(
+										(1 - (
+											(SUM(rv.CAN_ART * rv.COS_VEN) - IFNULL(SUM(devr.CAN_DEV * devr.COS_ART), 0)) /
+											NULLIF(SUM(rv.CAN_ART * rv.PCIO_VEN) - IFNULL(SUM(devr.CAN_DEV * devr.PCIO_ART), 0), 0)
+										)) * 100, 
+									2) AS Porc
+								FROM tblgralventas gv
+								INNER JOIN tblrenventas rv 
+									ON gv.REF_DOC = rv.REF_DOC
+								INNER JOIN tblgpoarticulos ga 
+									ON rv.COD1_ART = ga.COD1_ART
+								INNER JOIN tblcatagrupacionart caa 
+									ON ga.COD_AGR = caa.COD_AGR
+								LEFT JOIN tblencdevolucion dev 
+									ON dev.REF_DOC = gv.REF_DOC
+								LEFT JOIN tblrendevolucion devr 
+									ON devr.FOL_DEV = dev.FOL_DEV and devr.cod1_art=rv.cod1_art
+								WHERE
+									gv.FEC_DOC BETWEEN '{parametroA}' AND '{parametroB}'
+									AND ga.COD_GPO = 1
+								GROUP BY caa.DES_AGR
+								ORDER BY Departamento ASC;
+								" +
 					$"select caa.DES_AGR as Departamento, round(sum(cos_uni*can_ren),2) as Merma " +
 					$"from tblrenalmacen ren_alm " +
 					$"inner join tblgralalmacen enc_alm on ren_alm.REF_MOV=enc_alm.REF_MOV " +
 					$"inner join tblgpoarticulos ga on ren_alm.COD1_ART = ga.COD1_ART " +
 					$"inner join tblcatagrupacionart caa on ga.COD_AGR = caa.COD_AGR " +
-					$"where (enc_alm.FEC_MOV between'{parametroA}' and '{parametroB}') and enc_alm.cod_con='SMER' and caa.COD_GPO=25 AND COD_STS=1 " +
+					$"where (enc_alm.FEC_MOV between'{parametroA}' and '{parametroB}') and enc_alm.cod_con='SMER' and caa.COD_GPO=1 AND COD_STS=1 " +
 					$"group by caa.des_agr;";
 			}
 

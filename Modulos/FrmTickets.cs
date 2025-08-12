@@ -268,8 +268,16 @@ namespace Reportes
 			await Task.Run(async () =>
 			{
 				await Task.Run(() => vendedores = conn.GetQuery(query));
+
+
 				Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
 				DataTable tickets = new DataTable();
+
+				string fontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Fuentes", "mozilla.ttf");
+
+				// Registrar y crear la fuente
+				BaseFont bf = BaseFont.CreateFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+				Font customFont = new Font(bf, 14, iTextSharp.text.Font.BOLD, iTextSharp.text.BaseColor.BLUE);
 
 				//Inicializo en cero los contadores globales
 				double sub = 0;
@@ -281,11 +289,16 @@ namespace Reportes
 				try
 				{
 					Document doc = new Document(PageSize.A4, 10, 10, 100, 50);
+					
 					string pdfPath = "reporte de tickets.pdf";
 
 					using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
 					{
 						PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+						doc.AddCreator("La Bajadita - Venta de Frutas y Verduras");
+						doc.AddAuthor("Bryan Allan Valdez Muñoz - Sistemas - La Bajadita");
+						doc.AddTitle("Reporte de Tickets por Chofer");
 
 						ClsHeaderTickets pageEventHelper = new ClsHeaderTickets("Imagenes/LOGO_EMPRESA-removebg-preview.png", "Ventas separadas por chofer", fechaA.Replace('-', '/'), fechaB.Replace('-', '/'));
 						writer.PageEvent = pageEventHelper;
@@ -294,7 +307,7 @@ namespace Reportes
 						//Con este for voy obteniendo los tickets de cada vendedor
 						foreach (DataRow vendedor in vendedores.Rows)
 						{
-							doc.Add(new Paragraph($"Chofer: {vendedor[1]}", FontFactory.GetFont(FontFactory.COURIER_BOLD)) { Alignment = Element.ALIGN_CENTER });
+							doc.Add(new Paragraph($"Chofer: {vendedor[1]}", customFont) { Alignment = Element.ALIGN_CENTER });
 							doc.Add(new Paragraph("\n") { Alignment = Element.ALIGN_CENTER });
 
 							query = $@"select DISTINCT ven.fec_doc, ven.ref_doc, cli.NOM_CLI, hora_reg, round(tot_doc,2), ven.COD_USU, ren.cod_ven
@@ -356,7 +369,7 @@ namespace Reportes
 								//Banderas para verificar si la nota es de credito o de transferencia
 								if (frp == "5")
 									creditFlag = true;
-								if (frp == "9") 
+								if (frp == "9")
 									transferFlag = true;
 
 								//Si no hubo devoluciones, devuelve una cadena vacia
