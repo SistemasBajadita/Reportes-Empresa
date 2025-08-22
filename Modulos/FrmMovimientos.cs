@@ -32,11 +32,11 @@ namespace Reportes
 			cbConceptos2.DisplayMember = "nom";
 			cbConceptos2.ValueMember = "fol";
 
-			FechaA.MaxDate = DateTime.Now.AddDays(-1);
-			FechaB.MaxDate = DateTime.Now.AddDays(-1);
+			FechaA.MaxDate = DateTime.Now;
+			FechaB.MaxDate = DateTime.Now;
 
-			FechaA2.MaxDate = DateTime.Now.AddDays(-1);
-			FechaB2.MaxDate = DateTime.Now.AddDays(-1);
+			FechaA2.MaxDate = DateTime.Now;
+			FechaB2.MaxDate = DateTime.Now;
 
 		}
 
@@ -55,6 +55,8 @@ namespace Reportes
 			if (Program.Empresa == 0)
 			{
 				if (!(FechaA.Value.Date < new DateTime(2025, 02, 01) || FechaA.Value.Date < new DateTime(2025, 02, 01)))
+					movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+				else if(FechaA.Value.Date == DateTime.Now.Date && FechaB.Value.Date == DateTime.Now.Date)
 					movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
 				else
 					movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["antes"].ToString());
@@ -214,8 +216,11 @@ namespace Reportes
 		{
 			if (Program.Empresa == 0)
 			{
-				if (!(FechaA2.Value.Date < new DateTime(2025, 02, 01) || FechaB2.Value.Date < new DateTime(2025, 02, 01)))
+				if (FechaA2.Value.Date == DateTime.Now.Date && FechaB2.Value.Date == DateTime.Now.Date)
 					movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
+				else if (FechaA2.Value.Date > new DateTime(2025, 02, 01) || FechaB2.Value.Date > new DateTime(2025, 02, 01))
+					movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["empresa"].ToString());
+				
 				else
 					movimientos = new ClsConnection(ConfigurationManager.ConnectionStrings["antes"].ToString());
 			}

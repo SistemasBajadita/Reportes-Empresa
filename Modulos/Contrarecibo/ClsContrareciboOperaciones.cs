@@ -368,7 +368,7 @@ namespace Reportes.Modulos.Contrarecibo
 				table.AddCell(headerCell);
 				headerCell = new PdfPCell(new Phrase("PIEZAS", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 				table.AddCell(headerCell);
-				headerCell = new PdfPCell(new Phrase("IMPORTE", headerFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+				headerCell = new PdfPCell(new Phrase("IMPORTE", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 				table.AddCell(headerCell);
 
 				iTextSharp.text.Font dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
@@ -389,9 +389,9 @@ namespace Reportes.Modulos.Contrarecibo
 					table.AddCell(dataCell);
 					dataCell = new PdfPCell(new Phrase(descripcion, dataFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 					table.AddCell(dataCell);
-					dataCell = new PdfPCell(new Phrase(piezas, dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					dataCell = new PdfPCell(new Phrase(Convert.ToDecimal(piezas).ToString("N2"), dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 					table.AddCell(dataCell);
-					dataCell = new PdfPCell(new Phrase(importe, dataFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+					dataCell = new PdfPCell(new Phrase("$"+Convert.ToDecimal(importe).ToString("N2"), dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 					table.AddCell(dataCell);
 				}
 
@@ -401,13 +401,15 @@ namespace Reportes.Modulos.Contrarecibo
 				table.AddCell(dataCell);
 
 				dataFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14);
-				dataCell = new PdfPCell(new Phrase($"Total: {total}", dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
+				dataCell = new PdfPCell(new Phrase($"Total: ${total:N2}", dataFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Border = PdfPCell.BOTTOM_BORDER, PaddingBottom = 10f };
 				table.AddCell(dataCell);
 
 				// Añadir la tabla al documento
 				doc.Add(table);
 
-				doc.Add(new Paragraph($"Fecha de pago: {fechaPago}", new Font(Font.FontFamily.HELVETICA, 16)) { SpacingAfter = 15f });
+				string[] fecha = fechaPago.Split('-');
+
+				doc.Add(new Paragraph($"Fecha de pago: {fecha[2]}/{fecha[1]}/{fecha[0]}", new Font(Font.FontFamily.HELVETICA, 16)) { SpacingAfter = 15f });
 
 				_cmd.CommandText = $"SELECT GROUP_CONCAT(FolioCompra SEPARATOR ' | ') AS Folios " +
 					$"FROM contrarecibo.contrarecibodetail where idcontrarecibo={id};";

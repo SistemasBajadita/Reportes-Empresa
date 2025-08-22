@@ -65,7 +65,7 @@ namespace Reportes
 				{
 					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["antes"].ToString());
 				}
-				else if (FechaA.Value.Date == DateTime.Now && FechaB.Value.Date == DateTime.Now)
+				else if (FechaA.Value.Date == DateTime.Now.Date && FechaB.Value.Date == DateTime.Now.Date)
 				{
 					metodos = new ClsConnection(ConfigurationManager.ConnectionStrings["servidor"].ToString());
 				}
