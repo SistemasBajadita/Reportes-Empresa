@@ -476,5 +476,10 @@ namespace Reportes.Modulos
 				}
 			}
 		}
+
+		private async void rb_CheckedEvent(object sender, EventArgs e)
+		{
+			await SetProduct(TxtCodigo.Text);
+		}
 	}
 }

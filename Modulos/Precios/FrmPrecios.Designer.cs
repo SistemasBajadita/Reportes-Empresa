@@ -269,6 +269,7 @@
 			this.rbJardines.TabStop = true;
 			this.rbJardines.Text = "Jardines";
 			this.rbJardines.UseVisualStyleBackColor = true;
+			this.rbJardines.CheckedChanged += new System.EventHandler(this.rb_CheckedEvent);
 			// 
 			// rbColinas
 			// 
