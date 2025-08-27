@@ -407,9 +407,7 @@ namespace Reportes.Modulos.Contrarecibo
 				// Añadir la tabla al documento
 				doc.Add(table);
 
-				string[] fecha = fechaPago.Split('-');
-
-				doc.Add(new Paragraph($"Fecha de pago: {fecha[2]}/{fecha[1]}/{fecha[0]}", new Font(Font.FontFamily.HELVETICA, 16)) { SpacingAfter = 15f });
+				doc.Add(new Paragraph($"Fecha de pago: {fechaPago}", new Font(Font.FontFamily.HELVETICA, 16)) { SpacingAfter = 15f });
 
 				_cmd.CommandText = $"SELECT GROUP_CONCAT(FolioCompra SEPARATOR ' | ') AS Folios " +
 					$"FROM contrarecibo.contrarecibodetail where idcontrarecibo={id};";
