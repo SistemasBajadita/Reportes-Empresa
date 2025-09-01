@@ -68,7 +68,7 @@
 			// BtnExcel
 			// 
 			this.BtnExcel.Font = new System.Drawing.Font("Lucida Fax", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.BtnExcel.Location = new System.Drawing.Point(593, 555);
+			this.BtnExcel.Location = new System.Drawing.Point(593, 573);
 			this.BtnExcel.Name = "BtnExcel";
 			this.BtnExcel.Size = new System.Drawing.Size(245, 40);
 			this.BtnExcel.TabIndex = 16;
@@ -138,7 +138,7 @@
 			this.reporte.RowsDefaultCellStyle = dataGridViewCellStyle5;
 			this.reporte.RowTemplate.Height = 24;
 			this.reporte.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.reporte.Size = new System.Drawing.Size(1041, 304);
+			this.reporte.Size = new System.Drawing.Size(1041, 322);
 			this.reporte.TabIndex = 14;
 			this.reporte.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.reporte_CellClick);
 			// 
@@ -200,7 +200,7 @@
 			// BtnPDF
 			// 
 			this.BtnPDF.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
-			this.BtnPDF.Location = new System.Drawing.Point(390, 555);
+			this.BtnPDF.Location = new System.Drawing.Point(390, 573);
 			this.BtnPDF.Name = "BtnPDF";
 			this.BtnPDF.Size = new System.Drawing.Size(197, 40);
 			this.BtnPDF.TabIndex = 17;
@@ -214,7 +214,7 @@
 			this.label5.BackColor = System.Drawing.Color.Transparent;
 			this.label5.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
-			this.label5.Location = new System.Drawing.Point(57, 529);
+			this.label5.Location = new System.Drawing.Point(57, 547);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(207, 21);
 			this.label5.TabIndex = 18;
@@ -235,7 +235,7 @@
 			// BtnDesglosadoDiario
 			// 
 			this.BtnDesglosadoDiario.Font = new System.Drawing.Font("Lucida Fax", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.BtnDesglosadoDiario.Location = new System.Drawing.Point(844, 555);
+			this.BtnDesglosadoDiario.Location = new System.Drawing.Point(844, 573);
 			this.BtnDesglosadoDiario.Name = "BtnDesglosadoDiario";
 			this.BtnDesglosadoDiario.Size = new System.Drawing.Size(197, 40);
 			this.BtnDesglosadoDiario.TabIndex = 21;
@@ -260,7 +260,7 @@
 			this.chkTienda.AutoSize = true;
 			this.chkTienda.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.chkTienda.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
-			this.chkTienda.Location = new System.Drawing.Point(593, 524);
+			this.chkTienda.Location = new System.Drawing.Point(593, 542);
 			this.chkTienda.Name = "chkTienda";
 			this.chkTienda.Size = new System.Drawing.Size(94, 25);
 			this.chkTienda.TabIndex = 23;
@@ -272,7 +272,7 @@
 			this.chkMayoreo.AutoSize = true;
 			this.chkMayoreo.Font = new System.Drawing.Font("Lucida Fax", 10.8F);
 			this.chkMayoreo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(245)))), ((int)(((byte)(196)))));
-			this.chkMayoreo.Location = new System.Drawing.Point(693, 524);
+			this.chkMayoreo.Location = new System.Drawing.Point(693, 542);
 			this.chkMayoreo.Name = "chkMayoreo";
 			this.chkMayoreo.Size = new System.Drawing.Size(109, 25);
 			this.chkMayoreo.TabIndex = 24;
@@ -284,7 +284,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(145)))), ((int)(((byte)(58)))));
-			this.ClientSize = new System.Drawing.Size(1099, 605);
+			this.ClientSize = new System.Drawing.Size(1099, 621);
 			this.Controls.Add(this.chkMayoreo);
 			this.Controls.Add(this.chkTienda);
 			this.Controls.Add(this.chkGrafica);

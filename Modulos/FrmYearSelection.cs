@@ -54,23 +54,22 @@ namespace Reportes.Modulos
 			DataTable departamentos = con.GetQuery("select DISTINCT agr.cod_agr, des_agr from tblcatagrupacionart agr " +
 				$"inner join tblgpoarticulos cod on cod.COD_AGR=agr.COD_AGR where cod.COD_GPO={(empresa == 0 ? 25 : 1)} " +
 				"order by des_agr asc;");
-			Workbook excel = new Workbook();
 
+			Workbook excel = new Workbook();
 			WorksheetCollection sheets = excel.Worksheets;
 
 			sheets.RemoveAt(0);
+
+			// 🔹 Calcular total de tareas (departamentos × meses a procesar)
+			int mesesReferencia = (anio == DateTime.Now.Year) ? DateTime.Now.Month : 12;
+			int totalTareas = departamentos.Rows.Count * mesesReferencia;
+			int tareasHechas = 0;
 
 			for (int i = 0; i < departamentos.Rows.Count; i++)
 			{
 				Worksheet hojaActual = excel.Worksheets.Add(departamentos.Rows[i][1].ToString());
 
-
-				int meses = 0;
-
-				if (anio == DateTime.Now.Year)
-					meses = DateTime.Now.Month;
-				else
-					meses = 12;
+				int meses = (anio == DateTime.Now.Year) ? DateTime.Now.Month : 12;
 
 				hojaActual.Cells[0, 0].Value = "Meses";
 				hojaActual.Cells[0, 1].Value = "Venta";
@@ -82,21 +81,29 @@ namespace Reportes.Modulos
 					hojaActual.Cells[j, 0].Value = GetMonthName(j);
 
 					Cell cell = hojaActual.Cells[j, 1];
-
-					// Asignar un valor numérico a la celda
 					cell.Value = double.Parse(resultado != null ? resultado[0] : "0.00");
 					Style style = cell.GetStyle();
-					style.Number = 5; // Formato de número general
+					style.Number = 5; // formato de número
 					cell.SetStyle(style);
 
 					cell = hojaActual.Cells[j, 2];
 					cell.Value = double.Parse(resultado != null ? resultado[1] : "0.00");
 					style = cell.GetStyle();
-					style.Number = 5; // Formato de número general
+					style.Number = 5;
 					cell.SetStyle(style);
 
+					// ✅ Avance por cada mes procesado
+					tareasHechas++;
+					double porcentaje = ((double)tareasHechas / (double)totalTareas) * 100.0;
+
+					Invoke(new Action(() =>
+					{
+						label1.Text = $"{porcentaje:N2}% {departamentos.Rows[i][1]}";
+						pgProgress.Value = (int)porcentaje;
+					}));
 				}
 
+				// 📊 Crear gráfico después de llenar los meses
 				int chartIndex = hojaActual.Charts.Add(Aspose.Cells.Charts.ChartType.Column3D, meses + 2, 0, meses + 25, 10);
 				Aspose.Cells.Charts.Chart chart = hojaActual.Charts[chartIndex];
 
@@ -114,23 +121,11 @@ namespace Reportes.Modulos
 				chart.NSeries[0].Name = "Ventas";
 				chart.NSeries[1].Name = "Costo";
 
-				Random color = new Random();
-
 				chart.PlotArea.Area.ForegroundColor = Color.White;
 				chart.PlotArea.Border.IsVisible = false;
 
-				double porcentaje = ((double)(i + 1) / (double)departamentos.Rows.Count) * 100.0;
-
-				Invoke(new Action(() =>
-				{
-					label1.Text = $"{porcentaje:N2}%";
-					pgProgress.Value = (int)porcentaje;
-				}));
-
 				hojaActual.AutoFitColumns();
 			}
-
-
 
 			Worksheet evalSheet = sheets["Evaluation Warning"];
 			if (evalSheet != null)
@@ -141,6 +136,7 @@ namespace Reportes.Modulos
 			excel.Save("ventas mensuales.xlsx");
 			Process.Start("ventas mensuales.xlsx");
 		}
+
 
 		private async void BtnGetExcel_Click(object sender, EventArgs e)
 		{
