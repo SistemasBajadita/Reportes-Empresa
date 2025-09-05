@@ -20,6 +20,8 @@ namespace Reportes
 			pictureBox1.Image = System.Drawing.Image.FromFile("Imagenes/load.gif");
 			pictureBox1.Visible = false;
 
+			Icon = new System.Drawing.Icon("Imagenes/LOGO_EMPRESA-removebg-preview.ico");
+
 			FechaA.MaxDate = DateTime.Now;
 			FechaB.MaxDate = DateTime.Now;
 		}
@@ -226,7 +228,7 @@ namespace Reportes
 
 			DataTable vendedores = new DataTable();
 
-			await Task.Run(() => vendedores = conn.GetQuery("select cod_ven, nom_ven from tblvendedores where cod_ven!='BORR' " +
+			await Task.Run(() => vendedores = conn.GetQuery("select cod_ven, nom_ven from tblvendedores where cod_ven!='BORR' and cod_sts=1 " +
 				"order by nom_ven asc;"));
 
 			try
