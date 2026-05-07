@@ -55,7 +55,7 @@ namespace Reportes
 												            from tblgralventas ven
 												            inner join tblcatclientes cli on cli.COD_Cli=ven.COD_CLI
 												            inner join tblrenventas ren on ren.REF_DOC=ven.REF_DOC
-												            where CAJA_DOC=9 
+												            where CAJA_DOC in (9,10)
 												            and (ven.FEC_DOC between '{fechaA}' and '{fechaB}')
 												            and ren.cod_ven='{cod}';"));
 
@@ -73,8 +73,12 @@ namespace Reportes
 
 					doc.Open();
 
-					// Título del documento
-					Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+                    doc.AddAuthor("Bryan Allan Valdez Muñoz - Sistemas - La Bajadita");
+                    doc.AddTitle("Reporte de Tickets por Chofer");
+					doc.AddTitle("Reporte de ");
+
+                    // Título del documento
+                    Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
 
 					doc.Add(new Paragraph("                         CURLANGO RAMOS CHRISTIAN YARELY \n" +
 						"                         R.F.C CURC890920PW1", titleFont)
@@ -256,7 +260,7 @@ namespace Reportes
 								from tblrenventas ren
 								inner join tblvendedores v on v.COD_VEN=ren.cod_ven
 								inner join tblgralventas gral on gral.REF_DOC=ren.REF_DOC
-								where (gral.fec_doc between '{fechaA}' and '{fechaB}') and caja_doc=9
+								where (gral.fec_doc between '{fechaA}' and '{fechaB}') and caja_doc in (9,10)
 								group by ren.cod_ven;"; //Con este query obtengo los vendedores que se usaron en las notas del periodo ingresa por el usuario
 
 			BtnAllTickets.Enabled = false;
@@ -316,7 +320,7 @@ namespace Reportes
 												from tblgralventas ven
 												inner join tblcatclientes cli on cli.COD_Cli=ven.COD_CLI
 												inner join tblrenventas ren on ren.REF_DOC=ven.REF_DOC
-												where CAJA_DOC=9 
+												where CAJA_DOC in (9, 10) 
 												and (ven.FEC_DOC between '{fechaA}' and '{fechaB}')
 												and ren.cod_ven='{vendedor[0]}';";
 							//Query para obtener tickets de vendedores

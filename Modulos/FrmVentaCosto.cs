@@ -116,12 +116,12 @@ namespace Reportes
 
 				if (chkTienda.Checked && !chkMayoreo.Checked)
 				{
-					formato = " and gv.caja_doc!=9 ";
+					formato = " and gv.caja_doc not in ( 9, 10) ";
 					merma = " and enc_alm.COD_ALM='A001'";
 				}
 				else if (!chkTienda.Checked && chkMayoreo.Checked)
 				{
-					formato = " and gv.caja_doc=9 ";
+					formato = " and gv.caja_doc in ( 9, 10) ";
 					merma = " and enc_alm.COD_ALM='A002'";
 				}
 
@@ -310,7 +310,7 @@ namespace Reportes
 			DataTable ventaGeneral = metodos.GetQuery($@"SELECT fec_doc AS Fecha,
 																	SUM(CASE WHEN aux.COD_CAJ not in(7,8, 9) AND aux.COD_FRP = 1 and aux.cod_con='IVEN' THEN aux.IMP_MBA ELSE 0 END) - SUM(CASE WHEN AUX.CON_CEP = 'DCLI' AND aux.COD_CAJ not in(7,8, 9) THEN AUX.IMP_MBA ELSE 0 END) AS Efectivo,
 																	SUM(CASE WHEN aux.COD_CAJ not in(7,8, 9) AND aux.COD_FRP != 1 AND aux.COD_CON='IVEN' THEN aux.IMP_MBA ELSE 0 END) AS Terminal,
-																	SUM(CASE WHEN aux.COD_CAJ = 9 AND aux.COD_CON='IVEN' THEN aux.IMP_MBA ELSE 0 END) - sum(coalesce(dev.tot_dev, 0))  as Mayoreo
+																	SUM(CASE WHEN aux.COD_CAJ in (9, 10) AND aux.COD_CON='IVEN' THEN aux.IMP_MBA ELSE 0 END) - sum(coalesce(dev.tot_dev, 0))  as Mayoreo
 															FROM tblauxcaja aux
 															LEFT JOIN tblencdevolucion dev on dev.REF_DOC=aux.REF_DOC and aux.cod_caj=9 and dev.cod_sts=5														
 															WHERE fec_doc BETWEEN '{parametroA}' AND '{parametroB}'														
@@ -321,20 +321,20 @@ namespace Reportes
 												 	FEC_DOC AS Fecha,
     
 													-- Tickets Tienda
-													SUM(CASE WHEN caja_doc != 9 THEN 1 ELSE 0 END) AS TicketsTienda,
+													SUM(CASE WHEN caja_doc not in ( 9, 10) THEN 1 ELSE 0 END) AS TicketsTienda,
     
 													-- Promedio Tienda
-													IF(SUM(CASE WHEN caja_doc != 9 THEN 1 ELSE 0 END) > 0,
-														SUM(CASE WHEN caja_doc != 9 THEN tot_doc ELSE 0 END) / SUM(CASE WHEN caja_doc != 9 THEN 1 ELSE 0 END),
+													IF(SUM(CASE WHEN caja_doc not in ( 9, 10) THEN 1 ELSE 0 END) > 0,
+														SUM(CASE WHEN caja_doc not in ( 9, 10)THEN tot_doc ELSE 0 END) / SUM(CASE WHEN caja_doc not in ( 9, 10) THEN 1 ELSE 0 END),
 														0
 													) AS PromedioTienda,
     
 													-- Tickets Mayoreo
-													SUM(CASE WHEN caja_doc = 9 THEN 1 ELSE 0 END) AS TicketsMayoreo,
+													SUM(CASE WHEN caja_doc in ( 9, 10) THEN 1 ELSE 0 END) AS TicketsMayoreo,
     
 													-- Promedio Mayoreo
-													IF(SUM(CASE WHEN caja_doc = 9 THEN 1 ELSE 0 END) > 0,
-														SUM(CASE WHEN caja_doc = 9 THEN tot_doc ELSE 0 END) / SUM(CASE WHEN caja_doc = 9 THEN 1 ELSE 0 END),
+													IF(SUM(CASE WHEN caja_doc in ( 9, 10) THEN 1 ELSE 0 END) > 0,
+														SUM(CASE WHEN caja_doc in ( 9, 10) THEN tot_doc ELSE 0 END) / SUM(CASE WHEN caja_doc = 9 THEN 1 ELSE 0 END),
 														0
 													) AS PromedioMayoreo
 
