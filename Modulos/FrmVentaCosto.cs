@@ -308,11 +308,11 @@ namespace Reportes
 			}
 
 			DataTable ventaGeneral = metodos.GetQuery($@"SELECT fec_doc AS Fecha,
-																	SUM(CASE WHEN aux.COD_CAJ not in(7,8, 9) AND aux.COD_FRP = 1 and aux.cod_con='IVEN' THEN aux.IMP_MBA ELSE 0 END) - SUM(CASE WHEN AUX.CON_CEP = 'DCLI' AND aux.COD_CAJ not in(7,8, 9) THEN AUX.IMP_MBA ELSE 0 END) AS Efectivo,
-																	SUM(CASE WHEN aux.COD_CAJ not in(7,8, 9) AND aux.COD_FRP != 1 AND aux.COD_CON='IVEN' THEN aux.IMP_MBA ELSE 0 END) AS Terminal,
+																	SUM(CASE WHEN aux.COD_CAJ not in(7,8, 9, 10) AND aux.COD_FRP = 1 and aux.cod_con='IVEN' THEN aux.IMP_MBA ELSE 0 END) - SUM(CASE WHEN AUX.CON_CEP = 'DCLI' AND aux.COD_CAJ not in(7,8, 9, 10) THEN AUX.IMP_MBA ELSE 0 END) AS Efectivo,
+																	SUM(CASE WHEN aux.COD_CAJ not in(7,8, 9, 10) AND aux.COD_FRP != 1 AND aux.COD_CON='IVEN' THEN aux.IMP_MBA ELSE 0 END) AS Terminal,
 																	SUM(CASE WHEN aux.COD_CAJ in (9, 10) AND aux.COD_CON='IVEN' THEN aux.IMP_MBA ELSE 0 END) - sum(coalesce(dev.tot_dev, 0))  as Mayoreo
 															FROM tblauxcaja aux
-															LEFT JOIN tblencdevolucion dev on dev.REF_DOC=aux.REF_DOC and aux.cod_caj=9 and dev.cod_sts=5														
+															LEFT JOIN tblencdevolucion dev on dev.REF_DOC=aux.REF_DOC and aux.cod_caj in (9, 10) and dev.cod_sts=5														
 															WHERE fec_doc BETWEEN '{parametroA}' AND '{parametroB}'														
 															GROUP BY fec_doc														
 															ORDER BY fec_doc ASC;");
