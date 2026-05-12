@@ -334,7 +334,7 @@ namespace Reportes
     
 													-- Promedio Mayoreo
 													IF(SUM(CASE WHEN caja_doc in ( 9, 10) THEN 1 ELSE 0 END) > 0,
-														SUM(CASE WHEN caja_doc in ( 9, 10) THEN tot_doc ELSE 0 END) / SUM(CASE WHEN caja_doc = 9 THEN 1 ELSE 0 END),
+														SUM(CASE WHEN caja_doc in ( 9, 10) THEN tot_doc ELSE 0 END) / SUM(CASE WHEN caja_doc in ( 9, 10) THEN 1 ELSE 0 END),
 														0
 													) AS PromedioMayoreo
 
